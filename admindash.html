@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TLC System Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Delius&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <!-- Full logo (visible when expanded) -->
+                <div class="logo-text">
+                    <div class="logo-title">TANZANIA LABOUR</div>
+                    <div class="logo-collection">COLLEGE</div>
+                    <div class="logo-subtitle">E-mail: labourtz@gmail.com</div>
+                    <div class="logo-subtitle">P.O.Box 3454</div>
+                    <div class="logo-subtitle">MBEYA-TANZANIA</div>
+                </div>
+
+                <!-- Condensed logo (visible when collapsed) -->
+                <div class="logo-condensed">
+                    <div class="logo-title">TLC</div>
+                </div>
+            </div>
+            <div class="sidebar-menu">
+                <div class="menu-item active">
+                    <i class="fas fa-home"></i>
+                    <span class="menu-text">Dashboard</span>
+                </div>
+                <div class="menu-item">
+                    <i class="fas fa-user-graduate"></i>
+                    <span class="menu-text">Students</span>
+                </div>
+                <div class="menu-item">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <span class="menu-text">Lecturers</span>
+                </div>
+                <div class="menu-item">
+                    <i class="fas fa-book"></i>
+                    <span class="menu-text">Courses</span>
+                </div>
+                <div class="menu-item">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span class="menu-text">Assessments</span>
+                </div>
+                <div class="menu-item">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <span class="menu-text">Payments</span>
+                </div>
+                <div class="menu-item">
+                    <i class="fas fa-bed"></i>
+                    <span class="menu-text">Accommodations</span>
+                </div>
+                <div class="menu-item">
+                    <i class="fas fa-cog"></i>
+                    <span class="menu-text">Settings</span>
+                </div>
+            </div>
+            <!-- Hover label element -->
+            <div class="hover-label" id="hover-label"></div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content" id="main-content">
+            <div class="header">
+                <button class="toggle-sidebar" id="toggle-sidebar">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="user-info">
+                    <div class="user-avatar">A</div>
+                    <span>Admin User</span>
+                    <div class="logout-button">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span class="menu-text">Logout</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content">
+                <h1 class="dashboard-title">TLC Admin Dashboard</h1>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background-color: rgba(255, 174, 0, 0.1); color: var(--primary);">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>1,248</h3>
+                            <p>Total Students</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"
+                            style="background-color: rgba(247, 37, 133, 0.1); color: var(--warning);">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>64</h3>
+                            <p>Lecturers</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background-color: rgba(40, 167, 69, 0.1); color: var(--success);">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>62.4M</h3>
+                            <p>Total Payments</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background-color: rgba(23, 162, 184, 0.1); color: var(--info);">
+                            <i class="fas fa-bed"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>384</h3>
+                            <p>Occupied Rooms</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background-color: rgba(108, 117, 125, 0.1); color: var(--gray);">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>8</h3>
+                            <p>Hostels</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background-color: rgba(220, 53, 69, 0.1); color: var(--danger);">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>42</h3>
+                            <p>Programs</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background-color: rgba(111, 66, 193, 0.1); color: #6f42c1;">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>156</h3>
+                            <p>Courses</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background-color: rgba(32, 201, 151, 0.1); color: #20c997;">
+                            <i class="fas fa-file-invoice"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>28</h3>
+                            <p>Pending Invoices</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts and Quick Actions with News -->
+                <div class="charts-container">
+                    <div class="chart-card">
+                        <h3 class="chart-title">Student Enrollment Trend</h3>
+                        <canvas id="enrollmentChart" height="250"></canvas>
+                    </div>
+                    <div class="right-column">
+                        <div class="quick-actions">
+                            <h3 class="chart-title">Quick Actions</h3>
+                            <div class="action-buttons">
+                                <button class="action-btn">
+                                    <i class="fas fa-plus-circle"></i>
+                                    <span>Add Student</span>
+                                </button>
+                                <button class="action-btn">
+                                    <i class="fas fa-user-plus"></i>
+                                    <span>Add Lecturer</span>
+                                </button>
+                                <button class="action-btn">
+                                    <i class="fas fa-edit"></i>
+                                    <span>Enter Marks</span>
+                                </button>
+                                <button class="action-btn">
+                                    <i class="fas fa-book"></i>
+                                    <span>Register Course</span>
+                                </button>
+                                <button class="action-btn">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Confirm Payment</span>
+                                </button>
+                                <button class="action-btn">
+                                    <i class="fas fa-bed"></i>
+                                    <span>Accomodation</span>
+                                </button>
+                                <button class="action-btn">
+                                    <i class="fas fa-chart-bar"></i>
+                                    <span>View Results</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- College News Section -->
+                        <div class="news-main-section">
+                            <h3 class="chart-title">College News</h3>
+                            <div class="news-content">
+                                <div class="news-item">
+                                    <div class="news-title">New vocational training programs starting next semester
+                                    </div>
+                                    <div class="news-meta">Posted: Nov 5, 2023</div>
+                                </div>
+                                <div class="news-item">
+                                    <div class="news-title">Campus renovation project to begin in December</div>
+                                    <div class="news-meta">Posted: Oct 28, 2023</div>
+                                </div>
+                                <div class="news-item">
+                                    <div class="news-title">Partnership with local industries for student internships
+                                    </div>
+                                    <div class="news-meta">Posted: Oct 15, 2023</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activities -->
+                <div class="recent-grid">
+                    <div class="recent-card">
+                        <h3 class="chart-title">Recent Payments</h3>
+                        <div class="recent-item">
+                            <h4>Juma Mohamed - Tzs 250,000</h4>
+                            <p>Vocational Program - Today, 9:30 AM</p>
+                            <span class="badge badge-success">Completed</span>
+                        </div>
+                        <div class="recent-item">
+                            <h4>Neema Charles - Tzs 175,000</h4>
+                            <p>Labor Studies - Today, 11:23 AM</p>
+                            <span class="badge badge-success">Completed</span>
+                        </div>
+                        <div class="recent-item">
+                            <h4>Rajab Abasi - Tzs 300,000</h4>
+                            <p>Technical Program - Today, 4:46 PM</p>
+                            <span class="badge badge-warning">Pending</span>
+                        </div>
+                        <div class="recent-item">
+                            <h4>Fatuma Hassan - Tzs 196,000</h4>
+                            <p>Business Studies - Yesterday, 3:15 PM</p>
+                            <span class="badge badge-danger">Overdue</span>
+                        </div>
+                    </div>
+                    <div class="recent-card">
+                        <h3 class="chart-title">System Overview</h3>
+                        <div class="recent-item">
+                            <h4>User Activity</h4>
+                            <p>Currently online: <strong>5</strong></p>
+                            <p>Total sessions today: <strong>21</strong></p>
+                        </div>
+                        <div class="recent-item">
+                            <h4>Storage</h4>
+                            <p>Database: <strong>2.4GB / 10GB</strong></p>
+                            <p>Backup: <strong>Last: Today 2:00 AM</strong></p>
+                        </div>
+                        <div class="recent-item">
+                            <h4>System Status</h4>
+                            <p>Uptime: <strong>15 days, 4 hrs</strong></p>
+                            <p>Performance: <strong>Normal</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle sidebar
+        document.getElementById('toggle-sidebar').addEventListener('click', function () {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('main-content');
+            sidebar.classList.toggle('collapsed');
+            mainContent.classList.toggle('expanded');
+        });
+
+        // Hover label functionality
+        const menuItems = document.querySelectorAll('.menu-item');
+        const hoverLabel = document.getElementById('hover-label');
+
+        menuItems.forEach(item => {
+            item.addEventListener('mouseenter', function (e) {
+                if (document.getElementById('sidebar').classList.contains('collapsed')) {
+                    const text = this.querySelector('.menu-text').textContent;
+                    hoverLabel.textContent = text;
+
+                    // Position the label next to the icon
+                    const rect = this.getBoundingClientRect();
+                    hoverLabel.style.top = `${rect.top + (rect.height / 4)}px`;
+
+                    // Show the label
+                    hoverLabel.style.opacity = '1';
+                    hoverLabel.style.visibility = 'visible';
+                }
+            });
+
+            item.addEventListener('mouseleave', function () {
+                // Hide the label
+                hoverLabel.style.opacity = '0';
+                hoverLabel.style.visibility = 'hidden';
+            });
+        });
+
+        // News item functionality
+        const newsItems = document.querySelectorAll('.news-item');
+        newsItems.forEach(item => {
+            item.addEventListener('click', function () {
+                // Add your news item click handling here
+                const title = this.querySelector('.news-title').textContent;
+                console.log('News item clicked:', title);
+                // You can open a modal or redirect to a news page
+                alert('Opening news: ' + title);
+            });
+        });
+
+        // Enrollment chart with gold/orange color scheme
+        const ctx = document.getElementById('enrollmentChart').getContext('2d');
+        const enrollmentChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+                datasets: [{
+                    label: 'Student Enrollment 2023',
+                    data: [85, 112, 98, 125, 145, 120, 165, 210, 195, 230],
+                    borderColor: '#ffae00',
+                    backgroundColor: 'rgba(255, 174, 0, 0.1)',
+                    tension: 0.4,
+                    fill: true,
+                    pointBackgroundColor: '#ffae00',
+                    pointBorderColor: '#ffffff',
+                    pointRadius: 5,
+                    pointHoverRadius: 7
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            drawBorder: false
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+
+        // Add active class to menu items on click
+        menuItems.forEach(item => {
+            item.addEventListener('click', function () {
+                menuItems.forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TLC Student Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Delius&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <!-- Full logo (visible when expanded) -->
+                <div class="logo-text">
+                    <div class="logo-title">TANZANIA LABOUR</div>
+                    <div class="logo-collection">COLLEGE</div>
+                    <div class="logo-subtitle">E-mail: labourtz@gmail.com</div>
+                    <div class="logo-subtitle">P.O.Box 3454</div>
+                    <div class="logo-subtitle">MBEYA-TANZANIA</div>
+                </div>
+
+                <!-- Condensed logo (visible when collapsed) -->
+                <div class="logo-condensed">
+                    <div class="logo-title">TLC</div>
+                </div>
+            </div>
+            <div class="sidebar-menu">
+                <div class="menu-item active">
+                    <i class="fas fa-home"></i>
+                    <span class="menu-text">Dashboard</span>
+                </div>
+                <div class="menu-item">
+                    <i class="fas fa-user-graduate"></i>
+                    <span class="menu-text">Students</span>
+                </div>
+                <div class="menu-item">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <span class="menu-text">Lecturers</span>
+                </div>
+                <div class="menu-item">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span class="menu-text">Assessments</span>
+                </div>
+                <div class="menu-item">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <span class="menu-text">Payments</span>
+                </div>
+                <div class="menu-item">
+                    <i class="fas fa-bed"></i>
+                    <span class="menu-text">Accommodations</span>
+                </div>
+                <div class="menu-item">
+                    <i class="fas fa-cog"></i>
+                    <span class="menu-text">Settings</span>
+                </div>
+            </div>
+            <!-- Hover label element -->
+            <div class="hover-label" id="hover-label"></div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content" id="main-content">
+            <div class="header">
+                <button class="toggle-sidebar" id="toggle-sidebar">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="user-info">
+                    <div class="user-avatar">J</div>
+                    <span>Juma Mohamed</span>
+                    <div class="logout-button">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span class="menu-text">Logout</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content">
+                <h1 class="dashboard-title">Student Dashboard</h1>
+
+                <!-- Student Info Card -->
+                <div class="student-info-card">
+                    <div class="student-avatar">JM</div>
+                    <div class="student-details">
+                        <h2>Juma Mohamed</h2>
+                        <p>Vocational Program - Year 2</p>
+                        <div class="student-details-grid">
+                            <div class="detail-item">
+                                <span class="detail-label">Student ID</span>
+                                <span class="detail-value">TLC/STD/2021/045</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Program</span>
+                                <span class="detail-value">Vocational Studies</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Hostel</span>
+                                <span class="detail-value">Hostel B - Room 204</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Status</span>
+                                <span class="detail-value badge badge-success">Active</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background-color: rgba(255, 174, 0, 0.1); color: var(--primary);">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>42</h3>
+                            <p>Classmates</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"
+                            style="background-color: rgba(247, 37, 133, 0.1); color: var(--warning);">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>6</h3>
+                            <p>Current Courses</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background-color: rgba(40, 167, 69, 0.1); color: var(--success);">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>4</h3>
+                            <p>Completed Courses</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background-color: rgba(23, 162, 184, 0.1); color: var(--info);">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>3</h3>
+                            <p>Pending Assignments</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts and Quick Actions with News -->
+                <div class="charts-container">
+                    <div class="chart-card">
+                        <h3 class="chart-title">My Academic Performance</h3>
+                        <canvas id="performanceChart" height="250"></canvas>
+                    </div>
+                    <div class="right-column">
+                        <div class="quick-actions">
+                            <h3 class="chart-title">Quick Actions</h3>
+                            <div class="action-buttons">
+                                <button class="action-btn">
+                                    <i class="fas fa-file-invoice"></i>
+                                    <span>Create Invoice</span>
+                                </button>
+                                <button class="action-btn">
+                                    <i class="fas fa-chart-bar"></i>
+                                    <span>View Results</span>
+                                </button>
+                                <button class="action-btn">
+                                    <i class="fas fa-book"></i>
+                                    <span>Course Materials</span>
+                                </button>
+                                <button class="action-btn">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>Timetable</span>
+                                </button>
+                                <button class="action-btn">
+                                    <i class="fas fa-print"></i>
+                                    <span>Print Documents</span>
+                                </button>
+                                <button class="action-btn">
+                                    <i class="fas fa-question-circle"></i>
+                                    <span>Request Help</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- College News Section -->
+                        <div class="news-main-section">
+                            <h3 class="chart-title">College News</h3>
+                            <div class="news-content">
+                                <div class="news-item">
+                                    <div class="news-title">Mid-semester examinations starting next week</div>
+                                    <div class="news-meta">Posted: Nov 8, 2023</div>
+                                </div>
+                                <div class="news-item">
+                                    <div class="news-title">Career guidance workshop scheduled for November 20</div>
+                                    <div class="news-meta">Posted: Nov 5, 2023</div>
+                                </div>
+                                <div class="news-item">
+                                    <div class="news-title">Library extended hours during examination period</div>
+                                    <div class="news-meta">Posted: Nov 1, 2023</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activities -->
+                <div class="recent-grid">
+                    <div class="recent-card">
+                        <h3 class="chart-title">Login History</h3>
+                        <div class="recent-item">
+                            <h4>Today, 9:30 AM</h4>
+                            <p>From: Chrome Browser on Windows</p>
+                            <span class="badge badge-success">Successful</span>
+                        </div>
+                        <div class="recent-item">
+                            <h4>Yesterday, 4:15 PM</h4>
+                            <p>From: Mobile App on Android</p>
+                            <span class="badge badge-success">Successful</span>
+                        </div>
+                        <div class="recent-item">
+                            <h4>November 5, 8:45 AM</h4>
+                            <p>From: Safari Browser on macOS</p>
+                            <span class="badge badge-warning">Unusual location</span>
+                        </div>
+                        <div class="recent-item">
+                            <h4>November 3, 7:20 PM</h4>
+                            <p>From: Library Computer Lab</p>
+                            <span class="badge badge-success">Successful</span>
+                        </div>
+                    </div>
+                    <div class="admin-contacts">
+                        <h3 class="chart-title">Admin Contacts</h3>
+                        <div class="admin-contact-item">
+                            <div class="admin-avatar">AM</div>
+                            <div class="admin-details">
+                                <h4>Academic Office</h4>
+                                <p>Mr. Abasi Mwamba</p>
+                                <p>Email: academic@tlc.ac.tz</p>
+                                <p>Phone: +255 789 456 123</p>
+                            </div>
+                            <button class="contact-button">Contact</button>
+                        </div>
+                        <div class="admin-contact-item">
+                            <div class="admin-avatar">FK</div>
+                            <div class="admin-details">
+                                <h4>Finance Department</h4>
+                                <p>Ms. Fatuma Kibona</p>
+                                <p>Email: finance@tlc.ac.tz</p>
+                                <p>Phone: +255 754 321 987</p>
+                            </div>
+                            <button class="contact-button">Contact</button>
+                        </div>
+                        <div class="admin-contact-item">
+                            <div class="admin-avatar">RK</div>
+                            <div class="admin-details">
+                                <h4>IT Support</h4>
+                                <p>Mr. Rajab Kipanya</p>
+                                <p>Email: support@tlc.ac.tz</p>
+                                <p>Phone: +255 713 654 321</p>
+                            </div>
+                            <button class="contact-button">Contact</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle sidebar
+        document.getElementById('toggle-sidebar').addEventListener('click', function () {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('main-content');
+            sidebar.classList.toggle('collapsed');
+            mainContent.classList.toggle('expanded');
+        });
+
+        // Hover label functionality
+        const menuItems = document.querySelectorAll('.menu-item');
+        const hoverLabel = document.getElementById('hover-label');
+
+        menuItems.forEach(item => {
+            item.addEventListener('mouseenter', function (e) {
+                if (document.getElementById('sidebar').classList.contains('collapsed')) {
+                    const text = this.querySelector('.menu-text').textContent;
+                    hoverLabel.textContent = text;
+
+                    // Position the label next to the icon
+                    const rect = this.getBoundingClientRect();
+                    hoverLabel.style.top = `${rect.top + (rect.height / 4)}px`;
+
+                    // Show the label
+                    hoverLabel.style.opacity = '1';
+                    hoverLabel.style.visibility = 'visible';
+                }
+            });
+
+            item.addEventListener('mouseleave', function () {
+                // Hide the label
+                hoverLabel.style.opacity = '0';
+                hoverLabel.style.visibility = 'hidden';
+            });
+        });
+
+        // News item functionality
+        const newsItems = document.querySelectorAll('.news-item');
+        newsItems.forEach(item => {
+            item.addEventListener('click', function () {
+                const title = this.querySelector('.news-title').textContent;
+                console.log('News item clicked:', title);
+                alert('Opening news: ' + title);
+            });
+        });
+
+        // Performance chart
+        const ctx = document.getElementById('performanceChart').getContext('2d');
+        const performanceChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+                datasets: [{
+                    label: 'Average Score (%)',
+                    data: [72, 68, 75, 80, 78, 82, 85, 79, 83, 87],
+                    borderColor: '#ffae00',
+                    backgroundColor: 'rgba(255, 174, 0, 0.1)',
+                    tension: 0.4,
+                    fill: true,
+                    pointBackgroundColor: '#ffae00',
+                    pointBorderColor: '#ffffff',
+                    pointRadius: 5,
+                    pointHoverRadius: 7
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: 60,
+                        max: 100,
+                        grid: {
+                            drawBorder: false
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+
+        // Add active class to menu items on click
+        menuItems.forEach(item => {
+            item.addEventListener('click', function () {
+                menuItems.forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Contact button functionality
+        const contactButtons = document.querySelectorAll('.contact-button');
+        contactButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const adminName = this.closest('.admin-contact-item').querySelector('h4').textContent;
+                alert(`Contacting ${adminName}. This would open a contact form in a real application.`);
+            });
+        });
+    </script>
+</body>
+
+</html>
