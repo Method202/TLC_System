@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Delius&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body>
@@ -65,7 +65,7 @@
                 <div class="user-info">
                     <div class="user-avatar">L</div>
                     <span>Prof. John Mwambusi</span>
-                    <div class="logout-button">
+                    <div class="logout-button" onclick="location.href='{{ url_for('login') }}'">
                         <i class="fas fa-sign-out-alt"></i>
                         <span class="menu-text">Logout</span>
                     </div>
@@ -74,6 +74,32 @@
 
             <div class="content">
                 <h1 class="dashboard-title">Lecturer Dashboard</h1>
+
+                <div class="student-info-card">
+                    <div class="student-avatar">JM</div>
+                    <div class="student-details">
+                        <h2>Prof. John Mwambusi</h2>
+                        <p>Senior Lecturer - Vocational Studies Department</p>
+                        <div class="student-details-grid">
+                            <div class="detail-item">
+                                <span class="detail-label">Lecturer ID</span>
+                                <span class="detail-value">TLC/LEC/2015/028</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Department</span>
+                                <span class="detail-value">Vocational Studies</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Employment Date</span>
+                                <span class="detail-value">15/08/2015</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Status</span>
+                                <span class="detail-value badge badge-success">Active</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- Stats Grid -->
                 <div class="stats-grid">

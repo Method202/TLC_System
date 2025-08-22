@@ -1,0 +1,397 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+:root {
+    --primary-color: #ffae00;
+    --primary-dark: #a87300;
+    --background-start: #f5f7fb;
+    --background-end: #e2e8f0;
+    --card-bg: rgba(255, 255, 255, 0.9);
+    --text-primary: #212529;
+    --text-secondary: #6c757d;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Delius', sans-serif;
+}
+
+body {
+    background-color: var(--background-start);
+    background: linear-gradient(135deg, var(--background-start), var(--background-end));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 2px;
+}
+
+.login-header {
+    background-color: var(--background-start);
+    background: linear-gradient(135deg, var(--background-start), var(--background-end));
+    padding: 2px 40px;
+    border-radius: 15px;
+    text-align: center;
+    margin-bottom: 20px;
+    align-items: flex-start;
+}
+
+.logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logo-icon {
+    font-size: 3rem;
+    color: var(--primary-color);
+    margin-bottom: 5px;
+}
+
+.logo-text h1 {
+    font-size: 1.8rem;
+    color: var(--primary-color);
+    margin-bottom: 2px;
+    font-weight: 700;
+}
+
+.logo-text span {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    font-weight: 400;
+}
+
+.login-container {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    background-color: var(--card-bg);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: stretch;
+    min-height: 450px;
+}
+
+.login-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 20px;
+    padding: 3px;
+    background: conic-gradient(from 180deg at 50% 50%, #ffc107 0deg, #ff9800 90deg, #ffc107 180deg, #ff9800 270deg, #ffc107 360deg);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    z-index: -1;
+    animation: glowing-border 4s linear infinite;
+}
+
+@keyframes glowing-border {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.close-button {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 30px;
+    height: 30px;
+    background: none;
+    border: none;
+    color: #d1d9e6;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+    z-index: 10;
+}
+
+.close-button:hover {
+    transform: rotate(90deg);
+    color: #b1b1b1;
+}
+
+.login-left {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.login-right {
+    flex: 1;
+    padding: 40px;
+    color: white;
+    background: linear-gradient(rgba(255, 174, 0, 0.8), rgba(168, 115, 0, 0.8)), url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80') no-repeat center center;
+    background-size: cover;
+    border-radius: 0 15px 15px 0;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.system-info {
+    text-align: center;
+    color: white;
+}
+
+.system-info h3 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.system-info p {
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+}
+
+.system-info ul {
+    list-style-type: none;
+    margin-bottom: 30px;
+    text-align: left;
+}
+
+.system-info li {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: flex-start;
+    font-size: 0.9rem;
+}
+
+.system-info li i {
+    color: white;
+    margin-right: 10px;
+    margin-top: 4px;
+}
+
+.help-section {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    text-align: center;
+}
+
+.help-section a {
+    color: white;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s;
+}
+
+.help-section a:hover {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+
+.form-title {
+    margin-bottom: 20px;
+    color: var(--text-primary);
+}
+
+.form-title h2 {
+    font-size: 1.8rem;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.form-title p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(255, 174, 0, 0.2);
+    outline: none;
+}
+
+.password-container {
+    position: relative;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: color 0.3s;
+}
+
+.toggle-password:hover {
+    color: var(--primary-color);
+}
+
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+}
+
+.remember-me input {
+    margin-right: 8px;
+}
+
+.forgot-password {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s;
+}
+
+.forgot-password:hover {
+    color: var(--primary-dark);
+    text-decoration: underline;
+}
+
+.btn-login {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 0 4px 15px rgba(255, 174, 0, 0.3);
+}
+
+.btn-login:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+/* New CSS for the custom dropdown */
+.custom-dropdown {
+    position: relative;
+    cursor: pointer;
+}
+
+.selected-value {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 15px;
+}
+
+.selected-value i {
+    transition: transform 0.3s ease;
+}
+
+.custom-dropdown.open .selected-value i {
+    transform: rotate(180deg);
+}
+
+.options-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: var(--card-bg);
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    list-style: none;
+    margin-top: 5px;
+    padding: 0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+    /* Hidden by default */
+}
+
+.custom-dropdown.open .options-list {
+    display: block;
+    /* Show when open */
+}
+
+.options-list li {
+    padding: 10px 15px;
+    font-size: 1rem;
+    color: var(--text-primary);
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.options-list li:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* Hide the native select on small screens, if desired, to let the custom dropdown take over */
+/* You can remove this media query if you prefer the custom dropdown on all screens */
+@media (max-width: 768px) {
+    .login-container {
+        flex-direction: column;
+        min-height: auto;
+    }
+
+    .login-left,
+    .login-right {
+        width: 100%;
+        max-width: none;
+    }
+
+    .login-left {
+        padding: 20px;
+    }
+
+    .login-right {
+        padding: 20px;
+        border-radius: 20px;
+    }
+
+    .close-button {
+        top: 25px;
+        right: 25px;
+    }
+}
