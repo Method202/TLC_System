@@ -17,8 +17,6 @@ def login():
             return redirect(url_for('lecturer_dashboard'))
         elif role == 'admin':
             return redirect(url_for('admin_dashboard'))
-        elif role == 'staff':
-            return redirect(url_for('staff_dashboard'))
     
     return render_template('login.html')
 
@@ -34,10 +32,6 @@ def lecturer_dashboard():
 @app.route('/admin_dashboard')
 def admin_dashboard():
     return render_template('admindash.html')
-
-@app.route('/staff_dashboard')
-def staff_dashboard():
-    return render_template('staffdash.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

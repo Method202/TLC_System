@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Delius&display=swap" ');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Aptos&display=swap" ');
+
 :root {
     --primary: #ffae00;
     --secondary: #a87300;
@@ -19,7 +23,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Delius', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Delius', 'Poppins', 'Aptos', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
@@ -444,6 +448,7 @@ body {
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    height: fit-content;
 }
 
 .chart-title {
@@ -461,7 +466,6 @@ body {
 .action-buttons {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    /* Changed from 1fr 1fr to repeat(3, 1fr) */
     gap: 10px;
 }
 
@@ -693,7 +697,7 @@ body {
     background-color: var(--primary);
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 20px;
     cursor: pointer;
     transition: background-color 0.3s;
 }

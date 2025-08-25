@@ -24,8 +24,8 @@
         </div>
     </div>
 
-    <div class="login-container">
-        <!-- Animated Close Button -->
+    <div class="login-container" id="loginForm">
+        <!-- Close Button -->
         <button class="close-button" aria-label="Close">
             <i class="fas fa-times"></i>
         </button>
@@ -41,15 +41,6 @@
                 <form action="{{ url_for('login') }}" method="post" id="loginForm">
                     <div class="form-group">
                         <label for="role">Role</label>
-                        <!-- HTML to be replaced -->
-                        <!-- <select class="form-control" id="role" name="role" required>
-                            <option value="">Select your role</option>
-                            <option value="admin">Administrator</option>
-                            <option value="lecturer">Lecturer</option>
-                            <option value="student">Student</option>
-                            <option value="staff">Support Staff</option>
-                        </select> -->
-                        <!-- New HTML to be inserted -->
                         <div class="custom-dropdown form-control" id="roleDropdown">
                             <div class="selected-value">
                                 <span data-value="">Select your role</span>
@@ -99,7 +90,7 @@
         <div class="login-right">
             <div class="system-info">
                 <h3>Welcome to TLCS</h3>
-                <p>The Tanzania Labor College System (TLCS) is a comprehensive platform for managing all college
+                <p>The Tanzania Labor College System (TLCS) is a comprehensive system platform for managing all college
                     operations.</p>
 
                 <ul>
@@ -189,9 +180,6 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
             break;
         case 'admin':
             window.location.href = '/admin_dashboard';
-            break;
-        case 'staff':
-            window.location.href = '/staff_dashboard';
             break;
         default:
             // Use a more user-friendly message for a professional app

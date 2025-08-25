@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TLC Student Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Delius&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
@@ -44,6 +43,10 @@
                     <span class="menu-text">Lecturers</span>
                 </div>
                 <div class="menu-item">
+                    <i class="fas fa-book"></i>
+                    <span class="menu-text">Courses</span>
+                </div>
+                <div class="menu-item">
                     <i class="fas fa-clipboard-list"></i>
                     <span class="menu-text">Assessments</span>
                 </div>
@@ -59,6 +62,10 @@
                     <i class="fas fa-cog"></i>
                     <span class="menu-text">Settings</span>
                 </div>
+                <div class="menu-item" onclick="location.href='{{ url_for('login') }}'">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span class="menu-text">Logout</span>
+                </div>
             </div>
             <!-- Hover label element -->
             <div class="hover-label" id="hover-label"></div>
@@ -71,8 +78,8 @@
                     <i class="fas fa-bars"></i>
                 </button>
                 <div class="user-info">
-                    <div class="user-avatar">J</div>
-                    <span>Juma Mohamed</span>
+                    <div class="user-avatar">WM</div>
+                    <span>Wendelin Method</span>
                     <div class="logout-button" onclick="location.href='{{ url_for('login') }}'">
                         <i class="fas fa-sign-out-alt"></i>
                         <span class="menu-text">Logout</span>
@@ -85,14 +92,14 @@
 
                 <!-- Student Info Card -->
                 <div class="student-info-card">
-                    <div class="student-avatar">JM</div>
+                    <div class="student-avatar">WM</div>
                     <div class="student-details">
-                        <h2>Juma Mohamed</h2>
+                        <h2>Wendelin Method</h2>
                         <p>Vocational Program - Year 2</p>
                         <div class="student-details-grid">
                             <div class="detail-item">
                                 <span class="detail-label">Student ID</span>
-                                <span class="detail-value">TLC/STD/2021/045</span>
+                                <span class="detail-value">TLC/STD/2025/045</span>
                             </div>
                             <div class="detail-item">
                                 <span class="detail-label">Program</span>
@@ -155,7 +162,7 @@
                 <div class="charts-container">
                     <div class="chart-card">
                         <h3 class="chart-title">My Academic Performance</h3>
-                        <canvas id="performanceChart" height="250"></canvas>
+                        <canvas id="performanceChart" height="200"></canvas>
                     </div>
                     <div class="right-column">
                         <div class="quick-actions">

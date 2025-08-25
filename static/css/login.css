@@ -1,4 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Delius&display=swap" ');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Aptos&display=swap" ');
 
 :root {
     --primary-color: #ffae00;
@@ -14,7 +16,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Delius', sans-serif;
+    font-family: 'Delius', 'Poppins', 'Aptos', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
@@ -92,7 +94,7 @@ body {
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     z-index: -1;
-    animation: glowing-border 4s linear infinite;
+    animation: glowing-border 5s linear infinite;
 }
 
 @keyframes glowing-border {
@@ -113,7 +115,8 @@ body {
     height: 30px;
     background: none;
     border: none;
-    color: #d1d9e6;
+    border-radius: 20px;
+    color: #6c757d;
     font-size: 1.5rem;
     cursor: pointer;
     transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
@@ -122,7 +125,8 @@ body {
 
 .close-button:hover {
     transform: rotate(90deg);
-    color: #b1b1b1;
+    color: #ffffff;
+    background-color: #ff9800;
 }
 
 .login-left {
@@ -233,7 +237,7 @@ body {
     width: 100%;
     padding: 10px 15px;
     border: 1px solid #ced4da;
-    border-radius: 8px;
+    border-radius: 40px;
     font-size: 1rem;
     transition: border-color 0.3s, box-shadow 0.3s;
 }
@@ -258,8 +262,12 @@ body {
     transition: color 0.3s;
 }
 
-.toggle-password:hover {
+.toggle-password i {
     color: var(--primary-color);
+}
+
+.toggle-password i:hover {
+    color: var(--primary-dark);
 }
 
 .form-options {
@@ -277,6 +285,7 @@ body {
 
 .remember-me input {
     margin-right: 8px;
+    color: #a87300;
 }
 
 .forgot-password {
