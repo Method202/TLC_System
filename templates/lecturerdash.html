@@ -70,7 +70,7 @@
                     <i class="fas fa-bars"></i>
                 </button>
                 <div class="user-info">
-                    <div class="user-avatar"  onclick="location.href='{{ url_for('user_profile') }}'">JM</div>
+                    <div class="user-avatar"  onclick="location.href='{{ url_for('lecturer_profile') }}'">JM</div>
                     <span>Prof. John Mwambusi</span>
                     <div class="logout-button" onclick="location.href='{{ url_for('login') }}'">
                         <i class="fas fa-sign-out-alt"></i>
@@ -84,7 +84,7 @@
 
                 <!-- Lecturer Info Card -->
                 <div class="student-info-card">
-                    <div class="student-avatar">JM</div>
+                    <div class="student-avatar" onclick="location.href='{{ url_for('lecturer_profile') }}'">JM</div>
                     <div class="student-details">
                         <h2>Prof. John Mwambusi</h2>
                         <p>Senior Lecturer - Vocational Studies Department</p>

@@ -78,7 +78,7 @@
                     <i class="fas fa-bars"></i>
                 </button>
                 <div class="user-info">
-                    <div class="user-avatar" onclick="location.href='{{ url_for('user_profile') }}'">A</div>
+                    <div class="user-avatar" onclick="location.href='{{ url_for('admin_profile') }}'">A</div>
                     <span>Admin User</span>
                     <div class="logout-button" onclick="location.href='{{ url_for('login') }}'">
                         <i class="fas fa-sign-out-alt"></i>
@@ -92,7 +92,7 @@
 
                 <!-- Lecturer Info Card -->
                 <div class="student-info-card">
-                    <div class="student-avatar">WM</div>
+                    <div class="student-avatar" onclick="location.href='{{ url_for('admin_profile') }}'">WM</div>
                     <div class="student-details">
                         <h2>Prof. Wendelin Method</h2>
                         <p>Vice Chancellor - Main Campus</p>
@@ -204,11 +204,11 @@
                         <div class="quick-actions">
                             <h3 class="chart-title">Quick Actions</h3>
                             <div class="action-buttons">
-                                <button class="action-btn">
+                                <button class="action-btn" onclick="location.href='{{ url_for('login') }}';">
                                     <i class="fas fa-plus-circle"></i>
                                     <span>Add Student</span>
                                 </button>
-                                <button class="action-btn">
+                                <button class="action-btn" onclick="location.href='{{ url_for('register_lecturer') }}';">
                                     <i class="fas fa-user-plus"></i>
                                     <span>Add Lecturer</span>
                                 </button>
@@ -216,11 +216,11 @@
                                     <i class="fas fa-edit"></i>
                                     <span>Enter Marks</span>
                                 </button>
-                                <button class="action-btn">
+                                <button class="action-btn" >
                                     <i class="fas fa-book"></i>
                                     <span>Register Course</span>
                                 </button>
-                                <button class="action-btn">
+                                <button class="action-btn" onclick="location.href='{{ url_for('admin_payments') }}'">
                                     <i class="fas fa-check-circle"></i>
                                     <span>Confirm Payment</span>
                                 </button>
@@ -228,7 +228,7 @@
                                     <i class="fas fa-bed"></i>
                                     <span>Accomodation</span>
                                 </button>
-                                <button class="action-btn">
+                                <button class="action-btn" onclick="location.href='{{ url_for('admin_students') }}';">
                                     <i class="fas fa-chart-bar"></i>
                                     <span>View Results</span>
                                 </button>

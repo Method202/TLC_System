@@ -316,6 +316,7 @@ body {
     align-items: center;
     justify-content: center;
     font-weight: bold;
+    cursor: pointer;
 }
 
 .logout-button {
@@ -675,6 +676,7 @@ body {
     justify-content: center;
     font-weight: bold;
     margin-right: 15px;
+    cursor: pointer;
 }
 
 .admin-details {
@@ -760,6 +762,7 @@ body {
     font-size: 2.5rem;
     font-weight: bold;
     margin-right: 20px;
+    cursor: pointer;
 }
 
 .student-details {
@@ -811,6 +814,7 @@ body {
     .student-avatar {
         margin-right: 0;
         margin-bottom: 15px;
+        cursor: pointer;
     }
 }
 
