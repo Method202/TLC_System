@@ -41,6 +41,10 @@ def user_profile():
 def admin_students():
     return render_template('admstd.html')
 
+@app.route('/register_student')
+def register_student():
+    return render_template('amdstdreg.html')
+
 @app.route('/admin_lecturers')
 def admin_lecturers():
     return render_template('admlec.html')
