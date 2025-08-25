@@ -49,5 +49,21 @@ def admin_lecturers():
 def admin_courses():
     return render_template('admcourse.html')
 
+@app.route('/admin_assessments')
+def admin_assessments():
+    return render_template('admassess.html')
+
+@app.route('/admin_payments')
+def admin_payments():
+    return render_template('admpay.html')
+
+@app.route('/admin_accommodations')
+def admin_accommodations():
+    return render_template('admaccom.html')
+
+@app.route('/admin_settings')
+def admin_settings():
+    return render_template('admsettings.html')
+
 if __name__ == '__main__':
     app.run(debug=True)

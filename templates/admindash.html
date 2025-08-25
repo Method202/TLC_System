@@ -32,33 +32,33 @@
             <div class="sidebar-menu">
                 <div class="menu-item active">
                     <i class="fas fa-home"></i>
-                    <span class="menu-text" onclick="window.location.href='{{ url_for('admin_dashboard') }}';">Dashboard</span>
+                    <span class="menu-text" onclick="location.href='{{ url_for('admin_dashboard') }}';">Dashboard</span>
                 </div>
-                <div class="menu-item" onclick="window.location.href='{{ url_for('admin_students') }}';">
+                <div class="menu-item" onclick="location.href='{{ url_for('admin_students') }}';">
                     <i class="fas fa-user-graduate"></i>
                     <span class="menu-text">Students</span>
                 </div>                
-                <div class="menu-item" onclick="window.location.href='{{ url_for('admin_lecturers') }}'">
+                <div class="menu-item" onclick="location.href='{{ url_for('admin_lecturers') }}'">
                     <i class="fas fa-chalkboard-teacher"></i>
                     <span class="menu-text">Lecturers</span>
                 </div>
-                <div class="menu-item " onclick="window.location.href='{{ url_for('admin_courses') }}'">
+                <div class="menu-item " onclick="location.href='{{ url_for('admin_courses') }}'">
                     <i class="fas fa-book"></i>
                     <span class="menu-text">Courses</span>
                 </div>
-                <div class="menu-item">
+                <div class="menu-item" onclick="location.href='{{ url_for('admin_assessments') }}'">
                     <i class="fas fa-clipboard-list"></i>
                     <span class="menu-text">Assessments</span>
                 </div>
-                <div class="menu-item">
+                <div class="menu-item" onclick="location.href='{{ url_for('admin_payments') }}'">
                     <i class="fas fa-money-bill-wave"></i>
                     <span class="menu-text">Payments</span>
                 </div>
-                <div class="menu-item">
+                <div class="menu-item" onclick="location.href='{{ url_for('admin_accommodations') }}'">
                     <i class="fas fa-bed"></i>
                     <span class="menu-text">Accommodations</span>
                 </div>
-                <div class="menu-item">
+                <div class="menu-item" onclick="location.href='{{ url_for('admin_settings') }}'">
                     <i class="fas fa-cog"></i>
                     <span class="menu-text">Settings</span>
                 </div>
