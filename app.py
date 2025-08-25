@@ -33,6 +33,7 @@ def lecturer_dashboard():
 def admin_dashboard():
     return render_template('admindash.html')
 
+#Profiles routes
 @app.route('/admin_profile')
 def admin_profile():
     return render_template('admprofile.html')
@@ -49,29 +50,19 @@ def student_profile():
 def user_profile():
     return render_template('profile.html')
 
+
+#Admin sidebar
 @app.route('/admin_students')
 def admin_students():
     return render_template('admstd.html')
-
-@app.route('/register_student')
-def register_student():
-    return render_template('amdstdreg.html')
 
 @app.route('/admin_lecturers')
 def admin_lecturers():
     return render_template('admlec.html')
 
-@app.route('/register_lecturer')
-def register_lecturer():
-    return render_template('amdlecreg.html')
-
 @app.route('/admin_courses')
 def admin_courses():
     return render_template('admcourse.html')
-
-@app.route('/admin_assessments')
-def admin_assessments():
-    return render_template('admassess.html')
 
 @app.route('/admin_assesscreate')
 def admin_assesscreate():
@@ -88,6 +79,19 @@ def admin_accommodations():
 @app.route('/admin_settings')
 def admin_settings():
     return render_template('admsettings.html')
+
+#Registering pages
+@app.route('/register_lecturer')
+def register_lecturer():
+    return render_template('amdlecreg.html')
+
+@app.route('/register_student')
+def register_student():
+    return render_template('amdstdreg.html')
+
+@app.route('/admin_assessments')
+def admin_assessments():
+    return render_template('admassess.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
