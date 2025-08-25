@@ -49,6 +49,10 @@ def register_student():
 def admin_lecturers():
     return render_template('admlec.html')
 
+@app.route('/register_lecturer')
+def register_lecturer():
+    return render_template('amdlecreg.html')
+
 @app.route('/admin_courses')
 def admin_courses():
     return render_template('admcourse.html')
