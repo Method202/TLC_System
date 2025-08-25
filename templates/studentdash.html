@@ -78,8 +78,8 @@
                     <i class="fas fa-bars"></i>
                 </button>
                 <div class="user-info">
-                    <div class="user-avatar">WM</div>
-                    <span>Wendelin Method</span>
+                    <div class="user-avatar" onclick="location.href='{{ url_for('user_profile') }}'">WM</div>
+                    <span  onclick="location.href='{{ url_for('user_profile') }}'">Wendelin Method</span>
                     <div class="logout-button" onclick="location.href='{{ url_for('login') }}'">
                         <i class="fas fa-sign-out-alt"></i>
                         <span class="menu-text">Logout</span>
@@ -95,7 +95,7 @@
                     <div class="student-avatar">WM</div>
                     <div class="student-details">
                         <h2>Wendelin Method</h2>
-                        <p>Vocational Program - Year 2</p>
+                        <p>Vocational Program - 3 Months</p>
                         <div class="student-details-grid">
                             <div class="detail-item">
                                 <span class="detail-label">Student ID</span>
@@ -111,7 +111,7 @@
                             </div>
                             <div class="detail-item">
                                 <span class="detail-label">Status</span>
-                                <span class="detail-value badge badge-success">Active</span>
+                                <span class="detail-value badge badge-success">Registered</span>
                             </div>
                         </div>
                     </div>

@@ -33,5 +33,21 @@ def lecturer_dashboard():
 def admin_dashboard():
     return render_template('admindash.html')
 
+@app.route('/user_profile')
+def user_profile():
+    return render_template('profile.html')
+
+@app.route('/admin_students')
+def admin_students():
+    return render_template('admstd.html')
+
+@app.route('/admin_lecturers')
+def admin_lecturers():
+    return render_template('admlec.html')
+
+@app.route('/admin_courses')
+def admin_courses():
+    return render_template('admcourse.html')
+
 if __name__ == '__main__':
     app.run(debug=True)

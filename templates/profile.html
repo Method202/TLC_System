@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile - TLCS Prototype</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Delius&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS from the profile.css and main.css files, integrated here for the prototype */
+        :root {
+            --primary-color: #ffae00;
+            --primary-dark: #a87300;
+            --background-start: #f5f7fb;
+            --background-end: #e2e8f0;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --text-primary: #212529;
+            --text-secondary: #6c757d;
+        }
+
+        body {
+            background-color: var(--background-start);
+            background: linear-gradient(135deg, var(--background-start), var(--background-end));
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            font-family: 'Delius', 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .profile-container {
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+        }
+
+        .profile-card {
+            background-color: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            text-align: center;
+            border: 3px solid var(--primary-color);
+            position: relative;
+            z-index: 1;
+        }
+
+        .profile-header {
+            margin-bottom: 30px;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 30px;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary-color), var(--primary-dark));
+            padding: 5px;
+            margin: 0 auto 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .avatar-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid white;
+        }
+
+        .profile-name {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .profile-role {
+            font-size: 1rem;
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-top: 5px;
+        }
+
+        .profile-role i {
+            margin-right: 5px;
+        }
+
+        .user-id {
+            display: block;
+            margin-top: 5px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .profile-body {
+            text-align: left;
+        }
+
+        .info-group {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .info-icon {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            width: 30px;
+            margin-right: 15px;
+            text-align: center;
+        }
+
+        .info-text label {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-bottom: 2px;
+        }
+
+        .info-text p {
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .profile-actions {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background-color 0.3s, transform 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-edit {
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 174, 0, 0.3);
+        }
+
+        .btn-edit:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-logout {
+            background-color: #f8f9fa;
+            color: #dc3545;
+            border: 1px solid #dee2e6;
+        }
+
+        .btn-logout:hover {
+            background-color: #dc3545;
+            color: white;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="profile-container">
+        <div class="profile-card">
+            <div class="profile-header">
+                <!-- Profile picture will be set via JavaScript -->
+                <div class="profile-avatar">
+                    <img id="user-avatar" src="" alt="Profile Picture" class="avatar-img">
+                </div>
+                <!-- User's name will be set via JavaScript -->
+                <h1 id="user-name" class="profile-name"></h1>
+                <!-- Role-specific icon and text will be set via JavaScript -->
+                <p id="user-role" class="profile-role"></p>
+                <!-- User's ID will be set via JavaScript -->
+                <span id="user-id" class="user-id"></span>
+            </div>
+
+            <div id="profile-body" class="profile-body">
+                <!-- Profile information will be populated via JavaScript -->
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // --- Fake Data and Frontend Rendering Script ---
+
+        // The user data object to simulate data from a backend
+        const FAKE_USER_DATA = {
+            id: 'TLCS-12345',
+            name: 'Jane Student',
+            role: 'student', // Change this to 'lecturer' or 'admin' to see different profiles
+            email: 'jane.student@tlc.ac.tz',
+            phone: '+255 765 432 109',
+            address: 'Dar es Salaam, Tanzania',
+            profile_picture: 'https://placehold.co/120x120/ffae00/ffffff?text=JS', // Placeholder image
+            program: 'Diploma in Labor Studies',
+            admission_year: 2024,
+            department: 'Social Sciences',
+            faculty: 'Faculty of Humanities',
+            admin_level: 'System Manager'
+        };
+
+        function renderProfile(user) {
+            // Update basic profile info
+            document.getElementById('user-avatar').src = user.profile_picture;
+            document.getElementById('user-name').textContent = user.name;
+            document.getElementById('user-id').textContent = 'ID: ' + user.id;
+
+            // Update role-specific info
+            const roleElement = document.getElementById('user-role');
+            roleElement.innerHTML = ''; // Clear previous content
+            const roleIcon = document.createElement('i');
+            const roleText = document.createTextNode(' ' + user.role.charAt(0).toUpperCase() + user.role.slice(1));
+
+            if (user.role === 'student') {
+                roleIcon.className = 'fas fa-user-graduate';
+                roleElement.appendChild(roleIcon);
+                roleElement.appendChild(roleText);
+            } else if (user.role === 'lecturer') {
+                roleIcon.className = 'fas fa-chalkboard-teacher';
+                roleElement.appendChild(roleIcon);
+                roleElement.appendChild(roleText);
+            } else if (user.role === 'admin') {
+                roleIcon.className = 'fas fa-user-shield';
+                roleElement.appendChild(roleIcon);
+                roleElement.appendChild(roleText);
+            }
+
+            // Render detailed info based on role
+            const body = document.getElementById('profile-body');
+            body.innerHTML = ''; // Clear previous info
+
+            function createInfoGroup(iconClass, labelText, paragraphText) {
+                const group = document.createElement('div');
+                group.className = 'info-group';
+                group.innerHTML = `
+                    <i class="fas ${iconClass} info-icon"></i>
+                    <div class="info-text">
+                        <label>${labelText}</label>
+                        <p>${paragraphText}</p>
+                    </div>
+                `;
+                return group;
+            }
+
+            body.appendChild(createInfoGroup('fa-envelope', 'Email', user.email));
+            body.appendChild(createInfoGroup('fa-phone-alt', 'Phone Number', user.phone));
+            body.appendChild(createInfoGroup('fa-map-marker-alt', 'Address', user.address));
+
+            if (user.role === 'student') {
+                body.appendChild(createInfoGroup('fa-book-open', 'Program', user.program));
+                body.appendChild(createInfoGroup('fa-calendar-alt', 'Admission Year', user.admission_year));
+            } else if (user.role === 'lecturer') {
+                body.appendChild(createInfoGroup('fa-building', 'Department', user.department));
+                body.appendChild(createInfoGroup('fa-briefcase', 'Faculty', user.faculty));
+            } else if (user.role === 'admin') {
+                body.appendChild(createInfoGroup('fa-user-cog', 'Admin Level', user.admin_level));
+            }
+
+            // Append action buttons
+            const actionsDiv = document.createElement('div');
+            actionsDiv.className = 'profile-actions';
+            actionsDiv.innerHTML = `
+                <a href="#" class="btn btn-edit"><i class="fas fa-edit"></i> Edit Profile</a>
+                <a href="#" class="btn btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            `;
+            body.appendChild(actionsDiv);
+
+            // Add event listeners for the buttons
+            actionsDiv.querySelector('.btn-edit').addEventListener('click', (e) => {
+                e.preventDefault();
+                alert('Edit Profile button clicked!');
+            });
+            actionsDiv.querySelector('.btn-logout').addEventListener('click', (e) => {
+                e.preventDefault();
+                alert('Logout button clicked!');
+            });
+        }
+
+        // Call the render function with the fake data on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProfile(FAKE_USER_DATA);
+        });
+    </script>
+</body>
+
+</html>
