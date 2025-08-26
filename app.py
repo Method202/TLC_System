@@ -89,9 +89,5 @@ def register_lecturer():
 def register_student():
     return render_template('amdstdreg.html')
 
-@app.route('/admin_assessments')
-def admin_assessments():
-    return render_template('admassess.html')
-
 if __name__ == '__main__':
     app.run(debug=True)
