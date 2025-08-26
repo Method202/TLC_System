@@ -684,40 +684,40 @@
                     <div class="logo-title">TLC</div>
                 </div>
             </div>
-            <div class="sidebar-menu">
+            <div class="sidebar-menu" onclick="location.href='{{ url_for('admin_dashboard') }}';">
                 <div class="menu-item">
                     <i class="fas fa-home"></i>
                     <span class="menu-text">Dashboard</span>
                 </div>
-                <div class="menu-item">
+                <div class="menu-item" onclick="location.href='{{ url_for('admin_students') }}';">
                     <i class="fas fa-user-graduate"></i>
                     <span class="menu-text">Students</span>
                 </div>
-                <div class="menu-item">
+                <div class="menu-item" onclick="location.href='{{ url_for('admin_lecturers') }}';">
                     <i class="fas fa-chalkboard-teacher"></i>
                     <span class="menu-text">Lecturers</span>
                 </div>
-                <div class="menu-item">
+                <div class="menu-item" onclick="location.href='{{ url_for('admin_courses') }}';">
                     <i class="fas fa-book"></i>
                     <span class="menu-text">Courses</span>
                 </div>
-                <div class="menu-item">
+                <div class="menu-item" onclick="location.href='{{ url_for('admin_assessments') }}';">
                     <i class="fas fa-clipboard-list"></i>
                     <span class="menu-text">Assessments</span>
                 </div>
-                <div class="menu-item">
+                <div class="menu-item" onclick="location.href='{{ url_for('admin_payments') }}';">
                     <i class="fas fa-money-bill-wave"></i>
                     <span class="menu-text">Payments</span>
                 </div>
-                <div class="menu-item active">
+                <div class="menu-item active" onclick="location.href='{{ url_for('admin_accommodations') }}';">
                     <i class="fas fa-bed"></i>
                     <span class="menu-text">Accommodations</span>
                 </div>
-                <div class="menu-item">
+                <div class="menu-item" onclick="location.href='{{ url_for('admin_settings') }}';">
                     <i class="fas fa-cog"></i>
                     <span class="menu-text">Settings</span>
                 </div>
-                <div class="menu-item">
+                <div class="menu-item" onclick="location.href='{{ url_for('login') }}';">
                     <i class="fas fa-sign-out-alt"></i>
                     <span class="menu-text">Logout</span>
                 </div>

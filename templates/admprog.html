@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assessment Management | TLCS</title>
+    <title>Program Management | TLCS</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Delius&display=swap" rel="stylesheet">
     <style>
@@ -282,6 +282,74 @@
             align-items: center;
         }
 
+        /* Form Section */
+        .add-form {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--light-gray);
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary);
+        }
+
+        .btn-secondary {
+            background-color: var(--light-gray);
+            color: var(--dark);
+        }
+
+        .btn-secondary:hover {
+            background-color: #dcdcdc;
+        }
+
         /* Filter Section */
         .filter-section {
             background-color: white;
@@ -321,33 +389,6 @@
             justify-content: flex-end;
             gap: 10px;
             margin-top: 10px;
-        }
-
-        .btn {
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s;
-        }
-
-        .btn-primary {
-            background-color: var(--primary);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background-color: var(--secondary);
-        }
-
-        .btn-secondary {
-            background-color: var(--light-gray);
-            color: var(--dark);
-        }
-
-        .btn-secondary:hover {
-            background-color: #dcdcdc;
         }
 
         /* Overview Cards */
@@ -390,34 +431,6 @@
             font-size: 2rem;
             color: var(--primary);
             margin-top: 10px;
-        }
-
-        /* Tabs */
-        .tabs {
-            display: flex;
-            border-bottom: 1px solid var(--light-gray);
-            margin-bottom: 20px;
-        }
-
-        .tab {
-            padding: 10px 20px;
-            cursor: pointer;
-            border-bottom: 3px solid transparent;
-            transition: all 0.3s;
-        }
-
-        .tab.active {
-            border-bottom: 3px solid var(--primary);
-            color: var(--primary);
-            font-weight: 600;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
         }
 
         /* Table */
@@ -468,84 +481,45 @@
             color: white;
         }
 
-        .btn-edit {
-            background-color: var(--warning);
-            color: white;
-        }
-
-        .btn-delete {
-            background-color: var(--danger);
-            color: white;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 3px 8px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-
-        .badge-success {
-            background-color: rgba(40, 167, 69, 0.2);
-            color: var(--success);
-        }
-
-        .badge-warning {
-            background-color: rgba(255, 193, 7, 0.2);
-            color: var(--warning);
-        }
-
-        .badge-danger {
-            background-color: rgba(220, 53, 69, 0.2);
-            color: var(--danger);
-        }
-
-        /* Progress bars */
-        .progress-container {
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            background-color: var(--light-gray);
-            border-radius: 5px;
-            margin: 5px 0;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
         }
 
-        .progress-bar {
-            height: 8px;
-            border-radius: 5px;
-        }
-
-        .progress-completed {
-            background-color: var(--success);
-        }
-
-        .progress-pending {
-            background-color: var(--warning);
-        }
-
-        /* Form for adding new assessment */
-        .add-form {
+        .modal-content {
             background-color: white;
             border-radius: 10px;
             padding: 20px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-            margin-bottom: 30px;
+            width: 90%;
+            max-width: 800px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
-        .form-group {
-            margin-bottom: 15px;
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: var(--gray);
         }
 
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 500;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid var(--light-gray);
-            border-radius: 5px;
+        .modal-close:hover {
+            color: var(--danger);
         }
 
         /* Pagination */
@@ -577,12 +551,16 @@
 
         /* Responsive Styles */
         @media (max-width: 1200px) {
+
+            .form-grid,
             .filter-grid {
                 grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
             }
         }
 
         @media (max-width: 992px) {
+
+            .form-grid,
             .filter-grid {
                 grid-template-columns: 1fr 1fr;
             }
@@ -623,6 +601,7 @@
                 margin-left: var(--sidebar-collapsed-width);
             }
 
+            .form-grid,
             .filter-grid {
                 grid-template-columns: 1fr;
             }
@@ -633,11 +612,6 @@
 
             .hover-label {
                 display: none;
-            }
-
-            .tabs {
-                overflow-x: auto;
-                white-space: nowrap;
             }
         }
 
@@ -650,6 +624,12 @@
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 15px;
+            }
+
+            .data-table th,
+            .data-table td {
+                padding: 8px;
+                font-size: 0.8rem;
             }
         }
     </style>
@@ -672,39 +652,39 @@
                 </div>
             </div>
             <div class="sidebar-menu">
-                <div class="menu-item" onclick="location.href='{{ url_for('admin_dashboard') }}';">
+                <div class="menu-item">
                     <i class="fas fa-home"></i>
                     <span class="menu-text">Dashboard</span>
                 </div>
-                <div class="menu-item" onclick="location.href='{{ url_for('admin_students') }}';">
+                <div class="menu-item">
                     <i class="fas fa-user-graduate"></i>
                     <span class="menu-text">Students</span>
                 </div>
-                <div class="menu-item" onclick="location.href='{{ url_for('admin_lecturers') }}';">
+                <div class="menu-item">
                     <i class="fas fa-chalkboard-teacher"></i>
                     <span class="menu-text">Lecturers</span>
                 </div>
-                <div class="menu-item" onclick="location.href='{{ url_for('admin_courses') }}';">
+                <div class="menu-item active">
                     <i class="fas fa-book"></i>
                     <span class="menu-text">Courses</span>
                 </div>
-                <div class="menu-item active" onclick="location.href='{{ url_for('admin_assessments') }}';">
+                <div class="menu-item">
                     <i class="fas fa-clipboard-list"></i>
                     <span class="menu-text">Assessments</span>
                 </div>
-                <div class="menu-item" onclick="location.href='{{ url_for('admin_payments') }}';">
+                <div class="menu-item">
                     <i class="fas fa-money-bill-wave"></i>
                     <span class="menu-text">Payments</span>
                 </div>
-                <div class="menu-item" onclick="location.href='{{ url_for('admin_accommodations') }}';">
+                <div class="menu-item">
                     <i class="fas fa-bed"></i>
                     <span class="menu-text">Accommodations</span>
                 </div>
-                <div class="menu-item" onclick="location.href='{{ url_for('admin_settings') }}';">
+                <div class="menu-item">
                     <i class="fas fa-cog"></i>
                     <span class="menu-text">Settings</span>
                 </div>
-                <div class="menu-item" onclick="location.href='{{ url_for('login') }}';">
+                <div class="menu-item">
                     <i class="fas fa-sign-out-alt"></i>
                     <span class="menu-text">Logout</span>
                 </div>
@@ -730,46 +710,64 @@
 
             <div class="content">
                 <div class="dashboard-title">
-                    <h1>Assessment Management</h1>
-                    <button class="btn btn-primary" id="add-assessment-btn">
-                        <i class="fas fa-plus"></i> Add New Assessment
-                    </button>
+                    <h1>Program Management</h1>
+                    <div>
+                        <button class="btn btn-primary" id="add-program-btn">
+                            <i class="fas fa-plus"></i> Add Program
+                        </button>
+                        <button class="btn btn-primary" id="add-semester-btn">
+                            <i class="fas fa-plus"></i> Add Semester
+                        </button>
+                    </div>
                 </div>
 
-                <!-- Add New Assessment Form -->
-                <div class="add-form" id="add-form" style="display: none;">
-                    <h3>Add New Assessment</h3>
-                    <div class="filter-grid">
+                <!-- Add Program Form -->
+                <div class="add-form" id="add-program-form" style="display: none;">
+                    <h3>Add Program</h3>
+                    <div class="form-grid">
                         <div class="form-group">
-                            <label for="course-id">Course</label>
-                            <select class="form-control" id="course-id">
-                                <option value="">Select Course</option>
-                                <option value="1">Labor Laws</option>
-                                <option value="2">Human Resource Management</option>
-                                <option value="3">Industrial Relations</option>
-                            </select>
+                            <label for="program-name">Program Name</label>
+                            <input type="text" class="form-control" id="program-name"
+                                placeholder="e.g., BSc Computer Science">
                         </div>
                         <div class="form-group">
-                            <label for="lecturer-id">Lecturer</label>
-                            <select class="form-control" id="lecturer-id">
-                                <option value="">Select Lecturer</option>
-                                <option value="1">Dr. John Mushi</option>
-                                <option value="2">Prof. Anna Kweka</option>
-                                <option value="3">Mr. James Mwita</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="assessment-type">Assessment Type</label>
-                            <select class="form-control" id="assessment-type">
+                            <label for="program-type">Program Type</label>
+                            <select class="form-control" id="program-type">
                                 <option value="">Select Type</option>
-                                <option value="exam">Exam</option>
-                                <option value="assignment">Assignment</option>
-                                <option value="test">Test</option>
+                                <option value="Bachelor">Bachelor</option>
+                                <option value="Diploma">Diploma</option>
+                                <option value="Certificate">Certificate</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="max-marks">Maximum Marks</label>
-                            <input type="number" class="form-control" id="max-marks" placeholder="Enter maximum marks">
+                            <label for="duration-years">Duration (Years)</label>
+                            <input type="number" class="form-control" id="duration-years" min="0" placeholder="e.g., 3">
+                        </div>
+                        <div class="form-group">
+                            <label for="duration-months">Duration (Months)</label>
+                            <input type="number" class="form-control" id="duration-months" min="0"
+                                placeholder="e.g., 6">
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-secondary" id="cancel-program">Cancel</button>
+                        <button class="btn btn-primary" id="save-program">Save</button>
+                    </div>
+                </div>
+
+                <!-- Add Semester Form -->
+                <div class="add-form" id="add-semester-form" style="display: none;">
+                    <h3>Add Semester</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="semester-program-id">Program</label>
+                            <select class="form-control" id="semester-program-id">
+                                <option value="">Select Program</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="semester-name">Semester Name</label>
+                            <input type="text" class="form-control" id="semester-name" placeholder="e.g., Semester 1">
                         </div>
                         <div class="form-group">
                             <label for="start-date">Start Date</label>
@@ -780,217 +778,72 @@
                             <input type="date" class="form-control" id="end-date">
                         </div>
                     </div>
-                    <div class="filter-actions">
-                        <button class="btn btn-secondary" id="cancel-add">Cancel</button>
-                        <button class="btn btn-primary" id="save-assessment">Save</button>
+                    <div class="form-actions">
+                        <button class="btn btn-secondary" id="cancel-semester">Cancel</button>
+                        <button class="btn btn-primary" id="save-semester">Save</button>
                     </div>
                 </div>
 
                 <!-- Overview Cards -->
                 <div class="overview-cards">
                     <div class="overview-card">
-                        <div class="card-title">Total Assessments</div>
-                        <div class="card-value">45</div>
-                        <div class="card-subtitle">This semester</div>
+                        <div class="card-title">Total Programs</div>
+                        <div class="card-value" id="total-programs">3</div>
+                        <div class="card-subtitle">Registered in system</div>
                         <div class="card-icon">
-                            <i class="fas fa-clipboard-list"></i>
+                            <i class="fas fa-book"></i>
                         </div>
                     </div>
                     <div class="overview-card">
-                        <div class="card-title">Pending Assessments</div>
-                        <div class="card-value">12</div>
-                        <div class="card-subtitle">Awaiting completion</div>
+                        <div class="card-title">Total Semesters</div>
+                        <div class="card-value" id="total-semesters">8</div>
+                        <div class="card-subtitle">Across all programs</div>
                         <div class="card-icon">
-                            <i class="fas fa-clock"></i>
-                        </div>
-                    </div>
-                    <div class="overview-card">
-                        <div class="card-title">Completed Assessments</div>
-                        <div class="card-value">33</div>
-                        <div class="card-subtitle">Graded</div>
-                        <div class="card-icon">
-                            <i class="fas fa-check-circle"></i>
-                        </div>
-                    </div>
-                    <div class="overview-card">
-                        <div class="card-title">Average Score</div>
-                        <div class="card-value">78%</div>
-                        <div class="card-subtitle">Across all assessments</div>
-                        <div class="card-icon">
-                            <i class="fas fa-chart-line"></i>
+                            <i class="fas fa-calendar-alt"></i>
                         </div>
                     </div>
                 </div>
 
                 <!-- Filter Section -->
                 <div class="filter-section">
-                    <h3>Filter Assessments</h3>
+                    <h3>Filter Programs</h3>
                     <div class="filter-grid">
                         <div class="filter-group">
-                            <label for="course-filter">Course</label>
-                            <select class="filter-control" id="course-filter">
-                                <option value="">All Courses</option>
-                                <option value="1">Labor Laws</option>
-                                <option value="2">Human Resource Management</option>
-                                <option value="3">Industrial Relations</option>
-                            </select>
-                        </div>
-                        <div class="filter-group">
-                            <label for="lecturer-filter">Lecturer</label>
-                            <select class="filter-control" id="lecturer-filter">
-                                <option value="">All Lecturers</option>
-                                <option value="1">Dr. John Mushi</option>
-                                <option value="2">Prof. Anna Kweka</option>
-                                <option value="3">Mr. James Mwita</option>
-                            </select>
-                        </div>
-                        <div class="filter-group">
-                            <label for="type-filter">Assessment Type</label>
-                            <select class="filter-control" id="type-filter">
+                            <label for="program-type-filter">Program Type</label>
+                            <select class="filter-control" id="program-type-filter">
                                 <option value="">All Types</option>
-                                <option value="exam">Exam</option>
-                                <option value="assignment">Assignment</option>
-                                <option value="test">Test</option>
+                                <option value="Bachelor">Bachelor</option>
+                                <option value="Diploma">Diploma</option>
+                                <option value="Certificate">Certificate</option>
                             </select>
                         </div>
-                        <div class="filter-group">
-                            <label for="status-filter">Status</label>
-                            <select class="filter-control" id="status-filter">
-                                <option value="">All Statuses</option>
-                                <option value="pending">Pending</option>
-                                <option value="completed">Completed</option>
-                            </select>
-                        </div>
-                        <div class="filter-group">
-                            <label for="date-filter">Date Range</label>
-                            <select class="filter-control" id="date-filter">
-                                <option value="">All Time</option>
-                                <option value="week">This Week</option>
-                                <option value="month">This Month</option>
-                                <option value="semester">This Semester</option>
-                            </select>
-                        </div>
-                        <div class="filter-group">
+                        <div class="form-group">
                             <label for="search">Search</label>
-                            <input type="text" class="filter-control" id="search" placeholder="Search assessments...">
+                            <input type="text" class="form-control" id="search" placeholder="Search programs...">
                         </div>
                     </div>
                     <div class="filter-actions">
-                        <button class="btn btn-secondary">Reset Filters</button>
-                        <button class="btn btn-primary">Apply Filters</button>
+                        <button class="btn btn-secondary" id="reset-filters">Reset Filters</button>
+                        <button class="btn btn-primary" id="apply-filters">Apply Filters</button>
                     </div>
                 </div>
 
-                <!-- Assessments Table -->
+                <!-- Programs Table -->
                 <div class="table-container">
-                    <table class="data-table">
+                    <table class="data-table" id="programs-table">
                         <thead>
                             <tr>
-                                <th>Assessment ID</th>
-                                <th>Course</th>
-                                <th>Lecturer</th>
-                                <th>Type</th>
-                                <th>Max Marks</th>
-                                <th>Start Date</th>
-                                <th>End Date</th>
-                                <th>Progress</th>
-                                <th>Status</th>
+                                <th>Program ID</th>
+                                <th>Program Name</th>
+                                <th>Program Type</th>
+                                <th>Duration</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>ASM2023001</td>
-                                <td>Labor Laws</td>
-                                <td>Dr. John Mushi</td>
-                                <td>Exam</td>
-                                <td>100</td>
-                                <td>01 Sep 2023</td>
-                                <td>05 Sep 2023</td>
-                                <td>
-                                    <div class="progress-container">
-                                        <div class="progress-bar progress-completed" style="width: 100%"></div>
-                                    </div>
-                                </td>
-                                <td><span class="badge badge-success">Completed</span></td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button class="btn btn-sm btn-view"><i class="fas fa-eye"></i></button>
-                                        <button class="btn btn-sm btn-edit"><i class="fas fa-edit"></i></button>
-                                        <button class="btn btn-sm btn-delete"><i class="fas fa-trash"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>ASM2023002</td>
-                                <td>Human Resource Management</td>
-                                <td>Prof. Anna Kweka</td>
-                                <td>Assignment</td>
-                                <td>50</td>
-                                <td>10 Sep 2023</td>
-                                <td>20 Sep 2023</td>
-                                <td>
-                                    <div class="progress-container">
-                                        <div class="progress-bar progress-pending" style="width: 60%"></div>
-                                    </div>
-                                </td>
-                                <td><span class="badge badge-warning">Pending</span></td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button class="btn btn-sm btn-view"><i class="fas fa-eye"></i></button>
-                                        <button class="btn btn-sm btn-edit"><i class="fas fa-edit"></i></button>
-                                        <button class="btn btn-sm btn-delete"><i class="fas fa-trash"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>ASM2023003</td>
-                                <td>Industrial Relations</td>
-                                <td>Mr. James Mwita</td>
-                                <td>Test</td>
-                                <td>30</td>
-                                <td>15 Sep 2023</td>
-                                <td>16 Sep 2023</td>
-                                <td>
-                                    <div class="progress-container">
-                                        <div class="progress-bar progress-completed" style="width: 100%"></div>
-                                    </div>
-                                </td>
-                                <td><span class="badge badge-success">Completed</span></td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button class="btn btn-sm btn-view"><i class="fas fa-eye"></i></button>
-                                        <button class="btn btn-sm btn-edit"><i class="fas fa-edit"></i></button>
-                                        <button class="btn btn-sm btn-delete"><i class="fas fa-trash"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>ASM2023004</td>
-                                <td>Labor Laws</td>
-                                <td>Dr. John Mushi</td>
-                                <td>Assignment</td>
-                                <td>40</td>
-                                <td>20 Sep 2023</td>
-                                <td>30 Sep 2023</td>
-                                <td>
-                                    <div class="progress-container">
-                                        <div class="progress-bar progress-pending" style="width: 20%"></div>
-                                    </div>
-                                </td>
-                                <td><span class="badge badge-warning">Pending</span></td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button class="btn btn-sm btn-view"><i class="fas fa-eye"></i></button>
-                                        <button class="btn btn-sm btn-edit"><i class="fas fa-edit"></i></button>
-                                        <button class="btn btn-sm btn-delete"><i class="fas fa-trash"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
+                            <!-- Populated by JavaScript -->
                         </tbody>
                     </table>
-
-                    <!-- Pagination -->
                     <div class="pagination">
                         <button class="pagination-btn"><i class="fas fa-chevron-left"></i></button>
                         <button class="pagination-btn active">1</button>
@@ -999,11 +852,138 @@
                         <button class="pagination-btn"><i class="fas fa-chevron-right"></i></button>
                     </div>
                 </div>
+
+                <!-- Semesters Modal -->
+                <div class="modal" id="semesters-modal">
+                    <div class="modal-content">
+                        <button class="modal-close" id="semesters-modal-close"><i class="fas fa-times"></i></button>
+                        <h3>Semesters for <span id="modal-program-name"></span></h3>
+                        <div class="table-container">
+                            <table class="data-table" id="semesters-table">
+                                <thead>
+                                    <tr>
+                                        <th>Semester ID</th>
+                                        <th>Semester Name</th>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
+        // Sample data (simulating database tables)
+        const programs = {
+            '1': {
+                program_id: '1',
+                program_name: 'BSc Computer Science',
+                program_type: 'Bachelor',
+                duration_years: 3,
+                duration_months: 0
+            },
+            '2': {
+                program_id: '2',
+                program_name: 'Diploma in Business',
+                program_type: 'Diploma',
+                duration_years: 2,
+                duration_months: 0
+            },
+            '3': {
+                program_id: '3',
+                program_name: 'Certificate in IT',
+                program_type: 'Certificate',
+                duration_years: 0,
+                duration_months: 6
+            }
+        };
+
+        const semesters = {
+            '1': [
+                { semester_id: '1', program_id: '1', semester_name: 'Semester 1', start_date: '2023-01-15', end_date: '2023-05-30' },
+                { semester_id: '2', program_id: '1', semester_name: 'Semester 2', start_date: '2023-06-15', end_date: '2023-10-30' },
+                { semester_id: '3', program_id: '1', semester_name: 'Semester 3', start_date: '2024-01-15', end_date: '2024-05-30' }
+            ],
+            '2': [
+                { semester_id: '4', program_id: '2', semester_name: 'Semester 1', start_date: '2023-02-01', end_date: '2023-06-15' },
+                { semester_id: '5', program_id: '2', semester_name: 'Semester 2', start_date: '2023-07-01', end_date: '2023-11-15' }
+            ],
+            '3': [
+                { semester_id: '6', program_id: '3', semester_name: 'Module 1', start_date: '2023-03-01', end_date: '2023-06-01' }
+            ]
+        };
+
+        // Initialize program select options for semester form
+        function updateProgramSelect() {
+            const select = document.getElementById('semester-program-id');
+            select.innerHTML = '<option value="">Select Program</option>';
+            Object.values(programs).forEach(program => {
+                const option = document.createElement('option');
+                option.value = program.program_id;
+                option.textContent = program.program_name;
+                select.appendChild(option);
+            });
+        }
+
+        // Render programs table
+        function renderProgramsTable() {
+            const tbody = document.querySelector('#programs-table tbody');
+            tbody.innerHTML = '';
+            Object.values(programs).forEach(program => {
+                const row = document.createElement('tr');
+                row.setAttribute('data-program-type', program.program_type);
+                row.innerHTML = `
+                    <td>${program.program_id}</td>
+                    <td>${program.program_name}</td>
+                    <td>${program.program_type}</td>
+                    <td>${program.duration_years} years, ${program.duration_months} months</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn btn-sm btn-view" data-action="view-semesters" data-program-id="${program.program_id}">
+                                <i class="fas fa-eye"></i> View Semesters
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+            updateProgramSelect();
+            updateOverviewCards();
+        }
+
+        // Render semesters modal table
+        function renderSemestersTable(programId) {
+            const tbody = document.querySelector('#semesters-table tbody');
+            tbody.innerHTML = '';
+            const programSemesters = semesters[programId] || [];
+            programSemesters.forEach(semester => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${semester.semester_id}</td>
+                    <td>${semester.semester_name}</td>
+                    <td>${semester.start_date}</td>
+                    <td>${semester.end_date}</td>
+                `;
+                tbody.appendChild(row);
+            });
+            document.getElementById('modal-program-name').textContent = programs[programId].program_name;
+            document.getElementById('semesters-modal').style.display = 'flex';
+        }
+
+        // Update overview cards
+        function updateOverviewCards() {
+            document.getElementById('total-programs').textContent = Object.keys(programs).length;
+            const totalSemesters = Object.values(semesters).reduce((sum, sems) => sum + sems.length, 0);
+            document.getElementById('total-semesters').textContent = totalSemesters;
+        }
+
         // Toggle sidebar
         document.getElementById('toggle-sidebar').addEventListener('click', function () {
             const sidebar = document.getElementById('sidebar');
@@ -1042,49 +1022,147 @@
             });
         });
 
-        // Show add form
-        document.getElementById('add-assessment-btn').addEventListener('click', function () {
-            document.getElementById('add-form').style.display = 'block';
+        // Show add program form
+        document.getElementById('add-program-btn').addEventListener('click', function () {
+            document.getElementById('add-program-form').style.display = 'block';
+            document.getElementById('add-semester-form').style.display = 'none';
+            document.getElementById('semesters-modal').style.display = 'none';
         });
 
-        // Cancel add
-        document.getElementById('cancel-add').addEventListener('click', function () {
-            document.getElementById('add-form').style.display = 'none';
-            document.getElementById('add-form').querySelectorAll('.form-control').forEach(input => input.value = '');
+        // Show add semester form
+        document.getElementById('add-semester-btn').addEventListener('click', function () {
+            document.getElementById('add-semester-form').style.display = 'block';
+            document.getElementById('add-program-form').style.display = 'none';
+            document.getElementById('semesters-modal').style.display = 'none';
         });
 
-        // Filter functionality
-        document.querySelectorAll('.filter-control').forEach(control => {
-            control.addEventListener('change', function () {
-                console.log('Filter changed:', this.id, this.value);
-            });
+        // Cancel program form
+        document.getElementById('cancel-program').addEventListener('click', function () {
+            document.getElementById('add-program-form').style.display = 'none';
+            document.getElementById('add-program-form').querySelectorAll('.form-control').forEach(input => input.value = '');
         });
 
-        // Search functionality
-        document.getElementById('search').addEventListener('input', function () {
-            const searchTerm = this.value.toLowerCase();
-            console.log('Searching for:', searchTerm);
+        // Cancel semester form
+        document.getElementById('cancel-semester').addEventListener('click', function () {
+            document.getElementById('add-semester-form').style.display = 'none';
+            document.getElementById('add-semester-form').querySelectorAll('.form-control').forEach(input => input.value = '');
         });
 
-        // Save assessment (placeholder)
-        document.getElementById('save-assessment').addEventListener('click', function () {
-            const courseId = document.getElementById('course-id').value;
-            const lecturerId = document.getElementById('lecturer-id').value;
-            const assessmentType = document.getElementById('assessment-type').value;
-            const maxMarks = document.getElementById('max-marks').value;
-            const startDate = document.getElementById('start-date').value;
-            const endDate = document.getElementById('end-date').value;
+        // Save program
+        document.getElementById('save-program').addEventListener('click', function () {
+            const programName = document.getElementById('program-name').value;
+            const programType = document.getElementById('program-type').value;
+            const durationYears = parseInt(document.getElementById('duration-years').value) || 0;
+            const durationMonths = parseInt(document.getElementById('duration-months').value) || 0;
 
-            if (!courseId || !lecturerId || !assessmentType || !maxMarks || !startDate || !endDate) {
+            if (!programName || !programType) {
                 alert('Please fill in all required fields');
                 return;
             }
 
-            // Placeholder for saving logic
-            console.log('Saving assessment:', { courseId, lecturerId, assessmentType, maxMarks, startDate, endDate });
-            document.getElementById('add-form').style.display = 'none';
-            document.getElementById('add-form').querySelectorAll('.form-control').forEach(input => input.value = '');
+            const programId = (Object.keys(programs).length + 1).toString();
+            programs[programId] = {
+                program_id: programId,
+                program_name: programName,
+                program_type: programType,
+                duration_years: durationYears,
+                duration_months: durationMonths
+            };
+            semesters[programId] = [];
+
+            console.log('Saving program:', programs[programId]);
+            alert('Program saved successfully');
+            document.getElementById('add-program-form').style.display = 'none';
+            document.getElementById('add-program-form').querySelectorAll('.form-control').forEach(input => input.value = '');
+            renderProgramsTable();
         });
+
+        // Save semester
+        document.getElementById('save-semester').addEventListener('click', function () {
+            const programId = document.getElementById('semester-program-id').value;
+            const semesterName = document.getElementById('semester-name').value;
+            const startDate = document.getElementById('start-date').value;
+            const endDate = document.getElementById('end-date').value;
+
+            if (!programId || !semesterName || !startDate || !endDate) {
+                alert('Please fill in all required fields');
+                return;
+            }
+
+            if (new Date(startDate) >= new Date(endDate)) {
+                alert('End date must be after start date');
+                return;
+            }
+
+            const semesterId = (Object.values(semesters).reduce((sum, sems) => sum + sems.length, 0) + 1).toString();
+            semesters[programId].push({
+                semester_id: semesterId,
+                program_id: programId,
+                semester_name: semesterName,
+                start_date: startDate,
+                end_date: endDate
+            });
+
+            console.log('Saving semester:', semesters[programId][semesters[programId].length - 1]);
+            alert('Semester saved successfully');
+            document.getElementById('add-semester-form').style.display = 'none';
+            document.getElementById('add-semester-form').querySelectorAll('.form-control').forEach(input => input.value = '');
+            renderProgramsTable();
+        });
+
+        // Filter programs
+        function applyFilters() {
+            const programTypeFilter = document.getElementById('program-type-filter').value;
+            const searchTerm = document.getElementById('search').value.toLowerCase();
+
+            const rows = document.querySelectorAll('#programs-table tbody tr');
+
+            rows.forEach(row => {
+                const programType = row.getAttribute('data-program-type');
+                const programName = row.cells[1].textContent.toLowerCase();
+
+                const matchesType = !programTypeFilter || programType === programTypeFilter;
+                const matchesSearch = !searchTerm || programName.includes(searchTerm);
+
+                if (matchesType && matchesSearch) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        // Apply filters on change
+        document.getElementById('program-type-filter').addEventListener('change', applyFilters);
+        document.getElementById('search').addEventListener('input', applyFilters);
+
+        // Reset filters
+        document.getElementById('reset-filters').addEventListener('click', function () {
+            document.getElementById('program-type-filter').value = '';
+            document.getElementById('search').value = '';
+            const rows = document.querySelectorAll('#programs-table tbody tr');
+            rows.forEach(row => row.style.display = '');
+        });
+
+        // Apply filters button
+        document.getElementById('apply-filters').addEventListener('click', applyFilters);
+
+        // Handle view semesters action
+        document.addEventListener('click', function (e) {
+            const button = e.target.closest('.btn-view[data-action="view-semesters"]');
+            if (button) {
+                const programId = button.getAttribute('data-program-id');
+                renderSemestersTable(programId);
+            }
+        });
+
+        // Close semesters modal
+        document.getElementById('semesters-modal-close').addEventListener('click', function () {
+            document.getElementById('semesters-modal').style.display = 'none';
+        });
+
+        // Initialize page
+        renderProgramsTable();
     </script>
 </body>
 
