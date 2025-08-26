@@ -171,7 +171,6 @@
             font-size: 1.4rem;
         }
 
-        /* Curve bottom-right corner of Settings menu item */
         .sidebar-menu .menu-item:last-child {
             border-bottom-right-radius: 10px;
         }
@@ -674,7 +673,6 @@
         <!-- Sidebar -->
         <div class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <!-- Full logo (visible when expanded) -->
                 <div class="logo-text">
                     <div class="logo-title">TANZANIA LABOUR</div>
                     <div class="logo-collection">COLLEGE</div>
@@ -682,8 +680,6 @@
                     <div class="logo-subtitle">P.O.Box 3454</div>
                     <div class="logo-subtitle">MBEYA-TANZANIA</div>
                 </div>
-
-                <!-- Condensed logo (visible when collapsed) -->
                 <div class="logo-condensed">
                     <div class="logo-title">TLC</div>
                 </div>
@@ -726,7 +722,6 @@
                     <span class="menu-text">Logout</span>
                 </div>
             </div>
-            <!-- Hover label element -->
             <div class="hover-label" id="hover-label"></div>
         </div>
 
@@ -750,7 +745,7 @@
                 <div class="dashboard-title">
                     <h1>Accommodation Management</h1>
                     <button class="btn btn-primary" id="add-hostel-btn">
-                        <i class="fas fa-plus"></i> Add New Hostel
+                        <i class="fas fa-plus"></i> Add New Hostel/Room
                     </button>
                 </div>
 
@@ -768,17 +763,18 @@
                         </div>
                         <div class="form-group">
                             <label for="room-number">Room Number</label>
-                            <input type="text" class="form-control" id="room-number" placeholder="Enter room number">
+                            <input type="text" class="form-control" id="room-number"
+                                placeholder="Enter room number (optional)">
                         </div>
                         <div class="form-group">
                             <label for="room-capacity">Room Capacity</label>
                             <input type="number" class="form-control" id="room-capacity"
-                                placeholder="Enter room capacity">
+                                placeholder="Enter room capacity (optional)">
                         </div>
                     </div>
                     <div class="filter-actions">
                         <button class="btn btn-secondary" id="cancel-add">Cancel</button>
-                        <button class="btn btn-primary">Save</button>
+                        <button class="btn btn-primary" id="save-hostel-room">Save</button>
                     </div>
                 </div>
 
@@ -786,7 +782,7 @@
                 <div class="overview-cards">
                     <div class="overview-card">
                         <div class="card-title">Total Hostels</div>
-                        <div class="card-value">5</div>
+                        <div class="card-value">6</div>
                         <div class="card-subtitle">Available</div>
                         <div class="card-icon">
                             <i class="fas fa-building"></i>
@@ -794,7 +790,7 @@
                     </div>
                     <div class="overview-card">
                         <div class="card-title">Total Rooms</div>
-                        <div class="card-value">150</div>
+                        <div class="card-value">180</div>
                         <div class="card-subtitle">Across all hostels</div>
                         <div class="card-icon">
                             <i class="fas fa-door-open"></i>
@@ -802,7 +798,7 @@
                     </div>
                     <div class="overview-card">
                         <div class="card-title">Occupied Rooms</div>
-                        <div class="card-value">120</div>
+                        <div class="card-value">135</div>
                         <div class="card-subtitle">Currently allocated</div>
                         <div class="card-icon">
                             <i class="fas fa-bed"></i>
@@ -810,7 +806,7 @@
                     </div>
                     <div class="overview-card">
                         <div class="card-title">Available Rooms</div>
-                        <div class="card-value">30</div>
+                        <div class="card-value">45</div>
                         <div class="card-subtitle">Ready for allocation</div>
                         <div class="card-icon">
                             <i class="fas fa-key"></i>
@@ -818,7 +814,7 @@
                     </div>
                     <div class="overview-card">
                         <div class="card-title">Occupancy Rate</div>
-                        <div class="card-value">80%</div>
+                        <div class="card-value">75%</div>
                         <div class="card-subtitle">Overall</div>
                         <div class="card-icon">
                             <i class="fas fa-chart-line"></i>
@@ -839,6 +835,7 @@
                                 <option value="3">Hostel C</option>
                                 <option value="4">Hostel D</option>
                                 <option value="5">Hostel E</option>
+                                <option value="6">Hostel F</option>
                             </select>
                         </div>
                         <div class="filter-group">
@@ -907,12 +904,12 @@
                                 <tr>
                                     <td>1</td>
                                     <td>Hostel A</td>
-                                    <td>100</td>
-                                    <td>80</td>
-                                    <td>20</td>
+                                    <td>120</td>
+                                    <td>90</td>
+                                    <td>30</td>
                                     <td>
                                         <div class="progress-container">
-                                            <div class="progress-bar progress-occupied" style="width: 80%"></div>
+                                            <div class="progress-bar progress-occupied" style="width: 75%"></div>
                                         </div>
                                     </td>
                                     <td>
@@ -942,11 +939,27 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <!-- More rows as needed -->
+                                <tr>
+                                    <td>3</td>
+                                    <td>Hostel C</td>
+                                    <td>100</td>
+                                    <td>75</td>
+                                    <td>25</td>
+                                    <td>
+                                        <div class="progress-container">
+                                            <div class="progress-bar progress-occupied" style="width: 75%"></div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="btn btn-sm btn-view"><i class="fas fa-eye"></i></button>
+                                            <button class="btn btn-sm btn-edit"><i class="fas fa-edit"></i></button>
+                                            <button class="btn btn-sm btn-delete"><i class="fas fa-trash"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
-
-                        <!-- Pagination -->
                         <div class="pagination">
                             <button class="pagination-btn"><i class="fas fa-chevron-left"></i></button>
                             <button class="pagination-btn active">1</button>
@@ -1003,17 +1016,31 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <!-- More rows as needed -->
+                                <tr>
+                                    <td>3</td>
+                                    <td>Hostel B</td>
+                                    <td>B201</td>
+                                    <td>2</td>
+                                    <td>0</td>
+                                    <td><span class="badge badge-success">Available</span></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="btn btn-sm btn-view"><i class="fas fa-eye"></i></button>
+                                            <button class="btn btn-sm btn-edit"><i class="fas fa-edit"></i></button>
+                                            <button class="btn btn-sm btn-delete"><i class="fas fa-trash"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
-
-                        <!-- Pagination -->
                         <div class="pagination">
                             <button class="pagination-btn"><i class="fas fa-chevron-left"></i></button>
                             <button class="pagination-btn active">1</button>
                             <button class="pagination-btn">2</button>
                             <button class="pagination-btn">3</button>
-                            <button class="pagination-btn"><i class="fas fa-chevron-right"></i></button>
+                            <button class="btn btn-primary" id="allocate-room-btn">
+                                <i class="fas fa-plus"></i> Allocate Room
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -1026,6 +1053,7 @@
                                 <tr>
                                     <th>Allocation ID</th>
                                     <th>Student</th>
+                                    <th>Hostel</th>
                                     <th>Room</th>
                                     <th>Start Date</th>
                                     <th>End Date</th>
@@ -1037,6 +1065,7 @@
                                 <tr>
                                     <td>1</td>
                                     <td>Juma Mohamed</td>
+                                    <td>Hostel A</td>
                                     <td>A101</td>
                                     <td>01 Sep 2023</td>
                                     <td>30 Jun 2024</td>
@@ -1052,6 +1081,7 @@
                                 <tr>
                                     <td>2</td>
                                     <td>Neema Charles</td>
+                                    <td>Hostel A</td>
                                     <td>A102</td>
                                     <td>01 Sep 2023</td>
                                     <td>30 Jun 2024</td>
@@ -1064,11 +1094,24 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <!-- More rows as needed -->
+                                <tr>
+                                    <td>3</td>
+                                    <td>Rajab Abasi</td>
+                                    <td>Hostel B</td>
+                                    <td>B101</td>
+                                    <td>01 Sep 2023</td>
+                                    <td>30 Jun 2024</td>
+                                    <td><span class="badge badge-warning">Pending</span></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="btn btn-sm btn-view"><i class="fas fa-eye"></i></button>
+                                            <button class="btn btn-sm btn-edit"><i class="fas fa-edit"></i></button>
+                                            <button class="btn btn-sm btn-delete"><i class="fas fa-trash"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
-
-                        <!-- Pagination -->
                         <div class="pagination">
                             <button class="pagination-btn"><i class="fas fa-chevron-left"></i></button>
                             <button class="pagination-btn active">1</button>
@@ -1076,6 +1119,60 @@
                             <button class="pagination-btn">3</button>
                             <button class="pagination-btn"><i class="fas fa-chevron-right"></i></button>
                         </div>
+                    </div>
+                </div>
+
+                <!-- Allocate Room Form -->
+                <div class="add-form" id="allocate-form" style="display: none;">
+                    <h3>Allocate Room</h3>
+                    <div class="filter-grid">
+                        <div class="form-group">
+                            <label for="allocate-student-id">Student</label>
+                            <select class="form-control" id="allocate-student-id">
+                                <option value="">Select Student</option>
+                                <option value="1">Juma Mohamed</option>
+                                <option value="2">Neema Charles</option>
+                                <option value="3">Rajab Abasi</option>
+                                <option value="4">Fatuma Hassan</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="allocate-hostel-id">Hostel</label>
+                            <select class="form-control" id="allocate-hostel-id">
+                                <option value="">Select Hostel</option>
+                                <option value="1">Hostel A</option>
+                                <option value="2">Hostel B</option>
+                                <option value="3">Hostel C</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="allocate-room-id">Room</label>
+                            <select class="form-control" id="allocate-room-id">
+                                <option value="">Select Room</option>
+                                <option value="1">A101</option>
+                                <option value="2">A102</option>
+                                <option value="3">B201</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="allocate-start-date">Start Date</label>
+                            <input type="date" class="form-control" id="allocate-start-date">
+                        </div>
+                        <div class="form-group">
+                            <label for="allocate-end-date">End Date</label>
+                            <input type="date" class="form-control" id="allocate-end-date">
+                        </div>
+                        <div class="form-group">
+                            <label for="allocate-status">Status</label>
+                            <select class="form-control" id="allocate-status">
+                                <option value="active">Active</option>
+                                <option value="pending">Pending</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="filter-actions">
+                        <button class="btn btn-secondary" id="cancel-allocate">Cancel</button>
+                        <button class="btn btn-primary" id="save-allocation">Save Allocation</button>
                     </div>
                 </div>
             </div>
@@ -1100,19 +1197,14 @@
                 if (document.getElementById('sidebar').classList.contains('collapsed')) {
                     const text = this.querySelector('.menu-text').textContent;
                     hoverLabel.textContent = text;
-
-                    // Position the label next to the icon
                     const rect = this.getBoundingClientRect();
                     hoverLabel.style.top = `${rect.top + (rect.height / 4)}px`;
-
-                    // Show the label
                     hoverLabel.style.opacity = '1';
                     hoverLabel.style.visibility = 'visible';
                 }
             });
 
             item.addEventListener('mouseleave', function () {
-                // Hide the label
                 hoverLabel.style.opacity = '0';
                 hoverLabel.style.visibility = 'hidden';
             });
@@ -1133,31 +1225,76 @@
         tabs.forEach(tab => {
             tab.addEventListener('click', function () {
                 const tabId = this.getAttribute('data-tab');
-
-                // Remove active class from all tabs and contents
                 tabs.forEach(t => t.classList.remove('active'));
                 tabContents.forEach(c => c.classList.remove('active'));
-
-                // Add active class to current tab and content
                 this.classList.add('active');
                 document.getElementById(`${tabId}-tab`).classList.add('active');
             });
         });
 
-        // Show add form
+        // Show add hostel/room form
         document.getElementById('add-hostel-btn').addEventListener('click', function () {
             document.getElementById('add-form').style.display = 'block';
+            document.getElementById('allocate-form').style.display = 'none';
         });
 
-        // Cancel add
+        // Cancel add hostel/room
         document.getElementById('cancel-add').addEventListener('click', function () {
+            document.getElementById('add-form').style.display = 'none';
+            document.getElementById('add-form').querySelectorAll('.form-control').forEach(input => input.value = '');
+        });
+
+        // Save hostel/room (placeholder)
+        document.getElementById('save-hostel-room').addEventListener('click', function () {
+            const hostelName = document.getElementById('hostel-name').value;
+            const hostelCapacity = document.getElementById('hostel-capacity').value;
+            const roomNumber = document.getElementById('room-number').value;
+            const roomCapacity = document.getElementById('room-capacity').value;
+
+            if (!hostelName || !hostelCapacity) {
+                alert('Hostel Name and Capacity are required');
+                return;
+            }
+
+            console.log('Saving:', { hostelName, hostelCapacity, roomNumber, roomCapacity });
+            document.getElementById('add-form').style.display = 'none';
+            document.getElementById('add-form').querySelectorAll('.form-control').forEach(input => input.value = '');
+        });
+
+        // Show allocate room form
+        document.getElementById('allocate-room-btn').addEventListener('click', function () {
+            document.getElementById('allocate-form').style.display = 'block';
             document.getElementById('add-form').style.display = 'none';
         });
 
-        // Filter functionality (basic example)
+        // Cancel allocate
+        document.getElementById('cancel-allocate').addEventListener('click', function () {
+            document.getElementById('allocate-form').style.display = 'none';
+            document.getElementById('allocate-form').querySelectorAll('.form-control').forEach(input => input.value = '');
+        });
+
+        // Save allocation (placeholder)
+        document.getElementById('save-allocation').addEventListener('click', function () {
+            const studentId = document.getElementById('allocate-student-id').value;
+            const hostelId = document.getElementById('allocate-hostel-id').value;
+            const roomId = document.getElementById('allocate-room-id').value;
+            const startDate = document.getElementById('allocate-start-date').value;
+            const endDate = document.getElementById('allocate-end-date').value;
+            const status = document.getElementById('allocate-status').value;
+
+            if (!studentId || !hostelId || !roomId || !startDate || !endDate || !status) {
+                alert('Please fill in all required fields');
+                return;
+            }
+
+            console.log('Saving allocation:', { studentId, hostelId, roomId, startDate, endDate, status });
+            document.getElementById('allocate-form').style.display = 'none';
+            document.getElementById('allocate-form').querySelectorAll('.form-control').forEach(input => input.value = '');
+        });
+
+        // Filter functionality
         document.querySelectorAll('.filter-control').forEach(control => {
             control.addEventListener('change', function () {
-                // In a real application, this would filter the data
                 console.log('Filter changed:', this.id, this.value);
             });
         });
@@ -1165,7 +1302,6 @@
         // Search functionality
         document.getElementById('search').addEventListener('input', function () {
             const searchTerm = this.value.toLowerCase();
-            // In a real application, this would filter the table based on search term
             console.log('Searching for:', searchTerm);
         });
     </script>
