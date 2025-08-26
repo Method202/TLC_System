@@ -36,7 +36,6 @@
             overflow-x: hidden;
         }
 
-        /* Animated background particles */
         .particles {
             position: fixed;
             top: 0;
@@ -57,18 +56,10 @@
         }
 
         @keyframes float {
-
-            0%,
-            100% {
-                transform: translateY(0px) rotate(0deg);
-            }
-
-            50% {
-                transform: translateY(-20px) rotate(180deg);
-            }
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
         }
 
-        /* Main container */
         .registration-container {
             max-width: 900px;
             margin: 0 auto;
@@ -81,18 +72,10 @@
         }
 
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Header */
         .header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white;
@@ -109,22 +92,13 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: repeating-linear-gradient(0deg,
-                    transparent,
-                    transparent 2px,
-                    rgba(255, 255, 255, 0.03) 2px,
-                    rgba(255, 255, 255, 0.03) 4px);
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255, 255, 255, 0.03) 2px, rgba(255, 255, 255, 0.03) 4px);
             animation: shimmer 3s linear infinite;
         }
 
         @keyframes shimmer {
-            0% {
-                transform: translateX(-100%);
-            }
-
-            100% {
-                transform: translateX(100%);
-            }
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
 
         .header h1 {
@@ -141,7 +115,6 @@
             z-index: 2;
         }
 
-        /* Progress indicator */
         .progress-container {
             padding: 20px 30px;
             background: white;
@@ -185,9 +158,7 @@
             box-shadow: 0 0 15px rgba(255, 174, 0, 0.5), 0 0 30px rgba(255, 174, 0, 0.7);
         }
 
-        .step-circle.active i {
-            color: white;
-        }
+        .step-circle.active i { color: white; }
 
         .step-circle.completed {
             background: var(--secondary);
@@ -195,9 +166,7 @@
             box-shadow: 0 0 15px rgba(168, 115, 0, 0.5), 0 0 30px rgba(168, 115, 0, 0.7);
         }
 
-        .step-circle.completed i {
-            color: white;
-        }
+        .step-circle.completed i { color: white; }
 
         .step-label {
             margin-top: 10px;
@@ -211,9 +180,7 @@
             font-weight: 700;
         }
 
-        .step.completed .step-label {
-            color: var(--secondary);
-        }
+        .step.completed .step-label { color: var(--secondary); }
 
         .progress-bar {
             width: 100%;
@@ -238,27 +205,16 @@
             left: 0;
             bottom: 0;
             right: 0;
-            background: linear-gradient(90deg,
-                    transparent,
-                    rgba(255, 255, 255, 0.4),
-                    transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
             animation: progressShine 2s infinite;
         }
 
         @keyframes progressShine {
-            0% {
-                transform: translateX(-100%);
-            }
-
-            100% {
-                transform: translateX(100%);
-            }
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
 
-        /* Form sections */
-        .form-container {
-            padding: 30px;
-        }
+        .form-container { padding: 30px; }
 
         .form-section {
             display: none;
@@ -296,15 +252,8 @@
         }
 
         @keyframes pulse {
-
-            0%,
-            100% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.05);
-            }
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
 
         .form-grid {
@@ -357,22 +306,11 @@
         }
 
         @keyframes shake {
-
-            0%,
-            100% {
-                transform: translateX(0);
-            }
-
-            25% {
-                transform: translateX(-5px);
-            }
-
-            75% {
-                transform: translateX(5px);
-            }
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
         }
 
-        /* Custom dropdown styles */
         select.form-control {
             -webkit-appearance: none;
             -moz-appearance: none;
@@ -399,7 +337,6 @@
             color: white;
         }
 
-        /* Date picker with system theme */
         input[type="date"].form-control {
             -webkit-appearance: none;
             -moz-appearance: none;
@@ -416,7 +353,6 @@
             box-shadow: 0 10px 20px rgba(168, 115, 0, 0.2), 0 0 10px rgba(168, 115, 0, 0.3);
         }
 
-        /* Floating label effect */
         .floating-label {
             position: relative;
         }
@@ -447,7 +383,22 @@
             font-weight: 700;
         }
 
-        /* Checkbox group */
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: var(--gray);
+            transition: color 0.3s ease, transform 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .password-toggle:hover {
+            color: var(--primary);
+            transform: translateY(-50%) scale(1.1);
+        }
+
         .checkbox-group {
             display: flex;
             flex-wrap: wrap;
@@ -483,7 +434,6 @@
             transform: scale(1.2);
         }
 
-        /* Navigation buttons */
         .form-navigation {
             display: flex;
             justify-content: space-between;
@@ -533,7 +483,6 @@
             transform: none !important;
         }
 
-        /* Success animation */
         .success-animation {
             display: none;
             text-align: center;
@@ -547,9 +496,7 @@
             animation: successBounce 1s ease-out;
         }
 
-        .course-container {
-            margin-top: 15px;
-        }
+        .course-container { margin-top: 15px; }
 
         .course-select {
             width: 100%;
@@ -570,19 +517,9 @@
         }
 
         @keyframes successBounce {
-            0% {
-                transform: scale(0);
-                opacity: 0;
-            }
-
-            50% {
-                transform: scale(1.2);
-            }
-
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); opacity: 1; }
         }
 
         .success-message {
@@ -592,7 +529,6 @@
             margin-bottom: 10px;
         }
 
-        /* Confirmation summary */
         .confirmation-summary {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -633,31 +569,14 @@
             display: inline-block;
         }
 
-        /* Responsive design */
         @media (max-width: 768px) {
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .progress-steps {
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            .form-navigation {
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            .confirmation-summary {
-                grid-template-columns: 1fr;
-            }
+            .form-grid { grid-template-columns: 1fr; }
+            .progress-steps { flex-direction: column; gap: 15px; }
+            .form-navigation { flex-direction: column; gap: 15px; }
+            .confirmation-summary { grid-template-columns: 1fr; }
         }
 
-        /* Custom animations for field completion */
-        .field-completed {
-            position: relative;
-        }
+        .field-completed { position: relative; }
 
         .field-completed::after {
             content: '✓';
@@ -672,21 +591,11 @@
         }
 
         @keyframes checkmarkAppear {
-            0% {
-                opacity: 0;
-                transform: translateY(-50%) scale(0);
-            }
-
-            100% {
-                opacity: 1;
-                transform: translateY(-50%) scale(1);
-            }
+            0% { opacity: 0; transform: translateY(-50%) scale(0); }
+            100% { opacity: 1; transform: translateY(-50%) scale(1); }
         }
 
-        /* Course input container */
-        .course-container {
-            margin-top: 15px;
-        }
+        .course-container { margin-top: 15px; }
 
         .course-input {
             width: 100%;
@@ -703,65 +612,43 @@
     <div class="particles" id="particles"></div>
 
     <div class="registration-container">
-        <!-- Header -->
         <div class="header">
             <h1><i class="fas fa-user-graduate"></i> Student Registration</h1>
-            <p>Tanzania Labour College System - Join us for excellence in education</p>
+            <p>Tanzania Labour College System - Begin your academic journey</p>
         </div>
 
-        <!-- Progress Indicator -->
         <div class="progress-container">
             <div class="progress-steps">
                 <div class="step active" data-step="1">
-                    <div class="step-circle">
-                        <i class="fas fa-user"></i>
-                    </div>
+                    <div class="step-circle"><i class="fas fa-user"></i></div>
                     <div class="step-label">Personal Info</div>
                 </div>
                 <div class="step" data-step="2">
-                    <div class="step-circle">
-                        <i class="fas fa-home"></i>
-                    </div>
+                    <div class="step-circle"><i class="fas fa-home"></i></div>
                     <div class="step-label">Contact Info</div>
                 </div>
                 <div class="step" data-step="3">
-                    <div class="step-circle">
-                        <i class="fas fa-graduation-cap"></i>
-                    </div>
-                    <div class="step-label">Academic Info</div>
+                    <div class="step-circle"><i class="fas fa-graduation-cap"></i></div>
+                    <div class="step-label">Academic Background</div>
                 </div>
                 <div class="step" data-step="4">
-                    <div class="step-circle">
-                        <i class="fas fa-book"></i>
-                    </div>
-                    <div class="step-label">Program Selection</div>
+                    <div class="step-circle"><i class="fas fa-book"></i></div>
+                    <div class="step-label">Program Details</div>
                 </div>
                 <div class="step" data-step="5">
-                    <div class="step-circle">
-                        <i class="fas fa-bed"></i>
-                    </div>
-                    <div class="step-label">Accommodation</div>
-                </div>
-                <div class="step" data-step="6">
-                    <div class="step-circle">
-                        <i class="fas fa-check"></i>
-                    </div>
+                    <div class="step-circle"><i class="fas fa-check"></i></div>
                     <div class="step-label">Confirmation</div>
                 </div>
             </div>
             <div class="progress-bar">
-                <div class="progress-fill" style="width: 16.67%;"></div>
+                <div class="progress-fill" style="width: 20%;"></div>
             </div>
         </div>
 
-        <!-- Form Container -->
         <div class="form-container">
-            <!-- Step 1: Personal Information -->
             <div class="form-section active" data-section="1">
                 <div class="section-title">
-                    <div class="section-icon">
-                        <i class="fas fa-user"></i>
-                    </div>
+                    <div class="section-icon"><i class="fas fa-user"></i></div>
                     Personal Information
                 </div>
                 <div class="form-grid">
@@ -769,17 +656,24 @@
                         <input type="text" class="form-control" id="fullName" placeholder=" " required>
                         <label for="fullName">Full Name</label>
                     </div>
-
                     <div class="form-group floating-label">
                         <input type="text" class="form-control" id="username" placeholder=" " required>
                         <label for="username">Username</label>
                     </div>
-
+                    <div class="form-group floating-label">
+                        <input type="password" class="form-control" id="password" placeholder=" " required>
+                        <label for="password">Password</label>
+                        <i class="fas fa-eye password-toggle" id="togglePassword"></i>
+                    </div>
+                    <div class="form-group floating-label">
+                        <input type="password" class="form-control" id="confirmPassword" placeholder=" " required>
+                        <label for="confirmPassword">Confirm Password</label>
+                        <i class="fas fa-eye password-toggle" id="toggleConfirmPassword"></i>
+                    </div>
                     <div class="form-group floating-label">
                         <input type="date" class="form-control" id="birthDate" required>
                         <label for="birthDate">Date of Birth</label>
                     </div>
-
                     <div class="form-group floating-label">
                         <select class="form-control" id="gender" required>
                             <option value="">Select Gender</option>
@@ -788,12 +682,10 @@
                         </select>
                         <label for="gender">Gender</label>
                     </div>
-
                     <div class="form-group floating-label">
                         <input type="text" class="form-control" id="nationality" placeholder=" " required>
                         <label for="nationality">Nationality</label>
                     </div>
-
                     <div class="form-group floating-label">
                         <input type="text" class="form-control" id="idNumber" placeholder=" ">
                         <label for="idNumber">National ID / Passport (Optional)</label>
@@ -801,56 +693,36 @@
                 </div>
             </div>
 
-            <!-- Step 2: Contact Information -->
             <div class="form-section" data-section="2">
                 <div class="section-title">
-                    <div class="section-icon">
-                        <i class="fas fa-home"></i>
-                    </div>
+                    <div class="section-icon"><i class="fas fa-home"></i></div>
                     Contact Information
                 </div>
-
                 <div class="form-grid">
                     <div class="form-group floating-label">
                         <input type="text" class="form-control" id="address" placeholder=" " required>
                         <label for="address">Address</label>
                     </div>
-
                     <div class="form-group floating-label">
                         <input type="text" class="form-control" id="region" placeholder=" " required>
                         <label for="region">Region</label>
                     </div>
-
                     <div class="form-group floating-label">
                         <input type="text" class="form-control" id="district" placeholder=" " required>
                         <label for="district">District</label>
                     </div>
-
-                    <div class="form-group floating-label">
-                        <input type="text" class="form-control" id="ward" placeholder=" " required>
-                        <label for="ward">Ward</label>
-                    </div>
-
-                    <div class="form-group floating-label">
-                        <input type="text" class="form-control" id="street" placeholder=" " required>
-                        <label for="street">Street/Village</label>
-                    </div>
-
                     <div class="form-group floating-label">
                         <input type="tel" class="form-control" id="phone" placeholder=" " required>
                         <label for="phone">Phone Number</label>
                     </div>
-
                     <div class="form-group floating-label">
                         <input type="email" class="form-control" id="email" placeholder=" " required>
                         <label for="email">Email Address</label>
                     </div>
-
                     <div class="form-group floating-label">
                         <input type="text" class="form-control" id="emergencyContact" placeholder=" " required>
                         <label for="emergencyContact">Emergency Contact Name</label>
                     </div>
-
                     <div class="form-group floating-label">
                         <input type="tel" class="form-control" id="emergencyPhone" placeholder=" " required>
                         <label for="emergencyPhone">Emergency Phone</label>
@@ -858,74 +730,51 @@
                 </div>
             </div>
 
-            <!-- Step 3: Academic Information -->
             <div class="form-section" data-section="3">
                 <div class="section-title">
-                    <div class="section-icon">
-                        <i class="fas fa-graduation-cap"></i>
-                    </div>
+                    <div class="section-icon"><i class="fas fa-graduation-cap"></i></div>
                     Academic Background
                 </div>
-
                 <div class="form-grid">
                     <div class="form-group floating-label">
-                        <select class="form-control" id="educationLevel" required>
-                            <option value="">Select Education Level</option>
-                            <option value="primary">Primary Education</option>
-                            <option value="secondary">Secondary Education</option>
+                        <select class="form-control" id="highestQualification" required>
+                            <option value="">Select Highest Qualification</option>
                             <option value="certificate">Certificate</option>
                             <option value="diploma">Diploma</option>
-                            <option value="degree">Bachelor's Degree</option>
-                            <option value="masters">Master's Degree</option>
+                            <option value="bachelors">Bachelor's Degree</option>
                         </select>
-                        <label for="educationLevel">Highest Education Level</label>
+                        <label for="highestQualification">Highest Qualification</label>
                     </div>
-
                     <div class="form-group floating-label">
-                        <input type="text" class="form-control" id="lastSchool" placeholder=" " required>
-                        <label for="lastSchool">Last School/Institution</label>
+                        <input type="text" class="form-control" id="institution" placeholder=" " required>
+                        <label for="institution">School/Institution</label>
                     </div>
-
                     <div class="form-group floating-label">
-                        <input type="number" class="form-control" id="graduationYear" placeholder=" " min="1990"
-                            max="2025" required>
-                        <label for="graduationYear">Year of Graduation</label>
+                        <input type="number" class="form-control" id="graduationYear" placeholder=" " min="1990" max="2025" required>
+                        <label for="graduationYear">Graduation Year</label>
                     </div>
-
                     <div class="form-group floating-label">
-                        <input type="text" class="form-control" id="previousField" placeholder=" ">
-                        <label for="previousField">Previous Field of Study</label>
+                        <input type="text" class="form-control" id="grade" placeholder=" " required>
+                        <label for="grade">Grade/GPA</label>
                     </div>
                 </div>
             </div>
 
-            <!-- Step 4: Program Selection -->
             <div class="form-section" data-section="4">
                 <div class="section-title">
-                    <div class="section-icon">
-                        <i class="fas fa-book"></i>
-                    </div>
-                    Program & Course Selection
+                    <div class="section-icon"><i class="fas fa-book"></i></div>
+                    Program Details
                 </div>
-
                 <div class="form-grid">
                     <div class="form-group floating-label">
-                        <select class="form-control" id="programType" required>
-                            <option value="">Select Program Type</option>
-                            <option value="short">Short Term</option>
-                            <option value="long">Long Term</option>
-                            <option value="certificate">Certificate</option>
-                            <option value="diploma">Diploma</option>
+                        <select class="form-control" id="program" required>
+                            <option value="">Select Program</option>
+                            <option value="labor_laws">Labor Laws</option>
+                            <option value="hr_management">Human Resource Management</option>
+                            <option value="industrial_relations">Industrial Relations</option>
                         </select>
-                        <label for="programType">Program Type</label>
+                        <label for="program">Program</label>
                     </div>
-
-                    <div class="form-group floating-label">
-                        <input type="number" class="form-control" id="programMonths" placeholder=" " min="1" max="12"
-                            required>
-                        <label for="programMonths">Number of Months</label>
-                    </div>
-
                     <div class="form-group floating-label">
                         <select class="form-control" id="studyMode" required>
                             <option value="">Select Study Mode</option>
@@ -934,111 +783,36 @@
                         </select>
                         <label for="studyMode">Study Mode</label>
                     </div>
-
                     <div class="form-group floating-label">
-                        <input type="date" class="form-control" id="startDate" required>
-                        <label for="startDate">Start Date</label>
-                    </div>
-
-                    <div class="form-group floating-label">
-                        <select class="form-control" id="courseCount" onchange="generateCourseInputs()" required>
-                            <option value="">Select Number of Courses</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                        </select>
-                        <label for="courseCount">Number of Courses</label>
-                    </div>
-
-                    <div class="form-group floating-label">
-                        <select class="form-control" id="accommodationNeed" onchange="toggleAccommodationStep()"
-                            required>
-                            <option value="">Do you need accommodation?</option>
-                            <option value="yes">Yes</option>
-                            <option value="no">No</option>
-                        </select>
-                        <label for="accommodationNeed">Accommodation Required</label>
-                    </div>
-
-                    <div class="form-group course-container" id="courseInputs">
-                        <!-- Course dropdowns will be dynamically generated here -->
+                        <input type="number" class="form-control" id="intakeYear" placeholder=" " min="2023" max="2025" required>
+                        <label for="intakeYear">Intake Year</label>
                     </div>
                 </div>
             </div>
 
-            <!-- Step 5: Accommodation Information -->
             <div class="form-section" data-section="5">
                 <div class="section-title">
-                    <div class="section-icon">
-                        <i class="fas fa-bed"></i>
-                    </div>
-                    Accommodation Information
-                </div>
-
-                <p style="text-align: center; margin-bottom: 20px; color: var(--gray);">
-                    Please manually assign a hostel and room for the student.
-                </p>
-
-                <div class="form-grid">
-                    <div class="form-group floating-label">
-                        <input type="text" class="form-control" id="assignedHostel" placeholder=" " required>
-                        <label for="assignedHostel">Assigned Hostel</label>
-                    </div>
-
-                    <div class="form-group floating-label">
-                        <input type="text" class="form-control" id="assignedRoom" placeholder=" " required>
-                        <label for="assignedRoom">Assigned Room Number</label>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Step 6: Confirmation -->
-            <div class="form-section" data-section="6">
-                <div class="section-title">
-                    <div class="section-icon">
-                        <i class="fas fa-check"></i>
-                    </div>
+                    <div class="section-icon"><i class="fas fa-check"></i></div>
                     Confirmation & Review
                 </div>
-
                 <div class="confirmation-summary">
                     <div class="summary-card">
                         <h4><i class="fas fa-user"></i> Personal Information</h4>
-                        <div class="summary-content" id="personalSummary">
-                            <!-- Populated by JS -->
-                        </div>
+                        <div class="summary-content" id="personalSummary"></div>
                     </div>
-
                     <div class="summary-card">
                         <h4><i class="fas fa-home"></i> Contact Information</h4>
-                        <div class="summary-content" id="contactSummary">
-                            <!-- Populated by JS -->
-                        </div>
+                        <div class="summary-content" id="contactSummary"></div>
                     </div>
-
                     <div class="summary-card">
                         <h4><i class="fas fa-graduation-cap"></i> Academic Background</h4>
-                        <div class="summary-content" id="academicSummary">
-                            <!-- Populated by JS -->
-                        </div>
+                        <div class="summary-content" id="academicSummary"></div>
                     </div>
-
                     <div class="summary-card">
-                        <h4><i class="fas fa-book"></i> Program Selection</h4>
-                        <div class="summary-content" id="courseSummary">
-                            <!-- Populated by JS -->
-                        </div>
-                    </div>
-
-                    <div class="summary-card" id="accommodationSummaryCard">
-                        <h4><i class="fas fa-bed"></i> Accommodation</h4>
-                        <div class="summary-content" id="accommodationSummary">
-                            <!-- Populated by JS -->
-                        </div>
+                        <h4><i class="fas fa-book"></i> Program Details</h4>
+                        <div class="summary-content" id="programSummary"></div>
                     </div>
                 </div>
-
                 <div class="form-group">
                     <div class="checkbox-item">
                         <input type="checkbox" id="termsAccepted" required>
@@ -1047,38 +821,16 @@
                 </div>
             </div>
 
-            <!-- Success Screen -->
             <div class="success-animation" id="successScreen">
-                <div class="success-icon">
-                    <i class="fas fa-check-circle"></i>
-                </div>
+                <div class="success-icon"><i class="fas fa-check-circle"></i></div>
                 <div class="success-message">Registration Successful!</div>
-                <p>Your student ID is: <strong id="generatedId">TLC/STD/2025/001</strong></p>
-                <p>Please save this ID for future reference. A confirmation email has been sent to your email address.
-                </p>
-                <div class="review-section" style="max-width: 500px; margin: 0 auto;">
-                    <h3><i class="fas fa-bed"></i> Accommodation Assigned</h3>
-                    <div class="review-grid">
-                        <div class="detail-item">
-                            <strong>Hostel:</strong>
-                            <span id="success-hostel">Not assigned</span>
-                        </div>
-                        <div class="detail-item">
-                            <strong>Room No:</strong>
-                            <span id="success-room">Not assigned</span>
-                        </div>
-                        <div class="detail-item">
-                            <strong>Type:</strong>
-                            <span id="success-accommodation">Not selected</span>
-                        </div>
-                    </div>
-                </div>
-                <button class="btn btn-primary" onclick="window.location.href='admstd.html'">
+                <p>Your student ID is: <strong id="generatedId">TLC/STU/2025/001</strong></p>
+                <p>Please save this ID for future reference. A confirmation email has been sent to your email address.</p>
+                <button class="btn btn-primary" onclick="window.location.href='dashboard.html'">
                     <i class="fas fa-arrow-left"></i> Done!
                 </button>
             </div>
 
-            <!-- Navigation Buttons -->
             <div class="form-navigation" id="navigationButtons">
                 <button class="btn btn-secondary" id="prevBtn" onclick="previousStep()">
                     <i class="fas fa-arrow-left"></i> Previous
@@ -1091,35 +843,20 @@
     </div>
 
     <script>
-        // Global variables
         let currentStep = 1;
-        let totalSteps = 6;
-        let accommodationNeeded = 'no';
+        let totalSteps = 5;
         let selectedProgram = null;
 
-        // Define list of available courses
-        const availableCourses = [
-            "Introduction to Labor Laws",
-            "Occupational Health and Safety",
-            "Human Resource Management",
-            "Industrial Relations",
-            "Labor Economics",
-            "Training and Development",
-            "Employment Law",
-            "Workplace Ethics"
-        ];
-
-        // Initialize on page load
         document.addEventListener('DOMContentLoaded', function () {
             createParticles();
             updateFormValidation();
+            setupPasswordToggles();
             updateStep();
             updateNavigationButtons();
             updateStepIndicators();
             updateProgress();
         });
 
-        // Create animated background particles
         function createParticles() {
             const particles = document.getElementById('particles');
             for (let i = 0; i < 20; i++) {
@@ -1133,15 +870,31 @@
             }
         }
 
-        // Step navigation functions
+        function setupPasswordToggles() {
+            const togglePassword = document.getElementById('togglePassword');
+            const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+            const password = document.getElementById('password');
+            const confirmPassword = document.getElementById('confirmPassword');
+
+            togglePassword.addEventListener('click', function () {
+                const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+                password.setAttribute('type', type);
+                this.classList.toggle('fa-eye');
+                this.classList.toggle('fa-eye-slash');
+            });
+
+            toggleConfirmPassword.addEventListener('click', function () {
+                const type = confirmPassword.getAttribute('type') === 'password' ? 'text' : 'password';
+                confirmPassword.setAttribute('type', type);
+                this.classList.toggle('fa-eye');
+                this.classList.toggle('fa-eye-slash');
+            });
+        }
+
         function nextStep() {
             if (validateCurrentStep()) {
                 if (currentStep < totalSteps) {
-                    let next = currentStep + 1;
-                    if (next === 5 && accommodationNeeded === 'no') {
-                        next = 6; // Skip accommodation if not needed
-                    }
-                    currentStep = next;
+                    currentStep++;
                     updateStep();
                 } else {
                     submitForm();
@@ -1151,32 +904,21 @@
 
         function previousStep() {
             if (currentStep > 1) {
-                let prev = currentStep - 1;
-                if (prev === 5 && accommodationNeeded === 'no') {
-                    prev = 4; // Skip back over accommodation
-                }
-                currentStep = prev;
+                currentStep--;
                 updateStep();
             }
         }
 
         function updateStep() {
-            // Update form sections
             document.querySelectorAll('.form-section').forEach(section => {
                 section.classList.remove('active');
             });
             setTimeout(() => {
                 document.querySelector(`[data-section="${currentStep}"]`).classList.add('active');
             }, 300);
-
-            // Update navigation buttons
             updateNavigationButtons();
-
-            // Update step indicators and progress
             updateStepIndicators();
             updateProgress();
-
-            // If on confirmation, update summary
             if (currentStep === totalSteps) {
                 updateConfirmationSummary();
             }
@@ -1203,67 +945,19 @@
         function updateNavigationButtons() {
             const prevBtn = document.getElementById('prevBtn');
             const nextBtn = document.getElementById('nextBtn');
-
             if (currentStep === 1) {
-                prevBtn.style.display = 'none'; // Hide Previous button on first page
-                nextBtn.style.display = 'flex'; // Show Next button
+                prevBtn.style.display = 'none';
+                nextBtn.style.display = 'flex';
             } else if (currentStep === totalSteps) {
-                prevBtn.style.display = 'flex'; // Show Previous button
+                prevBtn.style.display = 'flex';
                 nextBtn.innerHTML = '<i class="fas fa-check"></i> Submit Registration';
             } else {
-                prevBtn.style.display = 'flex'; // Show both buttons on other pages
+                prevBtn.style.display = 'flex';
                 nextBtn.style.display = 'flex';
                 nextBtn.innerHTML = 'Next <i class="fas fa-arrow-right"></i>';
             }
         }
 
-        // Generate course dropdowns based on selected number
-        function generateCourseInputs() {
-            const courseCount = document.getElementById('courseCount').value;
-            const courseContainer = document.getElementById('courseInputs');
-            courseContainer.innerHTML = '';
-
-            if (courseCount) {
-                for (let i = 1; i <= courseCount; i++) {
-                    const formGroup = document.createElement('div');
-                    formGroup.className = 'form-group floating-label';
-
-                    const select = document.createElement('select');
-                    select.className = 'form-control course-select';
-                    select.id = `course${i}`;
-                    select.required = true;
-
-                    const label = document.createElement('label');
-                    label.setAttribute('for', `course${i}`);
-                    label.textContent = `Course ${i}`;
-
-                    // Add default option
-                    const defaultOption = document.createElement('option');
-                    defaultOption.value = '';
-                    defaultOption.text = `Select Course ${i}`;
-                    select.appendChild(defaultOption);
-
-                    // Populate with available courses
-                    availableCourses.forEach(course => {
-                        const option = document.createElement('option');
-                        option.value = course;
-                        option.text = course;
-                        select.appendChild(option);
-                    });
-
-                    formGroup.appendChild(select);
-                    formGroup.appendChild(label);
-                    courseContainer.appendChild(formGroup);
-                }
-            }
-        }
-
-        // Toggle accommodation step
-        function toggleAccommodationStep() {
-            accommodationNeeded = document.getElementById('accommodationNeed')?.value || 'no';
-        }
-
-        // Checkbox animations
         document.querySelectorAll('.checkbox-item').forEach(item => {
             item.addEventListener('click', function () {
                 const checkbox = this.querySelector('input[type="checkbox"]');
@@ -1276,7 +970,6 @@
             });
         });
 
-        // Form validation
         function updateFormValidation() {
             document.querySelectorAll('.form-control').forEach(field => {
                 field.addEventListener('blur', function () {
@@ -1291,7 +984,6 @@
                         }
                     }
                 });
-
                 field.addEventListener('input', function () {
                     if (this.classList.contains('invalid')) {
                         this.classList.remove('invalid');
@@ -1299,39 +991,62 @@
                 });
             });
 
-            // Email validation
             document.getElementById('email').addEventListener('blur', function () {
                 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 if (this.value && !emailPattern.test(this.value)) {
                     this.classList.add('invalid');
                     this.classList.remove('valid');
+                    alert('Please enter a valid email address');
                 } else if (this.value) {
                     this.classList.remove('invalid');
                     this.classList.add('valid');
                 }
             });
 
-            // Phone validation
             ['phone', 'emergencyPhone'].forEach(id => {
                 document.getElementById(id).addEventListener('blur', function () {
                     const phonePattern = /^[+]?[\d\s\-\(\)]{10,}$/;
                     if (this.value && !phonePattern.test(this.value)) {
                         this.classList.add('invalid');
                         this.classList.remove('valid');
+                        alert('Please enter a valid phone number');
                     } else if (this.value) {
                         this.classList.remove('invalid');
                         this.classList.add('valid');
                     }
                 });
             });
+
+            document.getElementById('password').addEventListener('blur', function () {
+                const password = this.value;
+                const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+                if (password && !passwordPattern.test(password)) {
+                    this.classList.add('invalid');
+                    this.classList.remove('valid');
+                    alert('Password must be at least 8 characters long and contain at least one letter and one number');
+                } else if (password) {
+                    this.classList.remove('invalid');
+                    this.classList.add('valid');
+                }
+            });
+
+            document.getElementById('confirmPassword').addEventListener('blur', function () {
+                const password = document.getElementById('password').value;
+                if (this.value && this.value !== password) {
+                    this.classList.add('invalid');
+                    this.classList.remove('valid');
+                    alert('Passwords do not match');
+                } else if (this.value) {
+                    this.classList.remove('invalid');
+                    this.classList.add('valid');
+                }
+            });
         }
 
-        // Validate current step
         function validateCurrentStep() {
             const currentSection = document.querySelector(`[data-section="${currentStep}"]`);
             let isValid = true;
 
-            // Validate required fields in all steps
             const requiredFields = currentSection.querySelectorAll('[required]');
             requiredFields.forEach(field => {
                 if (!field.value.trim()) {
@@ -1346,16 +1061,16 @@
                 }
             });
 
-            // Step-specific validation
             if (currentStep === 1) {
                 const requiredFields = [
                     { id: 'fullName', message: 'Please enter your full name' },
                     { id: 'username', message: 'Please enter a username' },
+                    { id: 'password', message: 'Please enter a password' },
+                    { id: 'confirmPassword', message: 'Please confirm your password' },
                     { id: 'birthDate', message: 'Please select your date of birth' },
                     { id: 'gender', message: 'Please select your gender' },
                     { id: 'nationality', message: 'Please enter your nationality' }
                 ];
-
                 requiredFields.forEach(field => {
                     const element = document.getElementById(field.id);
                     if (!element.value.trim()) {
@@ -1369,6 +1084,20 @@
                         element.classList.add('valid');
                     }
                 });
+
+                const password = document.getElementById('password').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+                const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+                if (password && !passwordPattern.test(password)) {
+                    alert('Password must be at least 8 characters long and contain at least one letter and one number');
+                    document.getElementById('password').classList.add('invalid');
+                    isValid = false;
+                }
+                if (password !== confirmPassword) {
+                    alert('Passwords do not match');
+                    document.getElementById('confirmPassword').classList.add('invalid');
+                    isValid = false;
+                }
             }
 
             if (currentStep === 2) {
@@ -1376,14 +1105,11 @@
                     { id: 'address', message: 'Please enter your address' },
                     { id: 'region', message: 'Please enter your region' },
                     { id: 'district', message: 'Please enter your district' },
-                    { id: 'ward', message: 'Please enter your ward' },
-                    { id: 'street', message: 'Please enter your street/village' },
                     { id: 'phone', message: 'Please enter your phone number' },
                     { id: 'email', message: 'Please enter your email address' },
                     { id: 'emergencyContact', message: 'Please enter an emergency contact name' },
                     { id: 'emergencyPhone', message: 'Please enter an emergency phone number' }
                 ];
-
                 requiredFields.forEach(field => {
                     const element = document.getElementById(field.id);
                     if (!element.value.trim()) {
@@ -1401,11 +1127,11 @@
 
             if (currentStep === 3) {
                 const requiredFields = [
-                    { id: 'educationLevel', message: 'Please select your highest education level' },
-                    { id: 'lastSchool', message: 'Please enter your last school/institution' },
-                    { id: 'graduationYear', message: 'Please enter your graduation year' }
+                    { id: 'highestQualification', message: 'Please select your highest qualification' },
+                    { id: 'institution', message: 'Please enter your school/institution' },
+                    { id: 'graduationYear', message: 'Please enter your graduation year' },
+                    { id: 'grade', message: 'Please enter your grade/GPA' }
                 ];
-
                 requiredFields.forEach(field => {
                     const element = document.getElementById(field.id);
                     if (!element.value.trim()) {
@@ -1423,14 +1149,10 @@
 
             if (currentStep === 4) {
                 const requiredFields = [
-                    { id: 'programType', message: 'Please select a program type' },
-                    { id: 'programMonths', message: 'Please enter the number of months' },
-                    { id: 'studyMode', message: 'Please select a study mode' },
-                    { id: 'startDate', message: 'Please select a start date' },
-                    { id: 'accommodationNeed', message: 'Please specify if accommodation is needed' },
-                    { id: 'courseCount', message: 'Please select the number of courses' }
+                    { id: 'program', message: 'Please select your program' },
+                    { id: 'studyMode', message: 'Please select your study mode' },
+                    { id: 'intakeYear', message: 'Please enter your intake year' }
                 ];
-
                 requiredFields.forEach(field => {
                     const element = document.getElementById(field.id);
                     if (!element.value.trim()) {
@@ -1444,53 +1166,9 @@
                         element.classList.add('valid');
                     }
                 });
-
-                const courseCount = document.getElementById('courseCount').value;
-                if (courseCount) {
-                    const selectedCourses = [];
-                    for (let i = 1; i <= courseCount; i++) {
-                        const course = document.getElementById(`course${i}`);
-                        if (!course.value) {
-                            alert(`Please select Course ${i} Name`);
-                            course.classList.add('invalid');
-                            isValid = false;
-                            setTimeout(() => {
-                                course.classList.remove('invalid');
-                            }, 600);
-                        } else if (selectedCourses.includes(course.value)) {
-                            alert(`Duplicate course detected: ${course.value}. Please select unique courses.`);
-                            course.classList.add('invalid');
-                            isValid = false;
-                            setTimeout(() => {
-                                course.classList.remove('invalid');
-                            }, 600);
-                        } else {
-                            selectedCourses.push(course.value);
-                            course.classList.add('valid');
-                        }
-                    }
-                }
             }
 
-            if (currentStep === 5 && accommodationNeeded === 'yes') {
-                const assignedHostel = document.getElementById('assignedHostel');
-                const assignedRoom = document.getElementById('assignedRoom');
-                if (!assignedHostel.value.trim() || !assignedRoom.value.trim()) {
-                    alert('Please enter both Hostel and Room Number');
-                    if (!assignedHostel.value.trim()) assignedHostel.classList.add('invalid');
-                    if (!assignedRoom.value.trim()) assignedRoom.classList.add('invalid');
-                    isValid = false;
-                    setTimeout(() => {
-                        assignedHostel.classList.remove('invalid');
-                        assignedRoom.classList.remove('invalid');
-                    }, 600);
-                } else {
-                    assignedHostel.classList.add('valid');
-                    assignedRoom.classList.add('valid');
-                }
-            }
-
-            if (currentStep === 6) {
+            if (currentStep === 5) {
                 const termsAccepted = document.getElementById('termsAccepted');
                 if (!termsAccepted.checked) {
                     alert('Please accept the terms and conditions');
@@ -1501,59 +1179,31 @@
             return isValid;
         }
 
-        // Format date for display
         function formatDate(dateString) {
             if (!dateString) return 'Not provided';
             const date = new Date(dateString);
             return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
         }
 
-        // Format select option text
         function getSelectText(selectElement) {
             if (!selectElement || !selectElement.value) return 'Not provided';
             return selectElement.options[selectElement.selectedIndex]?.text || 'Not provided';
         }
 
-        // Form submission
         function submitForm() {
-            // Hide navigation
             document.getElementById('navigationButtons').style.display = 'none';
-
-            // Hide form section
             document.querySelector(`[data-section="${currentStep}"]`).style.display = 'none';
-
-            // Show success
             const successScreen = document.getElementById('successScreen');
             successScreen.style.display = 'block';
-
-            // Generate student ID
             const currentYear = new Date().getFullYear();
             const randomNum = Math.floor(Math.random() * 999) + 1;
-            const studentId = `TLC/STD/${currentYear}/${randomNum.toString().padStart(3, '0')}`;
+            const studentId = `TLC/STU/${currentYear}/${randomNum.toString().padStart(3, '0')}`;
             document.getElementById('generatedId').textContent = studentId;
-
-            // Manually assigned accommodation
-            if (accommodationNeeded === 'yes') {
-                const assignedHostel = document.getElementById('assignedHostel').value;
-                const assignedRoom = document.getElementById('assignedRoom').value;
-                const accType = 'Dormitory';
-
-                document.getElementById('success-hostel').textContent = assignedHostel || 'Not assigned';
-                document.getElementById('success-room').textContent = assignedRoom || 'Not assigned';
-                document.getElementById('success-accommodation').textContent = accType;
-            } else {
-                document.getElementById('success-hostel').textContent = 'Not required';
-                document.getElementById('success-room').textContent = 'Not required';
-                document.getElementById('success-accommodation').textContent = 'Not required';
-            }
-
-            // Confetti effect
             setTimeout(() => {
                 createCelebrationEffect();
             }, 500);
         }
 
-        // Create celebration effect
         function createCelebrationEffect() {
             for (let i = 0; i < 50; i++) {
                 const confetti = document.createElement('div');
@@ -1566,9 +1216,7 @@
                 confetti.style.pointerEvents = 'none';
                 confetti.style.zIndex = '9999';
                 confetti.style.borderRadius = '50%';
-
                 document.body.appendChild(confetti);
-
                 confetti.animate([
                     { transform: 'translateY(-10px) rotate(0deg)', opacity: 1 },
                     { transform: `translateY(${window.innerHeight + 10}px) rotate(720deg)`, opacity: 0 }
@@ -1579,7 +1227,6 @@
             }
         }
 
-        // Update confirmation summary
         function updateConfirmationSummary() {
             const personalData = {
                 'Full Name': document.getElementById('fullName')?.value || 'Not provided',
@@ -1594,8 +1241,6 @@
                 'Address': document.getElementById('address')?.value || 'Not provided',
                 'Region': document.getElementById('region')?.value || 'Not provided',
                 'District': document.getElementById('district')?.value || 'Not provided',
-                'Ward': document.getElementById('ward')?.value || 'Not provided',
-                'Street/Village': document.getElementById('street')?.value || 'Not provided',
                 'Phone': document.getElementById('phone')?.value || 'Not provided',
                 'Email': document.getElementById('email')?.value || 'Not provided',
                 'Emergency Contact': document.getElementById('emergencyContact')?.value || 'Not provided',
@@ -1603,45 +1248,24 @@
             };
 
             const academicData = {
-                'Education Level': getSelectText(document.getElementById('educationLevel')),
-                'Last School': document.getElementById('lastSchool')?.value || 'Not provided',
+                'Highest Qualification': getSelectText(document.getElementById('highestQualification')),
+                'School/Institution': document.getElementById('institution')?.value || 'Not provided',
                 'Graduation Year': document.getElementById('graduationYear')?.value || 'Not provided',
-                'Previous Field': document.getElementById('previousField')?.value || 'Not provided'
+                'Grade/GPA': document.getElementById('grade')?.value || 'Not provided'
             };
 
-            const courseData = {
-                'Program Type': getSelectText(document.getElementById('programType')),
-                'Duration': document.getElementById('programMonths')?.value ? document.getElementById('programMonths').value + ' months' : 'Not provided',
+            const programData = {
+                'Program': getSelectText(document.getElementById('program')),
                 'Study Mode': getSelectText(document.getElementById('studyMode')),
-                'Start Date': formatDate(document.getElementById('startDate')?.value)
-            };
-
-            const courseCount = document.getElementById('courseCount')?.value || 0;
-            if (courseCount) {
-                for (let i = 1; i <= courseCount; i++) {
-                    courseData[`Course ${i}`] = document.getElementById(`course${i}`)?.value || 'Not specified';
-                }
-            }
-
-            const accommodationData = accommodationNeeded === 'yes' ? {
-                'Hostel': document.getElementById('assignedHostel')?.value || 'Not assigned',
-                'Room Number': document.getElementById('assignedRoom')?.value || 'Not assigned',
-                'Type': 'Dormitory'
-            } : {
-                'Accommodation': 'Not required'
+                'Intake Year': document.getElementById('intakeYear')?.value || 'Not provided'
             };
 
             updateSummaryCard('personalSummary', personalData);
             updateSummaryCard('contactSummary', contactData);
             updateSummaryCard('academicSummary', academicData);
-            updateSummaryCard('courseSummary', courseData);
-            updateSummaryCard('accommodationSummary', accommodationData);
-
-            const accCard = document.getElementById('accommodationSummaryCard');
-            accCard.style.display = 'block'; // Always show accommodation card to indicate choice
+            updateSummaryCard('programSummary', programData);
         }
 
-        // Update summary card content
         function updateSummaryCard(elementId, data) {
             const element = document.getElementById(elementId);
             let html = '';
@@ -1654,5 +1278,4 @@
         }
     </script>
 </body>
-
 </html>

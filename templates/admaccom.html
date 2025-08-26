@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment Management | TLCS</title>
+    <title>Accommodation Management | TLCS</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Delius&display=swap" rel="stylesheet">
     <style>
@@ -351,7 +351,7 @@
             background-color: #dcdcdc;
         }
 
-        /* Payment Overview Cards */
+        /* Overview Cards */
         .overview-cards {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -421,8 +421,8 @@
             display: block;
         }
 
-        /* Payment Table */
-        .payment-table-container {
+        /* Table */
+        .table-container {
             background-color: white;
             border-radius: 10px;
             padding: 20px;
@@ -431,25 +431,25 @@
             margin-bottom: 30px;
         }
 
-        .payment-table {
+        .data-table {
             width: 100%;
             border-collapse: collapse;
         }
 
-        .payment-table th,
-        .payment-table td {
+        .data-table th,
+        .data-table td {
             padding: 12px 15px;
             text-align: left;
             border-bottom: 1px solid var(--light-gray);
         }
 
-        .payment-table th {
+        .data-table th {
             background-color: #f8f9fa;
             font-weight: 600;
             color: var(--dark);
         }
 
-        .payment-table tr:hover {
+        .data-table tr:hover {
             background-color: rgba(255, 174, 0, 0.05);
         }
 
@@ -476,11 +476,6 @@
 
         .btn-delete {
             background-color: var(--danger);
-            color: white;
-        }
-
-        .btn-approve {
-            background-color: var(--success);
             color: white;
         }
 
@@ -525,115 +520,38 @@
             border-radius: 5px;
         }
 
-        .progress-paid {
+        .progress-occupied {
+            background-color: var(--primary);
+        }
+
+        .progress-available {
             background-color: var(--success);
         }
 
-        .progress-pending {
-            background-color: var(--warning);
-        }
-
-        /* Invoice cards */
-        .invoice-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-        }
-
-        .invoice-card {
+        /* Form for adding new hostel/room */
+        .add-form {
             background-color: white;
             border-radius: 10px;
             padding: 20px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
         }
 
-        .invoice-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--light-gray);
-        }
-
-        .invoice-id {
-            font-weight: bold;
-            color: var(--dark);
-        }
-
-        .invoice-date {
-            color: var(--gray);
-            font-size: 0.9rem;
-        }
-
-        .invoice-details {
+        .form-group {
             margin-bottom: 15px;
         }
 
-        .invoice-detail {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-        }
-
-        .detail-label {
-            color: var(--gray);
-        }
-
-        .detail-value {
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
             font-weight: 500;
         }
 
-        .invoice-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        /* Payment timeline */
-        .payment-timeline {
-            margin-top: 20px;
-            padding-left: 20px;
-            position: relative;
-        }
-
-        .payment-timeline::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 2px;
-            background-color: var(--light-gray);
-        }
-
-        .timeline-item {
-            position: relative;
-            margin-bottom: 15px;
-        }
-
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -23px;
-            top: 5px;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background-color: var(--primary);
-        }
-
-        .timeline-date {
-            font-size: 0.8rem;
-            color: var(--gray);
-        }
-
-        .timeline-content {
-            background-color: var(--light);
+        .form-control {
+            width: 100%;
             padding: 10px;
+            border: 1px solid var(--light-gray);
             border-radius: 5px;
-            margin-top: 5px;
         }
 
         /* Pagination */
@@ -770,40 +688,40 @@
                     <div class="logo-title">TLC</div>
                 </div>
             </div>
-            <div class="sidebar-menu" onclick="location.href='{{ url_for('admin_dashboard') }}';">
+            <div class="sidebar-menu">
                 <div class="menu-item">
                     <i class="fas fa-home"></i>
                     <span class="menu-text">Dashboard</span>
                 </div>
-                <div class="menu-item" onclick="location.href='{{ url_for('admin_students') }}';">
+                <div class="menu-item">
                     <i class="fas fa-user-graduate"></i>
                     <span class="menu-text">Students</span>
                 </div>
-                <div class="menu-item" onclick="location.href='{{ url_for('admin_lecturers') }}';">
+                <div class="menu-item">
                     <i class="fas fa-chalkboard-teacher"></i>
                     <span class="menu-text">Lecturers</span>
                 </div>
-                <div class="menu-item" onclick="location.href='{{ url_for('admin_courses') }}';">
+                <div class="menu-item">
                     <i class="fas fa-book"></i>
                     <span class="menu-text">Courses</span>
                 </div>
-                <div class="menu-item" onclick="location.href='{{ url_for('admin_assessments') }}';">
+                <div class="menu-item">
                     <i class="fas fa-clipboard-list"></i>
                     <span class="menu-text">Assessments</span>
                 </div>
-                <div class="menu-item active" onclick="location.href='{{ url_for('admin_payments') }}';">
+                <div class="menu-item">
                     <i class="fas fa-money-bill-wave"></i>
                     <span class="menu-text">Payments</span>
                 </div>
-                <div class="menu-item" onclick="location.href='{{ url_for('admin_accommodations') }}';">
+                <div class="menu-item active">
                     <i class="fas fa-bed"></i>
                     <span class="menu-text">Accommodations</span>
                 </div>
-                <div class="menu-item" onclick="location.href='{{ url_for('admin_settings') }}';">
+                <div class="menu-item">
                     <i class="fas fa-cog"></i>
                     <span class="menu-text">Settings</span>
                 </div>
-                <div class="menu-item" onclick="location.href='{{ url_for('logout') }}';">
+                <div class="menu-item">
                     <i class="fas fa-sign-out-alt"></i>
                     <span class="menu-text">Logout</span>
                 </div>
@@ -830,42 +748,78 @@
 
             <div class="content">
                 <div class="dashboard-title">
-                    <h1>Payment Management</h1>
-                    <button class="btn btn-primary">
-                        <i class="fas fa-plus"></i> Create New Invoice
+                    <h1>Accommodation Management</h1>
+                    <button class="btn btn-primary" id="add-hostel-btn">
+                        <i class="fas fa-plus"></i> Add New Hostel
                     </button>
+                </div>
+
+                <!-- Add New Hostel/Room Form -->
+                <div class="add-form" id="add-form" style="display: none;">
+                    <h3>Add New Hostel/Room</h3>
+                    <div class="filter-grid">
+                        <div class="form-group">
+                            <label for="hostel-name">Hostel Name</label>
+                            <input type="text" class="form-control" id="hostel-name" placeholder="Enter hostel name">
+                        </div>
+                        <div class="form-group">
+                            <label for="hostel-capacity">Hostel Capacity</label>
+                            <input type="number" class="form-control" id="hostel-capacity" placeholder="Enter capacity">
+                        </div>
+                        <div class="form-group">
+                            <label for="room-number">Room Number</label>
+                            <input type="text" class="form-control" id="room-number" placeholder="Enter room number">
+                        </div>
+                        <div class="form-group">
+                            <label for="room-capacity">Room Capacity</label>
+                            <input type="number" class="form-control" id="room-capacity"
+                                placeholder="Enter room capacity">
+                        </div>
+                    </div>
+                    <div class="filter-actions">
+                        <button class="btn btn-secondary" id="cancel-add">Cancel</button>
+                        <button class="btn btn-primary">Save</button>
+                    </div>
                 </div>
 
                 <!-- Overview Cards -->
                 <div class="overview-cards">
                     <div class="overview-card">
-                        <div class="card-title">Total Revenue</div>
-                        <div class="card-value">TZS 12,450,000</div>
-                        <div class="card-subtitle">This semester</div>
+                        <div class="card-title">Total Hostels</div>
+                        <div class="card-value">5</div>
+                        <div class="card-subtitle">Available</div>
                         <div class="card-icon">
-                            <i class="fas fa-money-bill-wave"></i>
+                            <i class="fas fa-building"></i>
                         </div>
                     </div>
                     <div class="overview-card">
-                        <div class="card-title">Pending Payments</div>
-                        <div class="card-value">TZS 3,280,500</div>
-                        <div class="card-subtitle">Awaiting clearance</div>
+                        <div class="card-title">Total Rooms</div>
+                        <div class="card-value">150</div>
+                        <div class="card-subtitle">Across all hostels</div>
                         <div class="card-icon">
-                            <i class="fas fa-clock"></i>
+                            <i class="fas fa-door-open"></i>
                         </div>
                     </div>
                     <div class="overview-card">
-                        <div class="card-title">Overdue Invoices</div>
-                        <div class="card-value">24</div>
-                        <div class="card-subtitle">Require follow-up</div>
+                        <div class="card-title">Occupied Rooms</div>
+                        <div class="card-value">120</div>
+                        <div class="card-subtitle">Currently allocated</div>
                         <div class="card-icon">
-                            <i class="fas fa-exclamation-circle"></i>
+                            <i class="fas fa-bed"></i>
                         </div>
                     </div>
                     <div class="overview-card">
-                        <div class="card-title">Collection Rate</div>
-                        <div class="card-value">79.2%</div>
-                        <div class="card-subtitle">Of expected revenue</div>
+                        <div class="card-title">Available Rooms</div>
+                        <div class="card-value">30</div>
+                        <div class="card-subtitle">Ready for allocation</div>
+                        <div class="card-icon">
+                            <i class="fas fa-key"></i>
+                        </div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="card-title">Occupancy Rate</div>
+                        <div class="card-value">80%</div>
+                        <div class="card-subtitle">Overall</div>
                         <div class="card-icon">
                             <i class="fas fa-chart-line"></i>
                         </div>
@@ -874,26 +828,26 @@
 
                 <!-- Filter Section -->
                 <div class="filter-section">
-                    <h3>Filter Payments</h3>
+                    <h3>Filter Accommodations</h3>
                     <div class="filter-grid">
                         <div class="filter-group">
-                            <label for="type-filter">Payment Type</label>
-                            <select class="filter-control" id="type-filter">
-                                <option value="">All Types</option>
-                                <option value="tuition">Tuition Fees</option>
-                                <option value="hostel">Hostel Fees</option>
-                                <option value="library">Library Fines</option>
-                                <option value="other">Other Payments</option>
+                            <label for="hostel-filter">Hostel</label>
+                            <select class="filter-control" id="hostel-filter">
+                                <option value="">All Hostels</option>
+                                <option value="1">Hostel A</option>
+                                <option value="2">Hostel B</option>
+                                <option value="3">Hostel C</option>
+                                <option value="4">Hostel D</option>
+                                <option value="5">Hostel E</option>
                             </select>
                         </div>
                         <div class="filter-group">
-                            <label for="status-filter">Payment Status</label>
+                            <label for="status-filter">Status</label>
                             <select class="filter-control" id="status-filter">
                                 <option value="">All Statuses</option>
-                                <option value="paid">Fully Paid</option>
-                                <option value="partial">Partially Paid</option>
-                                <option value="pending">Pending</option>
-                                <option value="overdue">Overdue</option>
+                                <option value="occupied">Occupied</option>
+                                <option value="available">Available</option>
+                                <option value="maintenance">Under Maintenance</option>
                             </select>
                         </div>
                         <div class="filter-group">
@@ -917,7 +871,8 @@
                         </div>
                         <div class="filter-group">
                             <label for="search">Search</label>
-                            <input type="text" class="filter-control" id="search" placeholder="Search invoices...">
+                            <input type="text" class="filter-control" id="search"
+                                placeholder="Search accommodations...">
                         </div>
                     </div>
                     <div class="filter-actions">
@@ -928,139 +883,66 @@
 
                 <!-- Tabs -->
                 <div class="tabs">
-                    <div class="tab active" data-tab="invoices">Invoices</div>
-                    <div class="tab" data-tab="payments">Payment Records</div>
-                    <div class="tab" data-tab="reports">Financial Reports</div>
+                    <div class="tab active" data-tab="hostels">Hostels</div>
+                    <div class="tab" data-tab="rooms">Rooms</div>
+                    <div class="tab" data-tab="allocations">Allocations</div>
                 </div>
 
-                <!-- Invoices Tab -->
-                <div class="tab-content active" id="invoices-tab">
-                    <div class="payment-table-container">
-                        <table class="payment-table">
+                <!-- Hostels Tab -->
+                <div class="tab-content active" id="hostels-tab">
+                    <div class="table-container">
+                        <table class="data-table">
                             <thead>
                                 <tr>
-                                    <th>Invoice ID</th>
-                                    <th>Student</th>
-                                    <th>Payment Type</th>
-                                    <th>Amount</th>
-                                    <th>Issued Date</th>
-                                    <th>Due Date</th>
-                                    <th>Paid Amount</th>
-                                    <th>Status</th>
+                                    <th>Hostel ID</th>
+                                    <th>Hostel Name</th>
+                                    <th>Capacity</th>
+                                    <th>Occupied</th>
+                                    <th>Available</th>
+                                    <th>Occupancy Rate</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>INV2023001</td>
-                                    <td>Juma Mohamed</td>
-                                    <td>Tuition Fees</td>
-                                    <td>TZS 850,000</td>
-                                    <td>01 Jun 2023</td>
-                                    <td>30 Jun 2023</td>
+                                    <td>1</td>
+                                    <td>Hostel A</td>
+                                    <td>100</td>
+                                    <td>80</td>
+                                    <td>20</td>
                                     <td>
-                                        <div class="performance-value">TZS 850,000</div>
                                         <div class="progress-container">
-                                            <div class="progress-bar progress-paid" style="width: 100%"></div>
+                                            <div class="progress-bar progress-occupied" style="width: 80%"></div>
                                         </div>
                                     </td>
-                                    <td><span class="badge badge-success">Paid</span></td>
                                     <td>
                                         <div class="action-buttons">
                                             <button class="btn btn-sm btn-view"><i class="fas fa-eye"></i></button>
                                             <button class="btn btn-sm btn-edit"><i class="fas fa-edit"></i></button>
-                                            <button class="btn btn-sm btn-approve"><i class="fas fa-check"></i></button>
+                                            <button class="btn btn-sm btn-delete"><i class="fas fa-trash"></i></button>
                                         </div>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>INV2023002</td>
-                                    <td>Neema Charles</td>
-                                    <td>Hostel Fees</td>
-                                    <td>TZS 450,000</td>
-                                    <td>05 Jun 2023</td>
-                                    <td>25 Jun 2023</td>
+                                    <td>2</td>
+                                    <td>Hostel B</td>
+                                    <td>80</td>
+                                    <td>70</td>
+                                    <td>10</td>
                                     <td>
-                                        <div class="performance-value">TZS 225,000</div>
                                         <div class="progress-container">
-                                            <div class="progress-bar progress-paid" style="width: 50%"></div>
+                                            <div class="progress-bar progress-occupied" style="width: 87.5%"></div>
                                         </div>
                                     </td>
-                                    <td><span class="badge badge-warning">Partial</span></td>
                                     <td>
                                         <div class="action-buttons">
                                             <button class="btn btn-sm btn-view"><i class="fas fa-eye"></i></button>
                                             <button class="btn btn-sm btn-edit"><i class="fas fa-edit"></i></button>
-                                            <button class="btn btn-sm btn-approve"><i class="fas fa-check"></i></button>
+                                            <button class="btn btn-sm btn-delete"><i class="fas fa-trash"></i></button>
                                         </div>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>INV2023003</td>
-                                    <td>Rajab Abasi</td>
-                                    <td>Tuition Fees</td>
-                                    <td>TZS 750,000</td>
-                                    <td>01 Jun 2023</td>
-                                    <td>30 Jun 2023</td>
-                                    <td>
-                                        <div class="performance-value">TZS 0</div>
-                                        <div class="progress-container">
-                                            <div class="progress-bar progress-pending" style="width: 0%"></div>
-                                        </div>
-                                    </td>
-                                    <td><span class="badge badge-danger">Overdue</span></td>
-                                    <td>
-                                        <div class="action-buttons">
-                                            <button class="btn btn-sm btn-view"><i class="fas fa-eye"></i></button>
-                                            <button class="btn btn-sm btn-edit"><i class="fas fa-edit"></i></button>
-                                            <button class="btn btn-sm btn-approve"><i class="fas fa-check"></i></button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>INV2023004</td>
-                                    <td>Fatuma Hassan</td>
-                                    <td>Library Fine</td>
-                                    <td>TZS 25,000</td>
-                                    <td>10 Jun 2023</td>
-                                    <td>20 Jun 2023</td>
-                                    <td>
-                                        <div class="performance-value">TZS 25,000</div>
-                                        <div class="progress-container">
-                                            <div class="progress-bar progress-paid" style="width: 100%"></div>
-                                        </div>
-                                    </td>
-                                    <td><span class="badge badge-success">Paid</span></td>
-                                    <td>
-                                        <div class="action-buttons">
-                                            <button class="btn btn-sm btn-view"><i class="fas fa-eye"></i></button>
-                                            <button class="btn btn-sm btn-edit"><i class="fas fa-edit"></i></button>
-                                            <button class="btn btn-sm btn-approve"><i class="fas fa-check"></i></button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>INV2023005</td>
-                                    <td>Michael Johnson</td>
-                                    <td>Tuition Fees</td>
-                                    <td>TZS 900,000</td>
-                                    <td>03 Jun 2023</td>
-                                    <td>03 Jul 2023</td>
-                                    <td>
-                                        <div class="performance-value">TZS 450,000</div>
-                                        <div class="progress-container">
-                                            <div class="progress-bar progress-paid" style="width: 50%"></div>
-                                        </div>
-                                    </td>
-                                    <td><span class="badge badge-info">Installment</span></td>
-                                    <td>
-                                        <div class="action-buttons">
-                                            <button class="btn btn-sm btn-view"><i class="fas fa-eye"></i></button>
-                                            <button class="btn btn-sm btn-edit"><i class="fas fa-edit"></i></button>
-                                            <button class="btn btn-sm btn-approve"><i class="fas fa-check"></i></button>
-                                        </div>
-                                    </td>
-                                </tr>
+                                <!-- More rows as needed -->
                             </tbody>
                         </table>
 
@@ -1075,271 +957,125 @@
                     </div>
                 </div>
 
-                <!-- Payments Tab -->
-                <div class="tab-content" id="payments-tab">
-                    <div class="filter-section">
-                        <h3>Filter Payment Records</h3>
-                        <div class="filter-grid">
-                            <div class="filter-group">
-                                <label for="payment-date-filter">Payment Date</label>
-                                <select class="filter-control" id="payment-date-filter">
-                                    <option value="">All Dates</option>
-                                    <option value="week">This Week</option>
-                                    <option value="month">This Month</option>
-                                    <option value="semester">This Semester</option>
-                                </select>
-                            </div>
-                            <div class="filter-group">
-                                <label for="approval-filter">Approval Status</label>
-                                <select class="filter-control" id="approval-filter">
-                                    <option value="">All Statuses</option>
-                                    <option value="approved">Approved</option>
-                                    <option value="pending">Pending Approval</option>
-                                </select>
-                            </div>
-                            <div class="filter-group">
-                                <label for="payment-search">Search Payments</label>
-                                <input type="text" class="filter-control" id="payment-search"
-                                    placeholder="Search by invoice or student">
-                            </div>
-                        </div>
-                        <div class="filter-actions">
-                            <button class="btn btn-secondary">Reset Filters</button>
-                            <button class="btn btn-primary">Apply Filters</button>
-                        </div>
-                    </div>
-
-                    <div class="invoice-cards">
-                        <div class="invoice-card">
-                            <div class="invoice-header">
-                                <div class="invoice-id">PAY2023001</div>
-                                <div class="invoice-date">15 Jun 2023</div>
-                            </div>
-                            <div class="invoice-details">
-                                <div class="invoice-detail">
-                                    <span class="detail-label">Student:</span>
-                                    <span class="detail-value">Juma Mohamed</span>
-                                </div>
-                                <div class="invoice-detail">
-                                    <span class="detail-label">Invoice:</span>
-                                    <span class="detail-value">INV2023001</span>
-                                </div>
-                                <div class="invoice-detail">
-                                    <span class="detail-label">Amount Paid:</span>
-                                    <span class="detail-value">TZS 850,000</span>
-                                </div>
-                                <div class="invoice-detail">
-                                    <span class="detail-label">Payment Method:</span>
-                                    <span class="detail-value">Bank Transfer</span>
-                                </div>
-                                <div class="invoice-detail">
-                                    <span class="detail-label">Approved By:</span>
-                                    <span class="detail-value">Admin User</span>
-                                </div>
-                            </div>
-                            <div class="invoice-actions">
-                                <button class="btn btn-sm btn-view">View Details</button>
-                                <button class="btn btn-sm btn-edit">Print Receipt</button>
-                            </div>
-                        </div>
-
-                        <div class="invoice-card">
-                            <div class="invoice-header">
-                                <div class="invoice-id">PAY2023002</div>
-                                <div class="invoice-date">18 Jun 2023</div>
-                            </div>
-                            <div class="invoice-details">
-                                <div class="invoice-detail">
-                                    <span class="detail-label">Student:</span>
-                                    <span class="detail-value">Neema Charles</span>
-                                </div>
-                                <div class="invoice-detail">
-                                    <span class="detail-label">Invoice:</span>
-                                    <span class="detail-value">INV2023002</span>
-                                </div>
-                                <div class="invoice-detail">
-                                    <span class="detail-label">Amount Paid:</span>
-                                    <span class="detail-value">TZS 225,000</span>
-                                </div>
-                                <div class="invoice-detail">
-                                    <span class="detail-label">Payment Method:</span>
-                                    <span class="detail-value">Mobile Money</span>
-                                </div>
-                                <div class="invoice-detail">
-                                    <span class="detail-label">Approved By:</span>
-                                    <span class="detail-value">Pending</span>
-                                </div>
-                            </div>
-                            <div class="invoice-actions">
-                                <button class="btn btn-sm btn-view">View Details</button>
-                                <button class="btn btn-sm btn-approve">Approve</button>
-                            </div>
-                        </div>
-
-                        <div class="invoice-card">
-                            <div class="invoice-header">
-                                <div class="invoice-id">PAY2023003</div>
-                                <div class="invoice-date">20 Jun 2023</div>
-                            </div>
-                            <div class="invoice-details">
-                                <div class="invoice-detail">
-                                    <span class="detail-label">Student:</span>
-                                    <span class="detail-value">Fatuma Hassan</span>
-                                </div>
-                                <div class="invoice-detail">
-                                    <span class="detail-label">Invoice:</span>
-                                    <span class="detail-value">INV2023004</span>
-                                </div>
-                                <div class="invoice-detail">
-                                    <span class="detail-label">Amount Paid:</span>
-                                    <span class="detail-value">TZS 25,000</span>
-                                </div>
-                                <div class="invoice-detail">
-                                    <span class="detail-label">Payment Method:</span>
-                                    <span class="detail-value">Cash</span>
-                                </div>
-                                <div class="invoice-detail">
-                                    <span class="detail-label">Approved By:</span>
-                                    <span class="detail-value">Admin User</span>
-                                </div>
-                            </div>
-                            <div class="invoice-actions">
-                                <button class="btn btn-sm btn-view">View Details</button>
-                                <button class="btn btn-sm btn-edit">Print Receipt</button>
-                            </div>
-                        </div>
-
-                        <div class="invoice-card">
-                            <div class="invoice-header">
-                                <div class="invoice-id">PAY2023004</div>
-                                <div class="invoice-date">22 Jun 2023</div>
-                            </div>
-                            <div class="invoice-details">
-                                <div class="invoice-detail">
-                                    <span class="detail-label">Student:</span>
-                                    <span class="detail-value">Michael Johnson</span>
-                                </div>
-                                <div class="invoice-detail">
-                                    <span class="detail-label">Invoice:</span>
-                                    <span class="detail-value">INV2023005</span>
-                                </div>
-                                <div class="invoice-detail">
-                                    <span class="detail-label">Amount Paid:</span>
-                                    <span class="detail-value">TZS 450,000</span>
-                                </div>
-                                <div class="invoice-detail">
-                                    <span class="detail-label">Payment Method:</span>
-                                    <span class="detail-value">Bank Transfer</span>
-                                </div>
-                                <div class="invoice-detail">
-                                    <span class="detail-label">Approved By:</span>
-                                    <span class="detail-value">Pending</span>
-                                </div>
-                            </div>
-                            <div class="invoice-actions">
-                                <button class="btn btn-sm btn-view">View Details</button>
-                                <button class="btn btn-sm btn-approve">Approve</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Pagination -->
-                    <div class="pagination">
-                        <button class="pagination-btn"><i class="fas fa-chevron-left"></i></button>
-                        <button class="pagination-btn active">1</button>
-                        <button class="pagination-btn">2</button>
-                        <button class="pagination-btn">3</button>
-                        <button class="pagination-btn"><i class="fas fa-chevron-right"></i></button>
-                    </div>
-                </div>
-
-                <!-- Financial Reports Tab -->
-                <div class="tab-content" id="reports-tab">
-                    <div class="payment-table-container">
-                        <h3>Financial Summary</h3>
-                        <table class="payment-table">
+                <!-- Rooms Tab -->
+                <div class="tab-content" id="rooms-tab">
+                    <div class="table-container">
+                        <table class="data-table">
                             <thead>
                                 <tr>
-                                    <th>Payment Type</th>
-                                    <th>Total Invoiced</th>
-                                    <th>Total Received</th>
-                                    <th>Outstanding</th>
-                                    <th>Collection Rate</th>
-                                    <th>Trend</th>
+                                    <th>Room ID</th>
+                                    <th>Hostel</th>
+                                    <th>Room Number</th>
+                                    <th>Capacity</th>
+                                    <th>Occupied</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Tuition Fees</td>
-                                    <td>TZS 8,500,000</td>
-                                    <td>TZS 6,200,000</td>
-                                    <td>TZS 2,300,000</td>
-                                    <td>72.9%</td>
+                                    <td>1</td>
+                                    <td>Hostel A</td>
+                                    <td>A101</td>
+                                    <td>4</td>
+                                    <td>3</td>
+                                    <td><span class="badge badge-warning">Partially Occupied</span></td>
                                     <td>
-                                        <div class="progress-container">
-                                            <div class="progress-bar progress-paid" style="width: 72.9%"></div>
+                                        <div class="action-buttons">
+                                            <button class="btn btn-sm btn-view"><i class="fas fa-eye"></i></button>
+                                            <button class="btn btn-sm btn-edit"><i class="fas fa-edit"></i></button>
+                                            <button class="btn btn-sm btn-delete"><i class="fas fa-trash"></i></button>
                                         </div>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Hostel Fees</td>
-                                    <td>TZS 2,300,000</td>
-                                    <td>TZS 1,950,000</td>
-                                    <td>TZS 350,000</td>
-                                    <td>84.8%</td>
+                                    <td>2</td>
+                                    <td>Hostel A</td>
+                                    <td>A102</td>
+                                    <td>4</td>
+                                    <td>4</td>
+                                    <td><span class="badge badge-danger">Full</span></td>
                                     <td>
-                                        <div class="progress-container">
-                                            <div class="progress-bar progress-paid" style="width: 84.8%"></div>
+                                        <div class="action-buttons">
+                                            <button class="btn btn-sm btn-view"><i class="fas fa-eye"></i></button>
+                                            <button class="btn btn-sm btn-edit"><i class="fas fa-edit"></i></button>
+                                            <button class="btn btn-sm btn-delete"><i class="fas fa-trash"></i></button>
                                         </div>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>Library Fines</td>
-                                    <td>TZS 175,000</td>
-                                    <td>TZS 125,000</td>
-                                    <td>TZS 50,000</td>
-                                    <td>71.4%</td>
-                                    <td>
-                                        <div class="progress-container">
-                                            <div class="progress-bar progress-paid" style="width: 71.4%"></div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Other Payments</td>
-                                    <td>TZS 320,000</td>
-                                    <td>TZS 275,000</td>
-                                    <td>TZS 45,000</td>
-                                    <td>85.9%</td>
-                                    <td>
-                                        <div class="progress-container">
-                                            <div class="progress-bar progress-paid" style="width: 85.9%"></div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Total</strong></td>
-                                    <td><strong>TZS 11,295,000</strong></td>
-                                    <td><strong>TZS 8,550,000</strong></td>
-                                    <td><strong>TZS 2,745,000</strong></td>
-                                    <td><strong>75.7%</strong></td>
-                                    <td>
-                                        <div class="progress-container">
-                                            <div class="progress-bar progress-paid" style="width: 75.7%"></div>
-                                        </div>
-                                    </td>
-                                </tr>
+                                <!-- More rows as needed -->
                             </tbody>
                         </table>
-                    </div>
 
-                    <div class="filter-actions" style="margin-top: 20px;">
-                        <button class="btn btn-primary">
-                            <i class="fas fa-download"></i> Download Financial Report
-                        </button>
-                        <button class="btn btn-secondary">
-                            <i class="fas fa-chart-pie"></i> View Graphical Report
-                        </button>
+                        <!-- Pagination -->
+                        <div class="pagination">
+                            <button class="pagination-btn"><i class="fas fa-chevron-left"></i></button>
+                            <button class="pagination-btn active">1</button>
+                            <button class="pagination-btn">2</button>
+                            <button class="pagination-btn">3</button>
+                            <button class="pagination-btn"><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Allocations Tab -->
+                <div class="tab-content" id="allocations-tab">
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Allocation ID</th>
+                                    <th>Student</th>
+                                    <th>Room</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Juma Mohamed</td>
+                                    <td>A101</td>
+                                    <td>01 Sep 2023</td>
+                                    <td>30 Jun 2024</td>
+                                    <td><span class="badge badge-success">Active</span></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="btn btn-sm btn-view"><i class="fas fa-eye"></i></button>
+                                            <button class="btn btn-sm btn-edit"><i class="fas fa-edit"></i></button>
+                                            <button class="btn btn-sm btn-delete"><i class="fas fa-trash"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Neema Charles</td>
+                                    <td>A102</td>
+                                    <td>01 Sep 2023</td>
+                                    <td>30 Jun 2024</td>
+                                    <td><span class="badge badge-success">Active</span></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="btn btn-sm btn-view"><i class="fas fa-eye"></i></button>
+                                            <button class="btn btn-sm btn-edit"><i class="fas fa-edit"></i></button>
+                                            <button class="btn btn-sm btn-delete"><i class="fas fa-trash"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- More rows as needed -->
+                            </tbody>
+                        </table>
+
+                        <!-- Pagination -->
+                        <div class="pagination">
+                            <button class="pagination-btn"><i class="fas fa-chevron-left"></i></button>
+                            <button class="pagination-btn active">1</button>
+                            <button class="pagination-btn">2</button>
+                            <button class="pagination-btn">3</button>
+                            <button class="pagination-btn"><i class="fas fa-chevron-right"></i></button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1406,6 +1142,16 @@
                 this.classList.add('active');
                 document.getElementById(`${tabId}-tab`).classList.add('active');
             });
+        });
+
+        // Show add form
+        document.getElementById('add-hostel-btn').addEventListener('click', function () {
+            document.getElementById('add-form').style.display = 'block';
+        });
+
+        // Cancel add
+        document.getElementById('cancel-add').addEventListener('click', function () {
+            document.getElementById('add-form').style.display = 'none';
         });
 
         // Filter functionality (basic example)

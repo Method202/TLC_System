@@ -64,9 +64,9 @@ def admin_lecturers():
 def admin_courses():
     return render_template('admcourse.html')
 
-@app.route('/admin_assesscreate')
-def admin_assesscreate():
-    return render_template('admassesscre.html')
+@app.route('/admin_assessments')
+def admin_assessments():
+    return render_template('admassess.html')
 
 @app.route('/admin_payments')
 def admin_payments():
