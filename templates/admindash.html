@@ -220,11 +220,11 @@
                                     <i class="fas fa-user-plus"></i>
                                     <span>Add Lecturer</span>
                                 </button>
-                                <button class="action-btn">
+                                <button class="action-btn" onclick="location.href='{{ url_for('admin_results') }}'">
                                     <i class="fas fa-edit"></i>
                                     <span>Enter Marks</span>
                                 </button>
-                                <button class="action-btn" >
+                                <button class="action-btn" onclick="location.href='{{ url_for('admin_courses') }}'">
                                     <i class="fas fa-book"></i>
                                     <span>Register Course</span>
                                 </button>
@@ -232,9 +232,9 @@
                                     <i class="fas fa-check-circle"></i>
                                     <span>Confirm Payment</span>
                                 </button>
-                                <button class="action-btn">
+                                <button class="action-btn" onclick="location.href='{{ url_for('admin_accommodations') }}'">
                                     <i class="fas fa-bed"></i>
-                                    <span>Accomodation</span>
+                                    <span>Accommodation</span>
                                 </button>
                                 <button class="action-btn" onclick="location.href='{{ url_for('admin_students') }}';">
                                     <i class="fas fa-chart-bar"></i>

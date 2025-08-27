@@ -11,7 +11,7 @@
         :root {
             --primary: #ffae00;
             --secondary: #a87300;
-            --success: #28a745;
+            --success: #f4a261;
             --info: #17a2b8;
             --warning: #ffc107;
             --danger: #dc3545;
@@ -29,11 +29,14 @@
         }
 
         body {
-            background-color: white;
+            background: white;
             min-height: 100vh;
             padding: 20px;
             position: relative;
             overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .particles {
@@ -56,28 +59,29 @@
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(180deg); }
+
+            0%,
+            100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+            }
         }
 
         .registration-container {
             max-width: 900px;
-            margin: 0 auto;
-            background: white;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
             overflow: hidden;
-            opacity: 0;
-            animation: fadeInUp 1s forwards ease-out;
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(50px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         .header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
             padding: 30px;
             text-align: center;
@@ -92,13 +96,22 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255, 255, 255, 0.03) 2px, rgba(255, 255, 255, 0.03) 4px);
+            background: repeating-linear-gradient(0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(255, 255, 255, 0.03) 2px,
+                    rgba(255, 255, 255, 0.03) 4px);
             animation: shimmer 3s linear infinite;
         }
 
         @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(100%);
+            }
         }
 
         .header h1 {
@@ -147,32 +160,27 @@
             justify-content: center;
             font-weight: bold;
             transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            position: relative;
-            z-index: 2;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1), 0 0 20px rgba(255, 174, 0, 0.3);
         }
 
         .step-circle.active {
             background: var(--primary);
             color: white;
-            box-shadow: 0 0 15px rgba(255, 174, 0, 0.5), 0 0 30px rgba(255, 174, 0, 0.7);
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(255, 174, 0, 0.5);
         }
-
-        .step-circle.active i { color: white; }
 
         .step-circle.completed {
-            background: var(--secondary);
+            background: var(--success);
             color: white;
-            box-shadow: 0 0 15px rgba(168, 115, 0, 0.5), 0 0 30px rgba(168, 115, 0, 0.7);
+            transform: scale(1.05);
         }
-
-        .step-circle.completed i { color: white; }
 
         .step-label {
             margin-top: 10px;
             font-size: 0.9rem;
             color: var(--gray);
             font-weight: 500;
+            text-align: center;
         }
 
         .step.active .step-label {
@@ -180,7 +188,9 @@
             font-weight: 700;
         }
 
-        .step.completed .step-label { color: var(--secondary); }
+        .step.completed .step-label {
+            color: var(--success);
+        }
 
         .progress-bar {
             width: 100%;
@@ -205,16 +215,26 @@
             left: 0;
             bottom: 0;
             right: 0;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            background: linear-gradient(90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.4),
+                    transparent);
             animation: progressShine 2s infinite;
         }
 
         @keyframes progressShine {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(100%);
+            }
         }
 
-        .form-container { padding: 30px; }
+        .form-container {
+            padding: 30px;
+        }
 
         .form-section {
             display: none;
@@ -252,14 +272,22 @@
         }
 
         @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
         }
 
         .form-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            row-gap: 5px;
+            column-gap: 15px;
             margin-bottom: 30px;
         }
 
@@ -284,20 +312,18 @@
             font-size: 1rem;
             transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             background: white;
-            position: relative;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
         }
 
         .form-control:focus {
             outline: none;
             border-color: var(--primary);
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(255, 174, 0, 0.2), 0 0 10px rgba(255, 174, 0, 0.3);
+            box-shadow: 0 10px 20px rgba(255, 174, 0, 0.2);
         }
 
         .form-control.valid {
             border-color: var(--success);
-            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.2);
+            box-shadow: 0 5px 15px rgba(244, 162, 97, 0.2);
         }
 
         .form-control.invalid {
@@ -306,51 +332,19 @@
         }
 
         @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-        }
 
-        select.form-control {
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            background: white url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="%23a87300"><polygon points="0,0 12,0 6,12"/></svg>') no-repeat right 15px center;
-            background-size: 12px;
-            padding-right: 40px;
-            cursor: pointer;
-        }
+            0%,
+            100% {
+                transform: translateX(0);
+            }
 
-        select.form-control:focus {
-            border-color: var(--secondary);
-            box-shadow: 0 10px 20px rgba(168, 115, 0, 0.2), 0 0 10px rgba(168, 115, 0, 0.3);
-        }
+            25% {
+                transform: translateX(-5px);
+            }
 
-        select.form-control option {
-            background: white;
-            color: var(--dark);
-        }
-
-        select.form-control option:hover,
-        select.form-control option:checked {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-        }
-
-        input[type="date"].form-control {
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            background: white;
-        }
-
-        input[type="date"].form-control::-webkit-calendar-picker-indicator {
-            filter: invert(1) brightness(0.8);
-        }
-
-        input[type="date"].form-control:focus {
-            border-color: var(--secondary);
-            box-shadow: 0 10px 20px rgba(168, 115, 0, 0.2), 0 0 10px rgba(168, 115, 0, 0.3);
+            75% {
+                transform: translateX(5px);
+            }
         }
 
         .floating-label {
@@ -359,17 +353,18 @@
 
         .floating-label input,
         .floating-label select {
-            padding-top: 20px;
+            padding-top: 25px;
             padding-bottom: 10px;
         }
 
         .floating-label label {
             position: absolute;
-            top: 15px;
+            top: 50%;
             left: 20px;
             color: var(--gray);
             font-size: 1rem;
             pointer-events: none;
+            transform: translateY(-50%);
             transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
 
@@ -377,61 +372,106 @@
         .floating-label input:not(:placeholder-shown)+label,
         .floating-label select:focus+label,
         .floating-label select:not([value=""])+label {
-            top: 5px;
+            top: 10px;
             font-size: 0.8rem;
             color: var(--primary);
             font-weight: 700;
+            transform: translateY(0);
         }
 
-        .password-toggle {
+        .password-container {
+            position: relative;
+        }
+
+        .toggle-password {
             position: absolute;
-            right: 15px;
+            right: 20px;
             top: 50%;
             transform: translateY(-50%);
             cursor: pointer;
             color: var(--gray);
-            transition: color 0.3s ease, transform 0.3s ease;
-            font-size: 1.2rem;
+            z-index: 2;
+            transition: color 0.3s ease;
         }
 
-        .password-toggle:hover {
+        .toggle-password:hover {
             color: var(--primary);
-            transform: translateY(-50%) scale(1.1);
         }
 
-        .checkbox-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
+        .password-strength {
+            height: 6px;
+            background: var(--light-gray);
+            border-radius: 3px;
             margin-top: 10px;
+            overflow: hidden;
         }
 
-        .checkbox-item {
+        .password-strength-fill {
+            height: 100%;
+            width: 0;
+            transition: width 0.3s ease, background 0.3s ease;
+        }
+
+        .file-upload {
             position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-upload-btn {
+            border: 2px dashed var(--light-gray);
+            color: var(--gray);
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            width: 100%;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .file-upload-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .file-upload-input {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .uploaded-files {
+            margin-top: 15px;
+        }
+
+        .file-item {
             display: flex;
             align-items: center;
-            cursor: pointer;
+            justify-content: space-between;
+            background: var(--light);
             padding: 10px 15px;
-            border: 2px solid var(--light-gray);
-            border-radius: 10px;
-            transition: all 0.3s;
-            background: white;
+            border-radius: 8px;
+            margin-bottom: 10px;
         }
 
-        .checkbox-item:hover {
-            border-color: var(--primary);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 174, 0, 0.2);
-        }
-
-        .checkbox-item.selected {
-            border-color: var(--primary);
-            background: rgba(255, 174, 0, 0.1);
-        }
-
-        .checkbox-item input[type="checkbox"] {
+        .file-name {
+            flex: 1;
             margin-right: 10px;
-            transform: scale(1.2);
+            color: var(--dark);
+        }
+
+        .file-remove {
+            color: var(--danger);
+            cursor: pointer;
+            font-size: 1.2rem;
         }
 
         .form-navigation {
@@ -496,30 +536,20 @@
             animation: successBounce 1s ease-out;
         }
 
-        .course-container { margin-top: 15px; }
-
-        .course-select {
-            width: 100%;
-            padding: 15px 20px;
-            border: 2px solid var(--light-gray);
-            border-radius: 10px;
-            font-size: 1rem;
-            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            background: white;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .course-select:focus {
-            outline: none;
-            border-color: var(--primary);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(255, 174, 0, 0.2), 0 0 10px rgba(255, 174, 0, 0.3);
-        }
-
         @keyframes successBounce {
-            0% { transform: scale(0); opacity: 0; }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); opacity: 1; }
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+
+            50% {
+                transform: scale(1.2);
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
 
         .success-message {
@@ -527,6 +557,152 @@
             color: var(--success);
             font-weight: 700;
             margin-bottom: 10px;
+        }
+
+        .program-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .program-card {
+            border: 2px solid var(--light-gray);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            background: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .program-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 174, 0, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.5s;
+            opacity: 0;
+        }
+
+        .program-card:hover::before {
+            animation: cardShine 0.8s ease-out;
+        }
+
+        @keyframes cardShine {
+            0% {
+                transform: translateX(-100%) translateY(-100%) rotate(45deg);
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateX(100%) translateY(100%) rotate(45deg);
+                opacity: 0;
+            }
+        }
+
+        .program-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(255, 174, 0, 0.3);
+        }
+
+        .program-card.selected {
+            border-color: var(--primary);
+            background: rgba(255, 174, 0, 0.1);
+            transform: scale(1.02);
+        }
+
+        .program-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        .program-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .program-description {
+            color: var(--gray);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .accommodation-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .accommodation-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.08);
+            border: 2px solid var(--light-gray);
+            transition: all 0.4s ease;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .accommodation-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+            border-color: var(--primary);
+        }
+
+        .accommodation-card.selected {
+            border-color: var(--primary);
+            background-color: rgba(255, 174, 0, 0.05);
+            transform: translateY(-5px);
+        }
+
+        .accommodation-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .accommodation-card h4 {
+            margin-bottom: 15px;
+            color: var(--secondary);
+            font-size: 1.3rem;
+        }
+
+        .accommodation-card p {
+            color: var(--gray);
+            font-size: 1rem;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .accommodation-card .price {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .manual-assignment {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            border-left: 4px solid var(--info);
         }
 
         .confirmation-summary {
@@ -569,14 +745,157 @@
             display: inline-block;
         }
 
-        @media (max-width: 768px) {
-            .form-grid { grid-template-columns: 1fr; }
-            .progress-steps { flex-direction: column; gap: 15px; }
-            .form-navigation { flex-direction: column; gap: 15px; }
-            .confirmation-summary { grid-template-columns: 1fr; }
+        .student-id {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 18px 30px;
+            border-radius: 10px;
+            font-size: 1.6rem;
+            font-weight: bold;
+            letter-spacing: 1.5px;
+            margin: 25px 0;
+            display: inline-block;
+            animation: fadeIn 1.2s ease-in-out forwards;
+            animation-delay: 0.5s;
+            opacity: 0;
+            box-shadow: 0 8px 20px rgba(255, 174, 0, 0.3);
         }
 
-        .field-completed { position: relative; }
+        .profile-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .profile-modal-content h2 {
+            color: var(--secondary);
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 10px;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.5rem;
+            color: var(--gray);
+            cursor: pointer;
+        }
+
+        .modal-close:hover {
+            color: var(--primary);
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 0 auto 15px;
+        }
+
+        .profile-details {
+            margin-bottom: 20px;
+        }
+
+        .profile-detail-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .profile-detail-item:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .detail-value {
+            color: var(--gray);
+            text-align: right;
+            max-width: 60%;
+        }
+
+        .profile-section {
+            margin-bottom: 20px;
+        }
+
+        .profile-section h4 {
+            color: var(--secondary);
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .progress-steps {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .form-navigation {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .accommodation-options {
+                grid-template-columns: 1fr;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        .field-completed {
+            position: relative;
+        }
 
         .field-completed::after {
             content: '✓';
@@ -591,19 +910,15 @@
         }
 
         @keyframes checkmarkAppear {
-            0% { opacity: 0; transform: translateY(-50%) scale(0); }
-            100% { opacity: 1; transform: translateY(-50%) scale(1); }
-        }
+            0% {
+                opacity: 0;
+                transform: translateY(-50%) scale(0);
+            }
 
-        .course-container { margin-top: 15px; }
-
-        .course-input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 2px solid var(--light-gray);
-            border-radius: 10px;
-            font-size: 1rem;
+            100% {
+                opacity: 1;
+                transform: translateY(-50%) scale(1);
+            }
         }
     </style>
 </head>
@@ -614,205 +929,470 @@
     <div class="registration-container">
         <div class="header">
             <h1><i class="fas fa-user-graduate"></i> Student Registration</h1>
-            <p>Tanzania Labour College System - Begin your academic journey</p>
+            <p>Tanzania Labour College System - Join us for excellence in education</p>
         </div>
 
         <div class="progress-container">
             <div class="progress-steps">
                 <div class="step active" data-step="1">
-                    <div class="step-circle"><i class="fas fa-user"></i></div>
+                    <div class="step-circle">
+                        <i class="fas fa-user"></i>
+                    </div>
                     <div class="step-label">Personal Info</div>
                 </div>
                 <div class="step" data-step="2">
-                    <div class="step-circle"><i class="fas fa-home"></i></div>
-                    <div class="step-label">Contact Info</div>
+                    <div class="step-circle">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <div class="step-label">Guardian & Contact</div>
                 </div>
                 <div class="step" data-step="3">
-                    <div class="step-circle"><i class="fas fa-graduation-cap"></i></div>
-                    <div class="step-label">Academic Background</div>
+                    <div class="step-circle">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="step-label">Academic Info</div>
                 </div>
                 <div class="step" data-step="4">
-                    <div class="step-circle"><i class="fas fa-book"></i></div>
-                    <div class="step-label">Program Details</div>
+                    <div class="step-circle">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="step-label">Course Selection</div>
                 </div>
                 <div class="step" data-step="5">
-                    <div class="step-circle"><i class="fas fa-check"></i></div>
+                    <div class="step-circle">
+                        <i class="fas fa-bed"></i>
+                    </div>
+                    <div class="step-label">Accommodation</div>
+                </div>
+                <div class="step" data-step="6">
+                    <div class="step-circle">
+                        <i class="fas fa-file-upload"></i>
+                    </div>
+                    <div class="step-label">Documents</div>
+                </div>
+                <div class="step" data-step="7">
+                    <div class="step-circle">
+                        <i class="fas fa-check"></i>
+                    </div>
                     <div class="step-label">Confirmation</div>
                 </div>
             </div>
             <div class="progress-bar">
-                <div class="progress-fill" style="width: 20%;"></div>
+                <div class="progress-fill" style="width: 14%;"></div>
             </div>
         </div>
 
         <div class="form-container">
             <div class="form-section active" data-section="1">
                 <div class="section-title">
-                    <div class="section-icon"><i class="fas fa-user"></i></div>
+                    <div class="section-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
                     Personal Information
                 </div>
+
                 <div class="form-grid">
                     <div class="form-group floating-label">
-                        <input type="text" class="form-control" id="fullName" placeholder=" " required>
+                        <input type="text" class="form-control" id="fullName" placeholder="" required>
                         <label for="fullName">Full Name</label>
                     </div>
+
                     <div class="form-group floating-label">
-                        <input type="text" class="form-control" id="username" placeholder=" " required>
+                        <input type="text" class="form-control" id="username" placeholder="" required>
                         <label for="username">Username</label>
                     </div>
+
                     <div class="form-group floating-label">
-                        <input type="password" class="form-control" id="password" placeholder=" " required>
                         <label for="password">Password</label>
-                        <i class="fas fa-eye password-toggle" id="togglePassword"></i>
+                        <div class="password-container">
+                            <input type="password" class="form-control" id="password" placeholder="Create Password" required>
+                            <span class="toggle-password" onclick="togglePassword('password')">
+                                <i class="fas fa-eye"></i>
+                            </span>
+                        </div>
+                        <div class="password-strength">
+                            <div class="password-strength-fill" id="password-strength"></div>
+                        </div>
+                        <small id="password-strength-text"
+                            style="color: var(--gray); display: block; margin-top: 5px;">Password strength</small>
                     </div>
+
                     <div class="form-group floating-label">
-                        <input type="password" class="form-control" id="confirmPassword" placeholder=" " required>
                         <label for="confirmPassword">Confirm Password</label>
-                        <i class="fas fa-eye password-toggle" id="toggleConfirmPassword"></i>
+                        <div class="password-container">
+                            <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password" required>
+                            <span class="toggle-password" onclick="togglePassword('confirmPassword')">
+                                <i class="fas fa-eye"></i>
+                            </span>
+                        </div>
+                        <small id="password-match" style="display: block; margin-top: 5px;"></small>
                     </div>
+
                     <div class="form-group floating-label">
-                        <input type="date" class="form-control" id="birthDate" required>
+                        <input type="date" class="form-control" id="birthDate" placeholder="" required>
                         <label for="birthDate">Date of Birth</label>
                     </div>
+
                     <div class="form-group floating-label">
                         <select class="form-control" id="gender" required>
-                            <option value="">Select Gender</option>
+                            <option value="" disabled selected>Gender</option>
                             <option value="male">Male</option>
-                            <option value="female">Female</option>
+                            <option value="female">Female</option>ra
                         </select>
-                        <label for="gender">Gender</label>
+                        <label for="gender" placeholder="Gender">Gender</label>
                     </div>
+
                     <div class="form-group floating-label">
-                        <input type="text" class="form-control" id="nationality" placeholder=" " required>
+                        <input type="text" class="form-control" id="nationality" placeholder="" required>
                         <label for="nationality">Nationality</label>
                     </div>
+
                     <div class="form-group floating-label">
-                        <input type="text" class="form-control" id="idNumber" placeholder=" ">
-                        <label for="idNumber">National ID / Passport (Optional)</label>
+                        <input type="text" class="form-control" id="idNumber" placeholder="" required>
+                        <label for="idNumber">National ID / Passport</label>
                     </div>
                 </div>
             </div>
 
             <div class="form-section" data-section="2">
                 <div class="section-title">
-                    <div class="section-icon"><i class="fas fa-home"></i></div>
-                    Contact Information
+                    <div class="section-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    Guardian & Contact Information
                 </div>
+
                 <div class="form-grid">
                     <div class="form-group floating-label">
-                        <input type="text" class="form-control" id="address" placeholder=" " required>
-                        <label for="address">Address</label>
+                        <input type="text" class="form-control" id="guardianName" placeholder="" required>
+                        <label for="guardianName">Guardian/Parent Name</label>
                     </div>
+
                     <div class="form-group floating-label">
-                        <input type="text" class="form-control" id="region" placeholder=" " required>
+                        <input type="text" class="form-control" id="guardianRelation" placeholder="" required>
+                        <label for="guardianRelation">Relationship</label>
+                    </div>
+
+                    <div class="form-group floating-label">
+                        <input type="tel" class="form-control" id="guardianPhone" placeholder="" required>
+                        <label for="guardianPhone">Guardian Phone</label>
+                    </div>
+
+                    <div class="form-group floating-label">
+                        <input type="text" class="form-control" id="region" placeholder="" required>
                         <label for="region">Region</label>
                     </div>
+
                     <div class="form-group floating-label">
-                        <input type="text" class="form-control" id="district" placeholder=" " required>
+                        <input type="text" class="form-control" id="district" placeholder="" required>
                         <label for="district">District</label>
                     </div>
+
                     <div class="form-group floating-label">
-                        <input type="tel" class="form-control" id="phone" placeholder=" " required>
+                        <input type="text" class="form-control" id="street" placeholder="" required>
+                        <label for="street">Street/Village</label>
+                    </div>
+
+                    <div class="form-group floating-label">
+                        <input type="tel" class="form-control" id="phone" placeholder="" required>
                         <label for="phone">Phone Number</label>
                     </div>
+
                     <div class="form-group floating-label">
-                        <input type="email" class="form-control" id="email" placeholder=" " required>
+                        <input type="email" class="form-control" id="email" placeholder="" required>
                         <label for="email">Email Address</label>
-                    </div>
-                    <div class="form-group floating-label">
-                        <input type="text" class="form-control" id="emergencyContact" placeholder=" " required>
-                        <label for="emergencyContact">Emergency Contact Name</label>
-                    </div>
-                    <div class="form-group floating-label">
-                        <input type="tel" class="form-control" id="emergencyPhone" placeholder=" " required>
-                        <label for="emergencyPhone">Emergency Phone</label>
                     </div>
                 </div>
             </div>
 
             <div class="form-section" data-section="3">
                 <div class="section-title">
-                    <div class="section-icon"><i class="fas fa-graduation-cap"></i></div>
+                    <div class="section-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
                     Academic Background
                 </div>
+
                 <div class="form-grid">
                     <div class="form-group floating-label">
-                        <select class="form-control" id="highestQualification" required>
-                            <option value="">Select Highest Qualification</option>
+                        <select class="form-control" id="educationLevel" required>
+                            <option value="" disabled selected></option>
+                            <option value="primary">Primary Education</option>
+                            <option value="secondary">Secondary Education</option>
                             <option value="certificate">Certificate</option>
                             <option value="diploma">Diploma</option>
-                            <option value="bachelors">Bachelor's Degree</option>
+                            <option value="degree">Bachelor's Degree</option>
+                            <option value="masters">Master's Degree</option>
                         </select>
-                        <label for="highestQualification">Highest Qualification</label>
+                        <label for="educationLevel">Highest Education Level</label>
                     </div>
+
                     <div class="form-group floating-label">
-                        <input type="text" class="form-control" id="institution" placeholder=" " required>
-                        <label for="institution">School/Institution</label>
+                        <input type="text" class="form-control" id="lastSchool" placeholder="" required>
+                        <label for="lastSchool">Last School/Institution</label>
                     </div>
+
                     <div class="form-group floating-label">
-                        <input type="number" class="form-control" id="graduationYear" placeholder=" " min="1990" max="2025" required>
-                        <label for="graduationYear">Graduation Year</label>
+                        <input type="number" class="form-control" id="graduationYear" placeholder="" min="1990"
+                            max="2025" required>
+                        <label for="graduationYear">Year of Graduation</label>
                     </div>
+
                     <div class="form-group floating-label">
-                        <input type="text" class="form-control" id="grade" placeholder=" " required>
-                        <label for="grade">Grade/GPA</label>
+                        <input type="text" class="form-control" id="previousField" placeholder="">
+                        <label for="previousField">Previous Field of Study</label>
                     </div>
                 </div>
             </div>
 
             <div class="form-section" data-section="4">
                 <div class="section-title">
-                    <div class="section-icon"><i class="fas fa-book"></i></div>
-                    Program Details
+                    <div class="section-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    Course & Program Selection
                 </div>
+
+                <h4>Select Your Program Type:</h4>
+                <div class="program-cards">
+                    <div class="program-card" data-program="short">
+                        <div class="program-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="program-title">Short Term</div>
+                        <div class="program-description">1-3 months intensive programs designed for skill enhancement
+                            and professional development</div>
+                    </div>
+
+                    <div class="program-card selected" data-program="long">
+                        <div class="program-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="program-title">Long Term</div>
+                        <div class="program-description">6-12 months comprehensive programs for career advancement and
+                            specialized training</div>
+                    </div>
+                </div>
+
                 <div class="form-grid">
                     <div class="form-group floating-label">
-                        <select class="form-control" id="program" required>
-                            <option value="">Select Program</option>
-                            <option value="labor_laws">Labor Laws</option>
-                            <option value="hr_management">Human Resource Management</option>
-                            <option value="industrial_relations">Industrial Relations</option>
+                        <select class="form-control" id="programDuration" required>
+                            <option value="" disabled selected></option>
+                            <option value="3">3 Months</option>
+                            <option value="6">6 Months</option>
+                            <option value="9">9 Months</option>
+                            <option value="12">12 Months</option>
+                            <option value="24">24 Months</option>
                         </select>
-                        <label for="program">Program</label>
+                        <label for="programDuration">Program Duration</label>
                     </div>
+
+                    <div class="form-group floating-label">
+                        <select class="form-control" id="numCourses" required>
+                            <option value="" disabled selected></option>
+                            <option value="1">1 Course</option>
+                            <option value="2">2 Courses</option>
+                            <option value="3">3 Courses</option>
+                            <option value="4">4 Courses</option>
+                            <option value="5">5 Courses</option>
+                        </select>
+                        <label for="numCourses">Number of Courses</label>
+                    </div>
+
+                    <div class="form-group" id="courseSelection"></div>
+
+                    <div class="form-group floating-label">
+                        <select class="form-control" id="courseCategory" required>
+                            <option value="" disabled selected></option>
+                            <option value="vocational">Vocational Studies</option>
+                            <option value="technical">Technical Program</option>
+                            <option value="business">Business Studies</option>
+                            <option value="labor">Labor Studies</option>
+                        </select>
+                        <label for="courseCategory">Course Category</label>
+                    </div>
+
                     <div class="form-group floating-label">
                         <select class="form-control" id="studyMode" required>
-                            <option value="">Select Study Mode</option>
-                            <option value="full-time">Full-Time</option>
-                            <option value="part-time">Part-Time</option>
+                            <option value="" disabled selected></option>
+                            <option value="fulltime">Full-time</option>
+                            <option value="parttime">Part-time</option>
+                            <option value="distance">Distance Learning</option>
+                            <option value="weekend">Weekend Classes</option>
                         </select>
                         <label for="studyMode">Study Mode</label>
                     </div>
+
                     <div class="form-group floating-label">
-                        <input type="number" class="form-control" id="intakeYear" placeholder=" " min="2023" max="2025" required>
-                        <label for="intakeYear">Intake Year</label>
+                        <select class="form-control" id="startDate" required>
+                            <option value="" disabled selected></option>
+                            <option value="jan2025">January 2025</option>
+                            <option value="apr2025">April 2025</option>
+                            <option value="jul2025">July 2025</option>
+                            <option value="oct2025">October 2025</option>
+                        </select>
+                        <label for="startDate">Preferred Start Date</label>
                     </div>
                 </div>
             </div>
 
             <div class="form-section" data-section="5">
                 <div class="section-title">
-                    <div class="section-icon"><i class="fas fa-check"></i></div>
+                    <div class="section-icon">
+                        <i class="fas fa-bed"></i>
+                    </div>
+                    Accommodation Selection
+                </div>
+
+                <div class="form-group">
+                    <label>Do you require accommodation?</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item" id="accommodationYes">
+                            <input type="radio" id="needAccommodationYes" name="accommodationNeed" value="yes" checked>
+                            <label for="needAccommodationYes">Yes</label>
+                        </div>
+                        <div class="checkbox-item" id="accommodationNo">
+                            <input type="radio" id="needAccommodationNo" name="accommodationNeed" value="no">
+                            <label for="needAccommodationNo">No</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="accommodationSection">
+                    <p style="text-align: center; margin-bottom: 20px; color: var(--gray);">
+                        Dormitory accommodation includes utilities, Wi-Fi, meal plan, and laundry service.
+                    </p>
+
+                    <div class="accommodation-options">
+                        <div class="accommodation-card selected" data-accommodation="dorm">
+                            <div class="accommodation-icon">
+                                <i class="fas fa-building"></i>
+                            </div>
+                            <h4>Dormitory</h4>
+                            <p>Campus dormitory with meal plan and laundry service</p>
+                            <p class="price">TZS 400,000/month</p>
+                        </div>
+                    </div>
+
+                    <div class="manual-assignment">
+                        <h4>Assigned Accommodation</h4>
+                        <p style="color: var(--gray); margin-bottom: 15px;">The system has automatically assigned a
+                            hostel and room. You may override these selections below.</p>
+                        <div class="form-grid">
+                            <div class="form-group floating-label">
+                                <input type="text" class="form-control" id="hostel" placeholder="" required>
+                                <label for="hostel">Hostel</label>
+                            </div>
+                            <div class="form-group floating-label">
+                                <input type="text" class="form-control" id="room" placeholder="" required>
+                                <label for="room">Room Number</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section" data-section="6">
+                <div class="section-title">
+                    <div class="section-icon">
+                        <i class="fas fa-file-upload"></i>
+                    </div>
+                    Document Upload
+                </div>
+
+                <p style="margin-bottom: 20px; color: var(--gray); text-align: center;">
+                    Upload optional documents for your registration. Supported formats: PDF, JPG, PNG (Max 2MB each)
+                </p>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Academic Certificates (Optional)</label>
+                        <div class="file-upload">
+                            <div class="file-upload-btn">
+                                <i class="fas fa-upload"></i> Click to upload certificates
+                            </div>
+                            <input type="file" class="file-upload-input" id="certificates" accept=".pdf,.jpg,.jpeg,.png"
+                                multiple>
+                        </div>
+                        <div class="uploaded-files" id="certificateFiles"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Identification Document (Optional)</label>
+                        <div class="file-upload">
+                            <div class="file-upload-btn">
+                                <i class="fas fa-upload"></i> Click to upload ID
+                            </div>
+                            <input type="file" class="file-upload-input" id="idDocument" accept=".pdf,.jpg,.jpeg,.png">
+                        </div>
+                        <div class="uploaded-files" id="idDocumentFiles"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Passport Photo (Optional)</label>
+                        <div class="file-upload">
+                            <div class="file-upload-btn">
+                                <i class="fas fa-upload"></i> Click to upload photo
+                            </div>
+                            <input type="file" class="file-upload-input" id="passportPhoto" accept=".jpg,.jpeg,.png">
+                        </div>
+                        <div class="uploaded-files" id="passportPhotoFiles"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Other Documents (Optional)</label>
+                        <div class="file-upload">
+                            <div class="file-upload-btn">
+                                <i class="fas fa-upload"></i> Click to upload other files
+                            </div>
+                            <input type="file" class="file-upload-input" id="otherDocuments"
+                                accept=".pdf,.jpg,.jpeg,.png" multiple>
+                        </div>
+                        <div class="uploaded-files" id="otherDocumentFiles"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section" data-section="7">
+                <div class="section-title">
+                    <div class="section-icon">
+                        <i class="fas fa-check"></i>
+                    </div>
                     Confirmation & Review
                 </div>
+
                 <div class="confirmation-summary">
                     <div class="summary-card">
                         <h4><i class="fas fa-user"></i> Personal Information</h4>
                         <div class="summary-content" id="personalSummary"></div>
                     </div>
+
                     <div class="summary-card">
-                        <h4><i class="fas fa-home"></i> Contact Information</h4>
+                        <h4><i class="fas fa-home"></i> Guardian & Contact Information</h4>
                         <div class="summary-content" id="contactSummary"></div>
                     </div>
+
                     <div class="summary-card">
                         <h4><i class="fas fa-graduation-cap"></i> Academic Background</h4>
                         <div class="summary-content" id="academicSummary"></div>
                     </div>
+
                     <div class="summary-card">
-                        <h4><i class="fas fa-book"></i> Program Details</h4>
-                        <div class="summary-content" id="programSummary"></div>
+                        <h4><i class="fas fa-book"></i> Course Selection</h4>
+                        <div class="summary-content" id="courseSummary"></div>
+                    </div>
+
+                    <div class="summary-card" id="accommodationSummaryCard">
+                        <h4><i class="fas fa-bed"></i> Accommodation</h4>
+                        <div class="summary-content" id="accommodationSummary"></div>
+                    </div>
+
+                    <div class="summary-card">
+                        <h4><i class="fas fa-file-alt"></i> Uploaded Documents</h4>
+                        <div class="summary-content" id="documentsSummary"></div>
                     </div>
                 </div>
+
                 <div class="form-group">
                     <div class="checkbox-item">
                         <input type="checkbox" id="termsAccepted" required>
@@ -822,40 +1402,99 @@
             </div>
 
             <div class="success-animation" id="successScreen">
-                <div class="success-icon"><i class="fas fa-check-circle"></i></div>
+                <div class="success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
                 <div class="success-message">Registration Successful!</div>
-                <p>Your student ID is: <strong id="generatedId">TLC/STU/2025/001</strong></p>
-                <p>Please save this ID for future reference. A confirmation email has been sent to your email address.</p>
-                <button class="btn btn-primary" onclick="window.location.href='dashboard.html'">
-                    <i class="fas fa-arrow-left"></i> Done!
+                <div class="student-id" id="generatedId">TLC/STD/2025/001</div>
+
+                <div class="confirmation-summary" id="successSummary"></div>
+
+                <div class="summary-card" style="max-width: 500px; margin: 20px auto;">
+                    <h4><i class="fas fa-bed"></i> Accommodation Assigned</h4>
+                    <div class="summary-content">
+                        <p><strong>Hostel:</strong> <span id="successHostel"></span></p>
+                        <p><strong>Room No:</strong> <span id="successRoom"></span></p>
+                        <p><strong>Type:</strong> <span id="successAccommodation"></span></p>
+                    </div>
+                </div>
+
+                <p style="color: var(--gray); margin: 30px 0; font-size: 1.1rem;">
+                    Please save your Student ID for future reference and login purposes
+                </p>
+                <button class="btn btn-primary" onclick="window.location.href='admstd.html'">
+                    <i class="fas fa-user-graduate"></i> Proceed to Student Portal
                 </button>
             </div>
 
             <div class="form-navigation" id="navigationButtons">
                 <button class="btn btn-secondary" id="prevBtn" onclick="previousStep()">
-                    <i class="fas fa-arrow-left"></i> Previous
+                    <i class="fas fa-arrow-left"></i> Cancel
                 </button>
                 <button class="btn btn-primary" id="nextBtn" onclick="nextStep()">
                     Next <i class="fas fa-arrow-right"></i>
                 </button>
             </div>
         </div>
-    </div>
 
+        <div class="profile-modal" id="profileModal">
+            <div class="profile-modal-content">
+                <span class="modal-close" onclick="closeProfileModal()">&times;</span>
+                <h2>Student Profile Review</h2>
+                <div class="profile-header">
+                    <div class="profile-avatar" id="modalAvatar">-</div>
+                    <h4 id="modalName">Not Set</h4>
+                    <p id="modalUsername">-</p>
+                </div>
+
+                <div class="profile-section">
+                    <h4><i class="fas fa-user"></i> Personal Info</h4>
+                    <div class="profile-details" id="modalPersonal"></div>
+                </div>
+
+                <div class="profile-section">
+                    <h4><i class="fas fa-home"></i> Contact Info</h4>
+                    <div class="profile-details" id="modalContact"></div>
+                </div>
+
+                <div class="profile-section">
+                    <h4><i class="fas fa-graduation-cap"></i> Academic Info</h4>
+                    <div class="profile-details" id="modalAcademic"></div>
+                </div>
+
+                <div class="profile-section">
+                    <h4><i class="fas fa-book"></i> Course Info</h4>
+                    <div class="profile-details" id="modalCourse"></div>
+                </div>
+
+                <div class="profile-section" id="modalAccommodationSection">
+                    <h4><i class="fas fa-bed"></i> Accommodation</h4>
+                    <div class="profile-details" id="modalAccommodation"></div>
+                </div>
+
+                <div class="profile-section">
+                    <h4><i class="fas fa-file-alt"></i> Documents</h4>
+                    <div class="profile-details" id="modalDocuments"></div>
+                </div>
+
+                <div style="text-align: center; margin-top: 20px;">
+                    <button class="btn btn-primary" onclick="submitForm()">
+                        <i class="fas fa-check"></i> Confirm and Submit
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script>
         let currentStep = 1;
-        let totalSteps = 5;
-        let selectedProgram = null;
-
-        document.addEventListener('DOMContentLoaded', function () {
-            createParticles();
-            updateFormValidation();
-            setupPasswordToggles();
-            updateStep();
-            updateNavigationButtons();
-            updateStepIndicators();
-            updateProgress();
-        });
+        const totalSteps = 7;
+        let uploadedFiles = {
+            certificates: [],
+            idDocument: [],
+            passportPhoto: [],
+            otherDocuments: []
+        };
+        let selectedCourses = [];
 
         function createParticles() {
             const particles = document.getElementById('particles');
@@ -870,25 +1509,218 @@
             }
         }
 
-        function setupPasswordToggles() {
-            const togglePassword = document.getElementById('togglePassword');
-            const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
-            const password = document.getElementById('password');
-            const confirmPassword = document.getElementById('confirmPassword');
+        document.addEventListener('DOMContentLoaded', function () {
+            createParticles();
+            updateFormValidation();
+            setupFileUploads();
+            setupAccommodationToggle();
+            setupPasswordValidation();
+            setupCourseSelection();
+            assignAccommodation();
+            setupTermsCheckbox();
+        });
 
-            togglePassword.addEventListener('click', function () {
-                const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-                password.setAttribute('type', type);
-                this.classList.toggle('fa-eye');
-                this.classList.toggle('fa-eye-slash');
+        function setupTermsCheckbox() {
+            const termsCheckbox = document.getElementById('termsAccepted');
+            const reviewBtn = document.getElementById('reviewProfileBtn');
+            termsCheckbox.addEventListener('change', function () {
+                reviewBtn.style.opacity = this.checked ? '1' : '0.5';
+                reviewBtn.style.cursor = this.checked ? 'pointer' : 'not-allowed';
+            });
+        }
+
+        function showProfileModal() {
+            if (!document.getElementById('termsAccepted').checked) {
+                alert('Please accept the terms and conditions to review your profile');
+                return;
+            }
+            updateProfilePreview(true);
+            document.getElementById('profileModal').style.display = 'flex';
+        }
+
+        function closeProfileModal() {
+            document.getElementById('profileModal').style.display = 'none';
+        }
+
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const type = input.type === 'password' ? 'text' : 'password';
+            input.type = type;
+            const icon = input.nextElementSibling.querySelector('i');
+            icon.classList.toggle('fa-eye');
+            icon.classList.toggle('fa-eye-slash');
+        }
+
+        function setupPasswordValidation() {
+            const passwordInput = document.getElementById('password');
+            const confirmInput = document.getElementById('confirmPassword');
+            const strengthBar = document.getElementById('password-strength');
+            const strengthText = document.getElementById('password-strength-text');
+            const matchText = document.getElementById('password-match');
+
+            passwordInput.addEventListener('input', function () {
+                const password = this.value;
+                let strength = 0;
+
+                if (password.length >= 8) strength += 25;
+                if (/[A-Z]/.test(password)) strength += 25;
+                if (/[0-9]/.test(password)) strength += 25;
+                if (/[^A-Za-z0-9]/.test(password)) strength += 25;
+
+                strengthBar.style.width = strength + '%';
+
+                if (strength < 50) {
+                    strengthBar.style.background = 'var(--danger)';
+                    strengthText.textContent = 'Weak password';
+                    strengthText.style.color = 'var(--danger)';
+                } else if (strength < 75) {
+                    strengthBar.style.background = 'var(--warning)';
+                    strengthText.textContent = 'Medium password';
+                    strengthText.style.color = 'var(--warning)';
+                } else {
+                    strengthBar.style.background = 'var(--success)';
+                    strengthText.textContent = 'Strong password';
+                    strengthText.style.color = 'var(--success)';
+                }
+
+                checkPasswordMatch();
             });
 
-            toggleConfirmPassword.addEventListener('click', function () {
-                const type = confirmPassword.getAttribute('type') === 'password' ? 'text' : 'password';
-                confirmPassword.setAttribute('type', type);
-                this.classList.toggle('fa-eye');
-                this.classList.toggle('fa-eye-slash');
+            confirmInput.addEventListener('input', checkPasswordMatch);
+
+            function checkPasswordMatch() {
+                const password = passwordInput.value;
+                const confirm = confirmInput.value;
+
+                if (confirm.length === 0) {
+                    matchText.textContent = '';
+                } else if (password === confirm) {
+                    matchText.textContent = 'Passwords match';
+                    matchText.style.color = 'var(--success)';
+                } else {
+                    matchText.textContent = 'Passwords do not match';
+                    matchText.style.color = 'var(--danger)';
+                }
+            }
+        }
+
+        function setupFileUploads() {
+            document.querySelectorAll('.file-upload-input').forEach(input => {
+                input.addEventListener('change', function () {
+                    const fileType = this.id;
+                    const files = this.files;
+                    const fileListElement = document.getElementById(`${fileType}Files`);
+
+                    if (files.length > 0) {
+                        fileListElement.innerHTML = '';
+
+                        for (let i = 0; i < files.length; i++) {
+                            const file = files[i];
+
+                            if (file.size > 2 * 1024 * 1024) {
+                                alert(`File ${file.name} is too large. Maximum size is 2MB.`);
+                                continue;
+                            }
+
+                            uploadedFiles[fileType].push(file);
+
+                            const fileItem = document.createElement('div');
+                            fileItem.className = 'file-item';
+                            fileItem.innerHTML = `
+                                <span class="file-name">${file.name}</span>
+                                <span class="file-remove" onclick="removeFile('${fileType}', ${uploadedFiles[fileType].length - 1})">
+                                    <i class="fas fa-times"></i>
+                                </span>
+                            `;
+                            fileListElement.appendChild(fileItem);
+                        }
+                    }
+                });
             });
+        }
+
+        function removeFile(fileType, index) {
+            uploadedFiles[fileType].splice(index, 1);
+            updateFileList(fileType);
+        }
+
+        function updateFileList(fileType) {
+            const fileListElement = document.getElementById(`${fileType}Files`);
+            fileListElement.innerHTML = '';
+
+            uploadedFiles[fileType].forEach((file, index) => {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item';
+                fileItem.innerHTML = `
+                    <span class="file-name">${file.name}</span>
+                    <span class="file-remove" onclick="removeFile('${fileType}', ${index})">
+                        <i class="fas fa-times"></i>
+                    </span>
+                `;
+                fileListElement.appendChild(fileItem);
+            });
+        }
+
+        function setupCourseSelection() {
+            const numCoursesSelect = document.getElementById('numCourses');
+            numCoursesSelect.addEventListener('change', function () {
+                const numCourses = parseInt(this.value) || 0;
+                const courseSelectionDiv = document.getElementById('courseSelection');
+                courseSelectionDiv.innerHTML = '';
+
+                selectedCourses = [];
+                for (let i = 0; i < numCourses; i++) {
+                    const courseGroup = document.createElement('div');
+                    courseGroup.className = 'form-group floating-label';
+                    courseGroup.innerHTML = `
+                        <select class="form-control course-select" id="course${i}" required>
+                            <option value="" disabled selected></option>
+                            <option value="computer-science">Computer Science</option>
+                            <option value="business-administration">Business Administration</option>
+                            <option value="electrical-engineering">Electrical Engineering</option>
+                            <option value="accounting">Accounting</option>
+                            <option value="labor-law">Labor Law</option>
+                            <option value="mechanical-engineering">Mechanical Engineering</option>
+                        </select>
+                        <label for="course${i}">Course ${i + 1}</label>
+                    `;
+                    courseSelectionDiv.appendChild(courseGroup);
+                }
+
+                document.querySelectorAll('.course-select').forEach(select => {
+                    select.addEventListener('change', function () {
+                        selectedCourses[parseInt(this.id.replace('course', ''))] = this.options[this.selectedIndex]?.text || '';
+                    });
+                });
+            });
+        }
+
+        function setupAccommodationToggle() {
+            const accommodationYes = document.getElementById('accommodationYes');
+            const accommodationNo = document.getElementById('accommodationNo');
+            const accommodationSection = document.getElementById('accommodationSection');
+
+            accommodationYes.addEventListener('click', function () {
+                accommodationSection.style.display = 'block';
+                assignAccommodation();
+            });
+
+            accommodationNo.addEventListener('click', function () {
+                accommodationSection.style.display = 'none';
+                document.getElementById('hostel').value = '';
+                document.getElementById('room').value = '';
+            });
+        }
+
+        function assignAccommodation() {
+            const needAccommodation = document.querySelector('input[name="accommodationNeed"]:checked').value;
+            if (needAccommodation === 'yes') {
+                const hostels = ['North Hall', 'South Hall', 'East Hall', 'West Hall'];
+                const hostel = hostels[Math.floor(Math.random() * hostels.length)];
+                const room = `${hostel.charAt(0)}-${Math.floor(Math.random() * 200) + 100}`;
+                document.getElementById('hostel').value = document.getElementById('hostel').value || hostel;
+                document.getElementById('room').value = document.getElementById('room').value || room;
+            }
         }
 
         function nextStep() {
@@ -897,31 +1729,33 @@
                     currentStep++;
                     updateStep();
                 } else {
-                    submitForm();
+                    showProfileModal();
                 }
             }
         }
 
         function previousStep() {
-            if (currentStep > 1) {
+            if (currentStep === 1) {
+                window.location.href = 'index.html';
+            } else if (currentStep > 1) {
                 currentStep--;
                 updateStep();
             }
         }
 
         function updateStep() {
+            updateProgress();
             document.querySelectorAll('.form-section').forEach(section => {
                 section.classList.remove('active');
             });
+
             setTimeout(() => {
                 document.querySelector(`[data-section="${currentStep}"]`).classList.add('active');
             }, 300);
+
             updateNavigationButtons();
             updateStepIndicators();
-            updateProgress();
-            if (currentStep === totalSteps) {
-                updateConfirmationSummary();
-            }
+            if (currentStep === 5) assignAccommodation();
         }
 
         function updateProgress() {
@@ -945,45 +1779,98 @@
         function updateNavigationButtons() {
             const prevBtn = document.getElementById('prevBtn');
             const nextBtn = document.getElementById('nextBtn');
+
             if (currentStep === 1) {
-                prevBtn.style.display = 'none';
-                nextBtn.style.display = 'flex';
-            } else if (currentStep === totalSteps) {
+                prevBtn.innerHTML = '<i class="fas fa-arrow-left"></i> Cancel';
                 prevBtn.style.display = 'flex';
-                nextBtn.innerHTML = '<i class="fas fa-check"></i> Submit Registration';
             } else {
+                prevBtn.innerHTML = '<i class="fas fa-arrow-left"></i> Previous';
                 prevBtn.style.display = 'flex';
-                nextBtn.style.display = 'flex';
-                nextBtn.innerHTML = 'Next <i class="fas fa-arrow-right"></i>';
             }
+
+            nextBtn.innerHTML = currentStep === totalSteps
+                ? '<i class="fas fa-eye"></i> Review Profile'
+                : 'Next <i class="fas fa-arrow-right"></i>';
         }
 
-        document.querySelectorAll('.checkbox-item').forEach(item => {
-            item.addEventListener('click', function () {
-                const checkbox = this.querySelector('input[type="checkbox"]');
-                checkbox.checked = !checkbox.checked;
-                if (checkbox.checked) {
-                    this.classList.add('selected');
+        function validateCurrentStep() {
+            const currentSection = document.querySelector(`[data-section="${currentStep}"]`);
+            const requiredFields = currentSection.querySelectorAll('[required]');
+            let isValid = true;
+
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    field.classList.add('invalid');
+                    isValid = false;
+                    setTimeout(() => field.classList.remove('invalid'), 600);
                 } else {
-                    this.classList.remove('selected');
+                    field.classList.remove('invalid');
+                    field.classList.add('valid');
+                    field.parentElement.classList.add('field-completed');
                 }
             });
-        });
+
+            if (currentStep === 1) {
+                const matchText = document.getElementById('password-match').textContent;
+                if (matchText !== 'Passwords match') {
+                    document.getElementById('confirmPassword').classList.add('invalid');
+                    alert('Passwords do not match');
+                    isValid = false;
+                } else {
+                    document.getElementById('confirmPassword').classList.remove('invalid');
+                }
+            }
+
+            if (currentStep === 4) {
+                const programSelected = document.querySelector('.program-card.selected');
+                if (!programSelected) {
+                    alert('Please select a program type (Short Term or Long Term)');
+                    isValid = false;
+                }
+                const numCourses = document.getElementById('numCourses').value;
+                if (numCourses && selectedCourses.length < parseInt(numCourses)) {
+                    alert('Please select all required courses');
+                    isValid = false;
+                }
+            }
+
+            if (currentStep === 5) {
+                const needAccommodation = document.querySelector('input[name="accommodationNeed"]:checked').value;
+                if (needAccommodation === 'yes') {
+                    const hostel = document.getElementById('hostel').value;
+                    const room = document.getElementById('room').value;
+                    if (!hostel || !room) {
+                        alert('Please ensure hostel and room are specified');
+                        isValid = false;
+                    }
+                }
+            }
+
+            if (currentStep === 7) {
+                const termsAccepted = document.getElementById('termsAccepted');
+                if (!termsAccepted.checked) {
+                    alert('Please accept the terms and conditions to proceed');
+                    isValid = false;
+                }
+                updateConfirmationSummary();
+            }
+
+            return isValid;
+        }
 
         function updateFormValidation() {
             document.querySelectorAll('.form-control').forEach(field => {
                 field.addEventListener('blur', function () {
-                    if (this.hasAttribute('required')) {
-                        if (this.value.trim()) {
-                            this.classList.remove('invalid');
-                            this.classList.add('valid');
-                            this.parentElement.classList.add('field-completed');
-                        } else {
-                            this.classList.remove('valid');
-                            this.parentElement.classList.remove('field-completed');
-                        }
+                    if (this.hasAttribute('required') && this.value.trim()) {
+                        this.classList.remove('invalid');
+                        this.classList.add('valid');
+                        this.parentElement.classList.add('field-completed');
+                    } else if (this.hasAttribute('required')) {
+                        this.classList.remove('valid');
+                        this.parentElement.classList.remove('field-completed');
                     }
                 });
+
                 field.addEventListener('input', function () {
                     if (this.classList.contains('invalid')) {
                         this.classList.remove('invalid');
@@ -996,46 +1883,17 @@
                 if (this.value && !emailPattern.test(this.value)) {
                     this.classList.add('invalid');
                     this.classList.remove('valid');
-                    alert('Please enter a valid email address');
                 } else if (this.value) {
                     this.classList.remove('invalid');
                     this.classList.add('valid');
                 }
             });
 
-            ['phone', 'emergencyPhone'].forEach(id => {
-                document.getElementById(id).addEventListener('blur', function () {
-                    const phonePattern = /^[+]?[\d\s\-\(\)]{10,}$/;
-                    if (this.value && !phonePattern.test(this.value)) {
-                        this.classList.add('invalid');
-                        this.classList.remove('valid');
-                        alert('Please enter a valid phone number');
-                    } else if (this.value) {
-                        this.classList.remove('invalid');
-                        this.classList.add('valid');
-                    }
-                });
-            });
-
-            document.getElementById('password').addEventListener('blur', function () {
-                const password = this.value;
-                const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-                if (password && !passwordPattern.test(password)) {
+            document.getElementById('phone').addEventListener('blur', function () {
+                const phonePattern = /^[+]?[\d\s\-\(\)]{10,}$/;
+                if (this.value && !phonePattern.test(this.value)) {
                     this.classList.add('invalid');
                     this.classList.remove('valid');
-                    alert('Password must be at least 8 characters long and contain at least one letter and one number');
-                } else if (password) {
-                    this.classList.remove('invalid');
-                    this.classList.add('valid');
-                }
-            });
-
-            document.getElementById('confirmPassword').addEventListener('blur', function () {
-                const password = document.getElementById('password').value;
-                if (this.value && this.value !== password) {
-                    this.classList.add('invalid');
-                    this.classList.remove('valid');
-                    alert('Passwords do not match');
                 } else if (this.value) {
                     this.classList.remove('invalid');
                     this.classList.add('valid');
@@ -1043,239 +1901,219 @@
             });
         }
 
-        function validateCurrentStep() {
-            const currentSection = document.querySelector(`[data-section="${currentStep}"]`);
-            let isValid = true;
+        function updateProfilePreview(isModal = false) {
+            if (!isModal) return;
+            const fullName = document.getElementById('fullName').value;
+            document.getElementById('modalName').textContent = fullName || 'Not Set';
+            document.getElementById('modalUsername').textContent = document.getElementById('username').value ? '@' + document.getElementById('username').value : '-';
+            document.getElementById('modalAvatar').textContent = fullName ? fullName.split(' ').map(n => n[0]).join('').toUpperCase() : '-';
 
-            const requiredFields = currentSection.querySelectorAll('[required]');
-            requiredFields.forEach(field => {
-                if (!field.value.trim()) {
-                    field.classList.add('invalid');
-                    isValid = false;
-                    setTimeout(() => {
-                        field.classList.remove('invalid');
-                    }, 600);
-                } else {
-                    field.classList.remove('invalid');
-                    field.classList.add('valid');
-                }
-            });
-
-            if (currentStep === 1) {
-                const requiredFields = [
-                    { id: 'fullName', message: 'Please enter your full name' },
-                    { id: 'username', message: 'Please enter a username' },
-                    { id: 'password', message: 'Please enter a password' },
-                    { id: 'confirmPassword', message: 'Please confirm your password' },
-                    { id: 'birthDate', message: 'Please select your date of birth' },
-                    { id: 'gender', message: 'Please select your gender' },
-                    { id: 'nationality', message: 'Please enter your nationality' }
-                ];
-                requiredFields.forEach(field => {
-                    const element = document.getElementById(field.id);
-                    if (!element.value.trim()) {
-                        alert(field.message);
-                        element.classList.add('invalid');
-                        isValid = false;
-                        setTimeout(() => {
-                            element.classList.remove('invalid');
-                        }, 600);
-                    } else {
-                        element.classList.add('valid');
-                    }
-                });
-
-                const password = document.getElementById('password').value;
-                const confirmPassword = document.getElementById('confirmPassword').value;
-                const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-                if (password && !passwordPattern.test(password)) {
-                    alert('Password must be at least 8 characters long and contain at least one letter and one number');
-                    document.getElementById('password').classList.add('invalid');
-                    isValid = false;
-                }
-                if (password !== confirmPassword) {
-                    alert('Passwords do not match');
-                    document.getElementById('confirmPassword').classList.add('invalid');
-                    isValid = false;
-                }
-            }
-
-            if (currentStep === 2) {
-                const requiredFields = [
-                    { id: 'address', message: 'Please enter your address' },
-                    { id: 'region', message: 'Please enter your region' },
-                    { id: 'district', message: 'Please enter your district' },
-                    { id: 'phone', message: 'Please enter your phone number' },
-                    { id: 'email', message: 'Please enter your email address' },
-                    { id: 'emergencyContact', message: 'Please enter an emergency contact name' },
-                    { id: 'emergencyPhone', message: 'Please enter an emergency phone number' }
-                ];
-                requiredFields.forEach(field => {
-                    const element = document.getElementById(field.id);
-                    if (!element.value.trim()) {
-                        alert(field.message);
-                        element.classList.add('invalid');
-                        isValid = false;
-                        setTimeout(() => {
-                            element.classList.remove('invalid');
-                        }, 600);
-                    } else {
-                        element.classList.add('valid');
-                    }
-                });
-            }
-
-            if (currentStep === 3) {
-                const requiredFields = [
-                    { id: 'highestQualification', message: 'Please select your highest qualification' },
-                    { id: 'institution', message: 'Please enter your school/institution' },
-                    { id: 'graduationYear', message: 'Please enter your graduation year' },
-                    { id: 'grade', message: 'Please enter your grade/GPA' }
-                ];
-                requiredFields.forEach(field => {
-                    const element = document.getElementById(field.id);
-                    if (!element.value.trim()) {
-                        alert(field.message);
-                        element.classList.add('invalid');
-                        isValid = false;
-                        setTimeout(() => {
-                            element.classList.remove('invalid');
-                        }, 600);
-                    } else {
-                        element.classList.add('valid');
-                    }
-                });
-            }
-
-            if (currentStep === 4) {
-                const requiredFields = [
-                    { id: 'program', message: 'Please select your program' },
-                    { id: 'studyMode', message: 'Please select your study mode' },
-                    { id: 'intakeYear', message: 'Please enter your intake year' }
-                ];
-                requiredFields.forEach(field => {
-                    const element = document.getElementById(field.id);
-                    if (!element.value.trim()) {
-                        alert(field.message);
-                        element.classList.add('invalid');
-                        isValid = false;
-                        setTimeout(() => {
-                            element.classList.remove('invalid');
-                        }, 600);
-                    } else {
-                        element.classList.add('valid');
-                    }
-                });
-            }
-
-            if (currentStep === 5) {
-                const termsAccepted = document.getElementById('termsAccepted');
-                if (!termsAccepted.checked) {
-                    alert('Please accept the terms and conditions');
-                    isValid = false;
-                }
-            }
-
-            return isValid;
-        }
-
-        function formatDate(dateString) {
-            if (!dateString) return 'Not provided';
-            const date = new Date(dateString);
-            return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-        }
-
-        function getSelectText(selectElement) {
-            if (!selectElement || !selectElement.value) return 'Not provided';
-            return selectElement.options[selectElement.selectedIndex]?.text || 'Not provided';
-        }
-
-        function submitForm() {
-            document.getElementById('navigationButtons').style.display = 'none';
-            document.querySelector(`[data-section="${currentStep}"]`).style.display = 'none';
-            const successScreen = document.getElementById('successScreen');
-            successScreen.style.display = 'block';
-            const currentYear = new Date().getFullYear();
-            const randomNum = Math.floor(Math.random() * 999) + 1;
-            const studentId = `TLC/STU/${currentYear}/${randomNum.toString().padStart(3, '0')}`;
-            document.getElementById('generatedId').textContent = studentId;
-            setTimeout(() => {
-                createCelebrationEffect();
-            }, 500);
-        }
-
-        function createCelebrationEffect() {
-            for (let i = 0; i < 50; i++) {
-                const confetti = document.createElement('div');
-                confetti.style.position = 'fixed';
-                confetti.style.left = Math.random() * 100 + '%';
-                confetti.style.top = '-10px';
-                confetti.style.width = '10px';
-                confetti.style.height = '10px';
-                confetti.style.backgroundColor = ['#ffae00', '#a87300', '#28a745', '#17a2b8'][Math.floor(Math.random() * 4)];
-                confetti.style.pointerEvents = 'none';
-                confetti.style.zIndex = '9999';
-                confetti.style.borderRadius = '50%';
-                document.body.appendChild(confetti);
-                confetti.animate([
-                    { transform: 'translateY(-10px) rotate(0deg)', opacity: 1 },
-                    { transform: `translateY(${window.innerHeight + 10}px) rotate(720deg)`, opacity: 0 }
-                ], {
-                    duration: Math.random() * 3000 + 2000,
-                    easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
-                }).onfinish = () => confetti.remove();
-            }
-        }
-
-        function updateConfirmationSummary() {
             const personalData = {
-                'Full Name': document.getElementById('fullName')?.value || 'Not provided',
-                'Username': document.getElementById('username')?.value || 'Not provided',
-                'Date of Birth': formatDate(document.getElementById('birthDate')?.value),
-                'Gender': getSelectText(document.getElementById('gender')),
-                'Nationality': document.getElementById('nationality')?.value || 'Not provided',
-                'ID Number': document.getElementById('idNumber')?.value || 'Not provided'
+                'Full Name': fullName,
+                'Username': document.getElementById('username').value,
+                'Date of Birth': document.getElementById('birthDate').value,
+                'Gender': document.getElementById('gender').options[document.getElementById('gender').selectedIndex]?.text || '',
+                'Nationality': document.getElementById('nationality').value,
+                'ID Number': document.getElementById('idNumber').value
             };
 
             const contactData = {
-                'Address': document.getElementById('address')?.value || 'Not provided',
-                'Region': document.getElementById('region')?.value || 'Not provided',
-                'District': document.getElementById('district')?.value || 'Not provided',
-                'Phone': document.getElementById('phone')?.value || 'Not provided',
-                'Email': document.getElementById('email')?.value || 'Not provided',
-                'Emergency Contact': document.getElementById('emergencyContact')?.value || 'Not provided',
-                'Emergency Phone': document.getElementById('emergencyPhone')?.value || 'Not provided'
+                'Guardian Name': document.getElementById('guardianName').value,
+                'Relationship': document.getElementById('guardianRelation').value,
+                'Guardian Phone': document.getElementById('guardianPhone').value,
+                'Region': document.getElementById('region').value,
+                'District': document.getElementById('district').value,
+                'Street': document.getElementById('street').value,
+                'Phone': document.getElementById('phone').value,
+                'Email': document.getElementById('email').value
             };
 
             const academicData = {
-                'Highest Qualification': getSelectText(document.getElementById('highestQualification')),
-                'School/Institution': document.getElementById('institution')?.value || 'Not provided',
-                'Graduation Year': document.getElementById('graduationYear')?.value || 'Not provided',
-                'Grade/GPA': document.getElementById('grade')?.value || 'Not provided'
+                'Education Level': document.getElementById('educationLevel').options[document.getElementById('educationLevel').selectedIndex]?.text || '',
+                'Last School': document.getElementById('lastSchool').value,
+                'Graduation Year': document.getElementById('graduationYear').value,
+                'Previous Field': document.getElementById('previousField').value || 'Not specified'
             };
 
-            const programData = {
-                'Program': getSelectText(document.getElementById('program')),
-                'Study Mode': getSelectText(document.getElementById('studyMode')),
-                'Intake Year': document.getElementById('intakeYear')?.value || 'Not provided'
+            const courseData = {
+                'Program Type': document.querySelector('.program-card.selected')?.querySelector('.program-title')?.textContent || 'Not selected',
+                'Duration': document.getElementById('programDuration').options[document.getElementById('programDuration').selectedIndex]?.text || '',
+                'Courses': selectedCourses.filter(c => c).join(', ') || 'None selected',
+                'Course Category': document.getElementById('courseCategory').options[document.getElementById('courseCategory').selectedIndex]?.text || '',
+                'Study Mode': document.getElementById('studyMode').options[document.getElementById('studyMode').selectedIndex]?.text || '',
+                'Start Date': document.getElementById('startDate').options[document.getElementById('startDate').selectedIndex]?.text || ''
             };
 
-            updateSummaryCard('personalSummary', personalData);
-            updateSummaryCard('contactSummary', contactData);
-            updateSummaryCard('academicSummary', academicData);
-            updateSummaryCard('programSummary', programData);
+            const needAccommodation = document.querySelector('input[name="accommodationNeed"]:checked')?.value;
+            const accommodationData = needAccommodation === 'yes' ? {
+                'Type': 'Dormitory',
+                'Hostel': document.getElementById('hostel').value,
+                'Room': document.getElementById('room').value
+            } : { 'Status': 'Not required' };
+
+            const documentsData = {
+                'Certificates': uploadedFiles.certificates.map(f => f.name).join(', ') || 'None',
+                'ID Document': uploadedFiles.idDocument.map(f => f.name).join(', ') || 'None',
+                'Passport Photo': uploadedFiles.passportPhoto.map(f => f.name).join(', ') || 'None',
+                'Other Documents': uploadedFiles.otherDocuments.map(f => f.name).join(', ') || 'None'
+            };
+
+            updatePreviewSection('modalPersonal', personalData);
+            updatePreviewSection('modalContact', contactData);
+            updatePreviewSection('modalAcademic', academicData);
+            updatePreviewSection('modalCourse', courseData);
+            updatePreviewSection('modalAccommodation', accommodationData);
+            updatePreviewSection('modalDocuments', documentsData);
+
+            document.getElementById('modalAccommodationSection').style.display = needAccommodation === 'yes' ? 'block' : 'none';
         }
 
-        function updateSummaryCard(elementId, data) {
+        function updatePreviewSection(elementId, data) {
             const element = document.getElementById(elementId);
             let html = '';
             for (const [key, value] of Object.entries(data)) {
                 if (value) {
-                    html += `<p><strong>${key}:</strong> ${value}</p>`;
+                    html += `
+                        <div class="profile-detail-item">
+                            <span class="detail-label">${key}:</span>
+                            <span class="detail-value">${value}</span>
+                        </div>
+                    `;
                 }
             }
-            element.innerHTML = html;
+            element.innerHTML = html || '<p>Not filled yet</p>';
+        }
+
+        document.querySelectorAll('.program-card').forEach(card => {
+            card.addEventListener('click', function () {
+                document.querySelectorAll('.program-card').forEach(c => c.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+
+        document.querySelectorAll('.checkbox-item').forEach(item => {
+            item.addEventListener('click', function () {
+                const checkbox = this.querySelector('input[type="checkbox"]');
+                if (checkbox) {
+                    checkbox.checked = !checkbox.checked;
+                    this.classList.toggle('selected', checkbox.checked);
+                }
+
+                const radio = this.querySelector('input[type="radio"]');
+                if (radio) {
+                    radio.checked = true;
+                    document.querySelectorAll('.checkbox-item').forEach(i => i.classList.remove('selected'));
+                    this.classList.add('selected');
+                }
+            });
+        });
+
+        function updateConfirmationSummary() {
+            const personalData = {
+                'Full Name': document.getElementById('fullName').value,
+                'Username': document.getElementById('username').value,
+                'Date of Birth': document.getElementById('birthDate').value,
+                'Gender': document.getElementById('gender').options[document.getElementById('gender').selectedIndex]?.text || '',
+                'Nationality': document.getElementById('nationality').value,
+                'ID Number': document.getElementById('idNumber').value
+            };
+
+            const contactData = {
+                'Guardian Name': document.getElementById('guardianName').value,
+                'Relationship': document.getElementById('guardianRelation').value,
+                'Guardian Phone': document.getElementById('guardianPhone').value,
+                'Region': document.getElementById('region').value,
+                'District': document.getElementById('district').value,
+                'Street': document.getElementById('street').value,
+                'Phone': document.getElementById('phone').value,
+                'Email': document.getElementById('email').value
+            };
+
+            const academicData = {
+                'Education Level': document.getElementById('educationLevel').options[document.getElementById('educationLevel').selectedIndex]?.text || '',
+                'Last School': document.getElementById('lastSchool').value,
+                'Graduation Year': document.getElementById('graduationYear').value,
+                'Previous Field': document.getElementById('previousField').value || 'Not specified'
+            };
+
+            const courseData = {
+                'Program Type': document.querySelector('.program-card.selected')?.querySelector('.program-title')?.textContent || 'Not selected',
+                'Duration': document.getElementById('programDuration').options[document.getElementById('programDuration').selectedIndex]?.text || '',
+                'Courses': selectedCourses.filter(c => c).join(', ') || 'None selected',
+                'Course Category': document.getElementById('courseCategory').options[document.getElementById('courseCategory').selectedIndex]?.text || '',
+                'Study Mode': document.getElementById('studyMode').options[document.getElementById('studyMode').selectedIndex]?.text || '',
+                'Start Date': document.getElementById('startDate').options[document.getElementById('startDate').selectedIndex]?.text || ''
+            };
+
+            const needAccommodation = document.querySelector('input[name="accommodationNeed"]:checked')?.value;
+            const accommodationData = needAccommodation === 'yes' ? {
+                'Type': 'Dormitory',
+                'Hostel': document.getElementById('hostel').value,
+                'Room': document.getElementById('room').value
+            } : { 'Status': 'Not required' };
+
+            const documentsData = {
+                'Certificates': uploadedFiles.certificates.map(f => f.name).join(', ') || 'None',
+                'ID Document': uploadedFiles.idDocument.map(f => f.name).join(', ') || 'None',
+                'Passport Photo': uploadedFiles.passportPhoto.map(f => f.name).join(', ') || 'None',
+                'Other Documents': uploadedFiles.otherDocuments.map(f => f.name).join(', ') || 'None'
+            };
+
+            updatePreviewSection('personalSummary', personalData);
+            updatePreviewSection('contactSummary', contactData);
+            updatePreviewSection('academicSummary', academicData);
+            updatePreviewSection('courseSummary', courseData);
+            updatePreviewSection('accommodationSummary', accommodationData);
+            updatePreviewSection('documentsSummary', documentsData);
+
+            document.getElementById('accommodationSummaryCard').style.display = needAccommodation === 'yes' ? 'block' : 'none';
+        }
+
+        function submitForm() {
+            closeProfileModal();
+            document.querySelectorAll('.form-section').forEach(section => {
+                section.style.display = 'none';
+            });
+            document.getElementById('navigationButtons').style.display = 'none';
+            document.getElementById('successScreen').style.display = 'block';
+
+            const needAccommodation = document.querySelector('input[name="accommodationNeed"]:checked')?.value;
+            if (needAccommodation === 'yes') {
+                document.getElementById('successHostel').textContent = document.getElementById('hostel').value;
+                document.getElementById('successRoom').textContent = document.getElementById('room').value;
+                document.getElementById('successAccommodation').textContent = 'Dormitory';
+            } else {
+                document.getElementById('successHostel').textContent = 'N/A';
+                document.getElementById('successRoom').textContent = 'N/A';
+                document.getElementById('successAccommodation').textContent = 'Not required';
+            }
+
+            updateConfirmationSummary();
+            document.getElementById('successSummary').innerHTML = `
+                <div class="summary-card">
+                    <h4><i class="fas fa-user"></i> Personal Information</h4>
+                    <div class="summary-content" id="personalSummary"></div>
+                </div>
+                <div class="summary-card">
+                    <h4><i class="fas fa-home"></i> Guardian & Contact Information</h4>
+                    <div class="summary-content" id="contactSummary"></div>
+                </div>
+                <div class="summary-card">
+                    <h4><i class="fas fa-graduation-cap"></i> Academic Background</h4>
+                    <div class="summary-content" id="academicSummary"></div>
+                </div>
+                <div class="summary-card">
+                    <h4><i class="fas fa-book"></i> Course Selection</h4>
+                    <div class="summary-content" id="courseSummary"></div>
+                </div>
+                <div class="summary-card">
+                    <h4><i class="fas fa-file-alt"></i> Uploaded Documents</h4>
+                    <div class="summary-content" id="documentsSummary"></div>
+                </div>
+            `;
+            updateConfirmationSummary();
         }
     </script>
 </body>
+
 </html>
