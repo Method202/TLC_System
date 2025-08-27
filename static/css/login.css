@@ -3,8 +3,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Aptos&display=swap" ');
 
 :root {
-    --primary-color: #ffae00;
-    --primary-dark: #a87300;
+    --primary-color: #3ab4ff;
+    --primary-dark: #0095ff;
     --background-start: #f5f7fb;
     --background-end: #e2e8f0;
     --card-bg: rgba(255, 255, 255, 0.9);
@@ -89,7 +89,7 @@ body {
     bottom: 0;
     border-radius: 20px;
     padding: 3px;
-    background: conic-gradient(from 180deg at 50% 50%, #ffc107 0deg, #ff9800 90deg, #ffc107 180deg, #ff9800 270deg, #ffc107 360deg);
+    background: conic-gradient(from 180deg at 50% 50%, #0095ff 0deg, #3ab4ff 90deg, #0095ff 180deg, #3ab4ff 270deg, #0095ff 360deg);
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
@@ -126,7 +126,7 @@ body {
 .close-button:hover {
     transform: rotate(90deg);
     color: #ffffff;
-    background-color: #ff9800;
+    background-color: #57B9FF;
 }
 
 .login-left {
@@ -141,7 +141,7 @@ body {
     flex: 1;
     padding: 40px;
     color: white;
-    background: linear-gradient(rgba(255, 174, 0, 0.8), rgba(168, 115, 0, 0.8)), url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80') no-repeat center center;
+    background: linear-gradient(rgba(0, 149, 255, 0.8), rgba(58, 180, 255, 0.8)), url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80') no-repeat center center;
     background-size: cover;
     border-radius: 0 15px 15px 0;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
@@ -244,7 +244,7 @@ body {
 
 .form-control:focus {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(255, 174, 0, 0.2);
+    box-shadow: 0 0 0 3px rgba(0, 149, 255, 0.2);
     outline: none;
 }
 
@@ -285,7 +285,7 @@ body {
 
 .remember-me input {
     margin-right: 8px;
-    color: #a87300;
+    color: #0073a8;
 }
 
 .forgot-password {
@@ -311,7 +311,7 @@ body {
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.2s;
-    box-shadow: 0 4px 15px rgba(255, 174, 0, 0.3);
+    box-shadow: 0 4px 15px rgba(0, 149, 255, 0.3);
 }
 
 .btn-login:hover {
