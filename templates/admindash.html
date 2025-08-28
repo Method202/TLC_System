@@ -128,7 +128,7 @@
                 <!-- Stats Grid -->
                 <div class="stats-grid">
                     <div class="stat-card">
-                        <div class="stat-icon" style="background-color: rgba(255, 174, 0, 0.1); color: var(--primary);">
+                        <div class="stat-icon" style="background-color: rgba(70, 209, 255, 1); color: var(--primary);">
                             <i class="fas fa-user-graduate"></i>
                         </div>
                         <div class="stat-details">
@@ -369,13 +369,13 @@
             data: {
                 labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
                 datasets: [{
-                    label: 'Student Enrollment 2023',
+                    
                     data: [85, 112, 98, 125, 145, 120, 165, 210, 195, 230],
-                    borderColor: '#ffae00',
-                    backgroundColor: 'rgba(255, 174, 0, 0.1)',
+                    borderColor: 'rgba(0, 190, 254, 1)',
+                    backgroundColor: '#0095ff9b',
                     tension: 0.4,
                     fill: true,
-                    pointBackgroundColor: '#ffae00',
+                    pointBackgroundColor: 'rgba(3, 144, 192, 1)',
                     pointBorderColor: '#ffffff',
                     pointRadius: 5,
                     pointHoverRadius: 7
@@ -384,24 +384,45 @@
             options: {
                 responsive: true,
                 plugins: {
-                    legend: {
-                        position: 'top',
+                  legend: {
+                    position: 'top',
+                    display: false,
+                    labels: {
+                      color: '#2c3e50',
+                      font: {
+                        size: 14
+                      }
                     }
+                  },
+                  title: {
+                    display: true,
+                    text: 'Student Enrollment 2025',
+                    color: '#1a5276',
+                    font: {
+                      size: 20,
+                      weight: 'bold',
+                      family: 'Delius'
+                    },
+                    padding: {
+                      top: 10,
+                      bottom: 30
+                    }
+                  }
                 },
                 scales: {
-                    y: {
-                        beginAtZero: true,
-                        grid: {
-                            drawBorder: false
-                        }
-                    },
-                    x: {
-                        grid: {
-                            display: false
-                        }
+                  y: {
+                    beginAtZero: true,
+                    grid: {
+                      drawBorder: false
                     }
+                  },
+                  x: {
+                    grid: {
+                      display: false
+                    }
+                  }
                 }
-            }
+              }
         });
 
         // Add active class to menu items on click

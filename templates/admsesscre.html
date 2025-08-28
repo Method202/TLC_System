@@ -9,8 +9,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Delius:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #ffae00;
-            --secondary: #a87300;
+            --primary: #3ab4ff;
+            --secondary: #0095ff;
             --success: #28a745;
             --info: #17a2b8;
             --warning: #ffc107;
@@ -851,7 +851,7 @@
                 confetti.style.top = '-10px';
                 confetti.style.width = '10px';
                 confetti.style.height = '10px';
-                confetti.style.backgroundColor = ['#ffae00', '#a87300', '#28a745', '#17a2b8'][Math.floor(Math.random() * 4)];
+                confetti.style.backgroundColor = ['var(--primary)', 'var(--primary)', '#28a745', '#17a2b8'][Math.floor(Math.random() * 4)];
                 confetti.style.pointerEvents = 'none';
                 confetti.style.zIndex = '9999';
                 confetti.style.borderRadius = '50%';
