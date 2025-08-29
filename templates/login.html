@@ -40,25 +40,8 @@
 
                 <form action="{{ url_for('login') }}" method="post" id="loginForm">
                     <div class="form-group">
-                        <label for="role">Role</label>
-                        <div class="custom-dropdown form-control" id="roleDropdown">
-                            <div class="selected-value">
-                                <span data-value="">Select your role</span>
-                                <i class="fas fa-caret-down"></i>
-                            </div>
-                            <ul class="options-list">
-                                <li data-value="admin">Administrator</li>
-                                <li data-value="lecturer">Lecturer</li>
-                                <li data-value="student">Student</li>
-                            </ul>
-                            <!-- Hidden input to store the selected value for form submission -->
-                            <input type="hidden" name="role" id="role" value="" required>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="userid">ID Number</label>
-                        <input type="text" class="form-control" id="userid" name="userid" placeholder="Enter your ID"
+                        <label for="userid">Username/ID</label>
+                        <input type="text" class="form-control" id="userid" name="userid" placeholder="Username/ID"
                             required>
                     </div>
 
@@ -130,62 +113,13 @@ document.getElementById('togglePassword').addEventListener('click', function() {
     }
 });
 
-// JavaScript for the custom dropdown
-const roleDropdown = document.getElementById('roleDropdown');
-const selectedValue = roleDropdown.querySelector('.selected-value span');
-const optionsList = roleDropdown.querySelector('.options-list');
-const hiddenInput = document.getElementById('role');
-
-roleDropdown.addEventListener('click', (event) => {
-    // Prevents the document click listener from immediately closing the dropdown
-    event.stopPropagation();
-    roleDropdown.classList.toggle('open');
-});
-
-optionsList.addEventListener('click', (event) => {
-    if (event.target.tagName === 'LI') {
-        const newValue = event.target.textContent;
-        const newRole = event.target.dataset.value;
-        
-        selectedValue.textContent = newValue;
-        hiddenInput.value = newRole;
-
-        // This line hides the dropdown after a selection is made
-        roleDropdown.classList.remove('open');
-    }
-});
-
-// This listener closes the dropdown only if the user clicks OUTSIDE of it
-document.addEventListener('click', (event) => {
-    if (!roleDropdown.contains(event.target)) {
-        roleDropdown.classList.remove('open');
-    }
-});
-
 // JavaScript to handle form submission and redirection
 document.getElementById('loginForm').addEventListener('submit', function(event) {
     // Prevent the default form submission
     event.preventDefault();
-    
-    // Get the selected role from the hidden input
-    const selectedRole = document.getElementById('role').value;
-    
-    // Redirect based on the selected role
-    switch(selectedRole) {
-        case 'student':
-            window.location.href = '/student_dashboard';
-            break;
-        case 'lecturer':
-            window.location.href = '/lecturer_dashboard';
-            break;
-        case 'admin':
-            window.location.href = '/admin_dashboard';
-            break;
-        default:
-            // Use a more user-friendly message for a professional app
-            alert('Please select your role before logging in.');
-            break;
-    }
+
+    location.href = "{{ url_for('admin_dashboard') }}";
+
 });
     </script>
 </body>
