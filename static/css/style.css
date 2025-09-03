@@ -210,6 +210,7 @@ body {
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     cursor: pointer;
     transition: background-color 0.3s;
+    border-radius: 20px;
 }
 
 .news-item:hover {
@@ -229,6 +230,10 @@ body {
 .news-meta {
     font-size: 0.7rem;
     opacity: 0.8;
+    background-color: #0095ff;
+    border-radius: 40px;
+    display: inline-block;
+    padding: 4px 12px;
 }
 
 /* Collapsed state styles */
@@ -322,7 +327,7 @@ body {
 .logout-button {
     cursor: pointer;
     padding: 8px 12px;
-    border-radius: 5px;
+    border-radius: 40px;
     display: flex;
     align-items: center;
     gap: 5px;
@@ -353,7 +358,7 @@ body {
 
 .stat-card {
     background-color: white;
-    border-radius: 10px;
+    border-radius: 20px;
     padding: 20px;
     box-shadow: 0 4px 10px rgba(0, 112, 163, 0.05);
     display: flex;
@@ -446,7 +451,7 @@ body {
 .chart-card,
 .quick-actions {
     background-color: white;
-    border-radius: 10px;
+    border-radius: 20px;
     padding: 20px;
     box-shadow: 0 4px 10px rgba(0, 112, 163, 0.05);
     height: fit-content;
@@ -473,7 +478,7 @@ body {
 .action-btn {
     padding: 12px;
     border: none;
-    border-radius: 8px;
+    border-radius: 20px;
     background-color: var(--light);
     color: var(--dark);
     cursor: pointer;
@@ -565,7 +570,7 @@ body {
 
 .news-main-section {
     background-color: white;
-    border-radius: 10px;
+    border-radius: 20px;
     padding: 20px;
     box-shadow: 0 4px 10px rgb(0, 112, 163, 0.05);
     margin-bottom: 30px;
@@ -584,7 +589,7 @@ body {
 }
 
 .news-main-section .news-item:hover {
-    background-color: rgba(255, 174, 0, 0.05);
+    background-color: rgba(0, 149, 255, 0.119);
 }
 
 .news-main-section .news-item:last-child {
