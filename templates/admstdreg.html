@@ -11,7 +11,7 @@
         :root {
             --primary: #3ab4ff;
             --secondary: #0095ff;
-            --success: #f4a261;
+            --success: #00bfffff;
             --info: #17a2b8;
             --warning: #ffc107;
             --danger: #dc3545;
@@ -166,7 +166,7 @@
             background: var(--primary);
             color: white;
             transform: scale(1.1);
-            box-shadow: 0 0 20px rgba(255, 174, 0, 0.5);
+            box-shadow: 0 0 20px rgba(0, 151, 197, 1);
         }
 
         .step-circle.completed {
@@ -318,12 +318,12 @@
             outline: none;
             border-color: var(--primary);
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(255, 174, 0, 0.2);
+            box-shadow: 0 4px 15px rgba(0, 174, 255, 1);
         }
 
         .form-control.valid {
             border-color: var(--success);
-            box-shadow: 0 5px 15px rgba(244, 162, 97, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 130, 252, 0.2);
         }
 
         .form-control.invalid {
@@ -758,7 +758,7 @@
             animation: fadeIn 1.2s ease-in-out forwards;
             animation-delay: 0.5s;
             opacity: 0;
-            box-shadow: 0 8px 20px rgba(255, 174, 0, 0.3);
+            box-shadow: 0 8px 20px rgba(0, 162, 255, 1);
         }
 
         .profile-modal {
@@ -1439,7 +1439,7 @@
 
         <div class="profile-modal" id="profileModal">
             <div class="profile-modal-content">
-                <span class="modal-close" onclick="closeProfileModal()">&times;</span>
+                <span class="modal-close" onclick="closeProfileModal()" style="background-color=var(--primary)">&times;</span>
                 <h2>Student Profile Review</h2>
                 <div class="profile-header">
                     <div class="profile-avatar" id="modalAvatar">-</div>
@@ -1478,7 +1478,7 @@
                 </div>
 
                 <div style="text-align: center; margin-top: 20px;">
-                    <button class="btn btn-primary" onclick="submitForm()">
+                    <button class="btn btn-primary" onclick="submitForm()" style="box-shadow: 0 4px 15px rgba(0, 174, 255, 1)">
                         <i class="fas fa-check"></i> Confirm and Submit
                     </button>
                 </div>

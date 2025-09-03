@@ -295,7 +295,7 @@ body {
     border: none;
     font-size: 1.5rem;
     cursor: pointer;
-    color: var(--primary)e00;
+    color: var(--primary);
 }
 
 .user-info {

@@ -11,7 +11,7 @@
         :root {
             --primary: #3ab4ff;
             --secondary: #0095ff;
-            --success: #f4a261;
+            --success: #28a745;
             --info: #17a2b8;
             --warning: #ffc107;
             --danger: #dc3545;
@@ -317,12 +317,12 @@
             outline: none;
             border-color: var(--primary);
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(255, 174, 0, 0.2);
+            box-shadow: 0 4px 15px rgba(0, 174, 255, 1);
         }
 
         .form-control.valid {
             border-color: var(--success);
-            box-shadow: 0 5px 15px rgba(244, 162, 97, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 162, 255, 0.2);
         }
 
         .form-control.invalid {
@@ -921,7 +921,7 @@
                     <div class="form-group floating-label">
                         <label for="password">Password</label>
                         <div class="password-container">
-                            <input type="password" class="form-control" id="password" placeholder="" required>
+                            <input type="password" class="form-control" id="password" placeholder="Create Password" required>
                             <span class="toggle-password" onclick="togglePassword('password')">
                                 <i class="fas fa-eye"></i>
                             </span>
@@ -936,7 +936,7 @@
                     <div class="form-group floating-label">
                         <label for="confirmPassword">Confirm Password</label>
                         <div class="password-container">
-                            <input type="password" class="form-control" id="confirmPassword" placeholder="" required>
+                            <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password" required>
                             <span class="toggle-password" onclick="togglePassword('confirmPassword')">
                                 <i class="fas fa-eye"></i>
                             </span>
@@ -1306,7 +1306,7 @@
                 <p style="color: var(--gray); margin: 30px 0; font-size: 1.1rem;">
                     Please save your Lecturer ID for future reference and login purposes
                 </p>
-                <button class="btn btn-primary" onclick="window.location.href='lecturer_portal.html'">
+                <button class="btn btn-primary" onclick="location.href='{{ url_for('admin_lecturers') }}'" style="box-shadow: 0 4px 15px rgba(0, 174, 255, 1)">
                     <i class="fas fa-chalkboard-teacher"></i> Proceed to Lecturer Portal
                 </button>
             </div>
