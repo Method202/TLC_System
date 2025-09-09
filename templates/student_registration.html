@@ -9,9 +9,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Delius:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #3ab4ff;
-            --secondary: #0095ff;
-            --success: #00bfffff;
+            --primary: #4A90E2;
+            --secondary: #2E6DA4;
+            --success: #28a745;
             --info: #17a2b8;
             --warning: #ffc107;
             --danger: #dc3545;
@@ -1422,7 +1422,7 @@
                 <p style="color: var(--gray); margin: 30px 0; font-size: 1.1rem;">
                     Please save your Student ID for future reference and login purposes
                 </p>
-                <button class="btn btn-primary" onclick="window.location.href='admstd.html'">
+                <button class="btn btn-primary" onclick="location.href='{{ url_for('admin_students') }}'">
                     <i class="fas fa-user-graduate"></i> Proceed to Student Portal
                 </button>
             </div>
@@ -1488,25 +1488,20 @@
     <script>
         let currentStep = 1;
         const totalSteps = 7;
-        let uploadedFiles = {
-            certificates: [],
-            idDocument: [],
-            passportPhoto: [],
-            otherDocuments: []
-        };
+        let uploadedFiles = { certificates: [], idDocument: [], passportPhoto: [], otherDocuments: [] };
         let selectedCourses = [];
 
         function createParticles() {
-            const particles = document.getElementById('particles');
+            const particles = document.createElement('div');
+            particles.id = 'particles';
+            particles.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1;';
             for (let i = 0; i < 20; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.top = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 6 + 's';
-                particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                particle.style.cssText = `width: 4px; height: 4px; background: rgba(74, 144, 226, 0.8); border-radius: 50%; position: absolute; left: ${Math.random() * 100}%; top: ${Math.random() * 100}%; animation: float ${Math.random() * 3 + 3}s infinite ease-in-out; animation-delay: ${Math.random() * 6}s;`;
                 particles.appendChild(particle);
             }
+            document.body.appendChild(particles);
         }
 
         document.addEventListener('DOMContentLoaded', function () {
@@ -1518,14 +1513,13 @@
             setupCourseSelection();
             assignAccommodation();
             setupTermsCheckbox();
+            updateStep(); // Initialize the first step
         });
 
         function setupTermsCheckbox() {
             const termsCheckbox = document.getElementById('termsAccepted');
-            const reviewBtn = document.getElementById('reviewProfileBtn');
             termsCheckbox.addEventListener('change', function () {
-                reviewBtn.style.opacity = this.checked ? '1' : '0.5';
-                reviewBtn.style.cursor = this.checked ? 'pointer' : 'not-allowed';
+                document.getElementById('nextBtn').disabled = !this.checked && currentStep === totalSteps;
             });
         }
 
@@ -1544,8 +1538,8 @@
 
         function togglePassword(inputId) {
             const input = document.getElementById(inputId);
-            const type = input.type === 'password' ? 'text' : 'password';
-            input.type = type;
+            const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+            input.setAttribute('type', type);
             const icon = input.nextElementSibling.querySelector('i');
             icon.classList.toggle('fa-eye');
             icon.classList.toggle('fa-eye-slash');
@@ -1558,31 +1552,29 @@
             const strengthText = document.getElementById('password-strength-text');
             const matchText = document.getElementById('password-match');
 
+            if (!passwordInput || !confirmInput || !strengthBar || !strengthText || !matchText) {
+                console.error('One or more password validation elements not found');
+                return;
+            }
+
             passwordInput.addEventListener('input', function () {
                 const password = this.value;
                 let strength = 0;
-
                 if (password.length >= 8) strength += 25;
                 if (/[A-Z]/.test(password)) strength += 25;
                 if (/[0-9]/.test(password)) strength += 25;
                 if (/[^A-Za-z0-9]/.test(password)) strength += 25;
-
                 strengthBar.style.width = strength + '%';
-
                 if (strength < 50) {
-                    strengthBar.style.background = 'var(--danger)';
-                    strengthText.textContent = 'Weak password';
-                    strengthText.style.color = 'var(--danger)';
+                    strengthBar.style.backgroundColor = 'var(--danger)';
+                    strengthText.textContent = 'Weak';
                 } else if (strength < 75) {
-                    strengthBar.style.background = 'var(--warning)';
-                    strengthText.textContent = 'Medium password';
-                    strengthText.style.color = 'var(--warning)';
+                    strengthBar.style.backgroundColor = 'var(--warning)';
+                    strengthText.textContent = 'Medium';
                 } else {
-                    strengthBar.style.background = 'var(--success)';
-                    strengthText.textContent = 'Strong password';
-                    strengthText.style.color = 'var(--success)';
+                    strengthBar.style.backgroundColor = 'var(--success)';
+                    strengthText.textContent = 'Strong';
                 }
-
                 checkPasswordMatch();
             });
 
@@ -1591,14 +1583,13 @@
             function checkPasswordMatch() {
                 const password = passwordInput.value;
                 const confirm = confirmInput.value;
-
                 if (confirm.length === 0) {
                     matchText.textContent = '';
-                } else if (password === confirm) {
-                    matchText.textContent = 'Passwords match';
+                } else if (password === confirm && password.length > 0) {
+                    matchText.textContent = 'Match';
                     matchText.style.color = 'var(--success)';
                 } else {
-                    matchText.textContent = 'Passwords do not match';
+                    matchText.textContent = 'No Match';
                     matchText.style.color = 'var(--danger)';
                 }
             }
@@ -1606,32 +1597,21 @@
 
         function setupFileUploads() {
             document.querySelectorAll('.file-upload-input').forEach(input => {
-                input.addEventListener('change', function () {
+                input.addEventListener('change', function (e) {
                     const fileType = this.id;
-                    const files = this.files;
+                    const files = e.target.files;
                     const fileListElement = document.getElementById(`${fileType}Files`);
-
+                    fileListElement.innerHTML = '';
                     if (files.length > 0) {
-                        fileListElement.innerHTML = '';
-
                         for (let i = 0; i < files.length; i++) {
-                            const file = files[i];
-
-                            if (file.size > 2 * 1024 * 1024) {
-                                alert(`File ${file.name} is too large. Maximum size is 2MB.`);
+                            if (files[i].size > 2 * 1024 * 1024) {
+                                alert(`File ${files[i].name} is too large. Maximum size is 2MB.`);
                                 continue;
                             }
-
-                            uploadedFiles[fileType].push(file);
-
+                            uploadedFiles[fileType].push(files[i]);
                             const fileItem = document.createElement('div');
                             fileItem.className = 'file-item';
-                            fileItem.innerHTML = `
-                                <span class="file-name">${file.name}</span>
-                                <span class="file-remove" onclick="removeFile('${fileType}', ${uploadedFiles[fileType].length - 1})">
-                                    <i class="fas fa-times"></i>
-                                </span>
-                            `;
+                            fileItem.innerHTML = `<span class="file-name">${files[i].name}</span><span class="file-remove" onclick="removeFile('${fileType}', ${uploadedFiles[fileType].length - 1})"><i class="fas fa-times"></i></span>`;
                             fileListElement.appendChild(fileItem);
                         }
                     }
@@ -1647,16 +1627,10 @@
         function updateFileList(fileType) {
             const fileListElement = document.getElementById(`${fileType}Files`);
             fileListElement.innerHTML = '';
-
             uploadedFiles[fileType].forEach((file, index) => {
                 const fileItem = document.createElement('div');
                 fileItem.className = 'file-item';
-                fileItem.innerHTML = `
-                    <span class="file-name">${file.name}</span>
-                    <span class="file-remove" onclick="removeFile('${fileType}', ${index})">
-                        <i class="fas fa-times"></i>
-                    </span>
-                `;
+                fileItem.innerHTML = `<span class="file-name">${file.name}</span><span class="file-remove" onclick="removeFile('${fileType}', ${index})"><i class="fas fa-times"></i></span>`;
                 fileListElement.appendChild(fileItem);
             });
         }
@@ -1667,29 +1641,16 @@
                 const numCourses = parseInt(this.value) || 0;
                 const courseSelectionDiv = document.getElementById('courseSelection');
                 courseSelectionDiv.innerHTML = '';
-
                 selectedCourses = [];
                 for (let i = 0; i < numCourses; i++) {
                     const courseGroup = document.createElement('div');
                     courseGroup.className = 'form-group floating-label';
-                    courseGroup.innerHTML = `
-                        <select class="form-control course-select" id="course${i}" required>
-                            <option value="" disabled selected></option>
-                            <option value="computer-science">Computer Science</option>
-                            <option value="business-administration">Business Administration</option>
-                            <option value="electrical-engineering">Electrical Engineering</option>
-                            <option value="accounting">Accounting</option>
-                            <option value="labor-law">Labor Law</option>
-                            <option value="mechanical-engineering">Mechanical Engineering</option>
-                        </select>
-                        <label for="course${i}">Course ${i + 1}</label>
-                    `;
+                    courseGroup.innerHTML = `<select class="form-control course-select" id="course${i}" required><option value="" disabled selected></option><option value="computer-science">Computer Science</option><option value="business-administration">Business Administration</option><option value="electrical-engineering">Electrical Engineering</option><option value="accounting">Accounting</option><option value="labor-law">Labor Law</option><option value="mechanical-engineering">Mechanical Engineering</option></select><label for="course${i}">Course ${i + 1}</label>`;
                     courseSelectionDiv.appendChild(courseGroup);
                 }
-
                 document.querySelectorAll('.course-select').forEach(select => {
                     select.addEventListener('change', function () {
-                        selectedCourses[parseInt(this.id.replace('course', ''))] = this.options[this.selectedIndex]?.text || '';
+                        selectedCourses[parseInt(this.id.replace('course', ''))] = this.options[this.selectedIndex].text;
                     });
                 });
             });
@@ -1699,12 +1660,10 @@
             const accommodationYes = document.getElementById('accommodationYes');
             const accommodationNo = document.getElementById('accommodationNo');
             const accommodationSection = document.getElementById('accommodationSection');
-
             accommodationYes.addEventListener('click', function () {
                 accommodationSection.style.display = 'block';
                 assignAccommodation();
             });
-
             accommodationNo.addEventListener('click', function () {
                 accommodationSection.style.display = 'none';
                 document.getElementById('hostel').value = '';
@@ -1713,7 +1672,7 @@
         }
 
         function assignAccommodation() {
-            const needAccommodation = document.querySelector('input[name="accommodationNeed"]:checked').value;
+            const needAccommodation = document.querySelector('input[name="accommodationNeed"]:checked')?.value;
             if (needAccommodation === 'yes') {
                 const hostels = ['North Hall', 'South Hall', 'East Hall', 'West Hall'];
                 const hostel = hostels[Math.floor(Math.random() * hostels.length)];
@@ -1731,6 +1690,8 @@
                 } else {
                     showProfileModal();
                 }
+            } else {
+                console.log('Validation failed at step', currentStep);
             }
         }
 
@@ -1745,14 +1706,15 @@
 
         function updateStep() {
             updateProgress();
-            document.querySelectorAll('.form-section').forEach(section => {
-                section.classList.remove('active');
-            });
-
+            document.querySelectorAll('.form-section').forEach(section => section.classList.remove('active'));
             setTimeout(() => {
-                document.querySelector(`[data-section="${currentStep}"]`).classList.add('active');
-            }, 300);
-
+                const activeSection = document.querySelector(`[data-section="${currentStep}"]`);
+                if (activeSection) {
+                    activeSection.classList.add('active');
+                } else {
+                    console.error('Active section not found for step', currentStep);
+                }
+            }, 200);
             updateNavigationButtons();
             updateStepIndicators();
             if (currentStep === 5) assignAccommodation();
@@ -1760,41 +1722,40 @@
 
         function updateProgress() {
             const progressFill = document.querySelector('.progress-fill');
-            const progressPercent = (currentStep / totalSteps) * 100;
-            progressFill.style.width = progressPercent + '%';
+            if (progressFill) {
+                progressFill.style.width = (currentStep / totalSteps) * 100 + '%';
+            }
         }
 
         function updateStepIndicators() {
             document.querySelectorAll('.step').forEach((step, index) => {
                 const stepNumber = index + 1;
                 step.classList.remove('active', 'completed');
-                if (stepNumber === currentStep) {
-                    step.classList.add('active');
-                } else if (stepNumber < currentStep) {
-                    step.classList.add('completed');
-                }
+                if (stepNumber === currentStep) step.classList.add('active');
+                else if (stepNumber < currentStep) step.classList.add('completed');
             });
         }
 
         function updateNavigationButtons() {
             const prevBtn = document.getElementById('prevBtn');
             const nextBtn = document.getElementById('nextBtn');
-
-            if (currentStep === 1) {
-                prevBtn.innerHTML = '<i class="fas fa-arrow-left"></i> Cancel';
-                prevBtn.style.display = 'flex';
-            } else {
-                prevBtn.innerHTML = '<i class="fas fa-arrow-left"></i> Previous';
-                prevBtn.style.display = 'flex';
+            if (prevBtn && nextBtn) {
+                if (currentStep === 1) {
+                    prevBtn.innerHTML = '<i class="fas fa-arrow-left"></i> Cancel';
+                } else {
+                    prevBtn.innerHTML = '<i class="fas fa-arrow-left"></i> Previous';
+                }
+                nextBtn.innerHTML = currentStep === totalSteps ? '<i class="fas fa-eye"></i> Review Profile' : 'Next <i class="fas fa-arrow-right"></i>';
+                nextBtn.disabled = currentStep === 7 && !document.getElementById('termsAccepted').checked;
             }
-
-            nextBtn.innerHTML = currentStep === totalSteps
-                ? '<i class="fas fa-eye"></i> Review Profile'
-                : 'Next <i class="fas fa-arrow-right"></i>';
         }
 
         function validateCurrentStep() {
             const currentSection = document.querySelector(`[data-section="${currentStep}"]`);
+            if (!currentSection) {
+                console.error('Current section not found for step', currentStep);
+                return false;
+            }
             const requiredFields = currentSection.querySelectorAll('[required]');
             let isValid = true;
 
@@ -1806,13 +1767,12 @@
                 } else {
                     field.classList.remove('invalid');
                     field.classList.add('valid');
-                    field.parentElement.classList.add('field-completed');
                 }
             });
 
             if (currentStep === 1) {
                 const matchText = document.getElementById('password-match').textContent;
-                if (matchText !== 'Passwords match') {
+                if (matchText !== 'Match') {
                     document.getElementById('confirmPassword').classList.add('invalid');
                     alert('Passwords do not match');
                     isValid = false;
@@ -1827,15 +1787,15 @@
                     alert('Please select a program type (Short Term or Long Term)');
                     isValid = false;
                 }
-                const numCourses = document.getElementById('numCourses').value;
-                if (numCourses && selectedCourses.length < parseInt(numCourses)) {
+                const numCourses = parseInt(document.getElementById('numCourses').value) || 0;
+                if (numCourses > 0 && selectedCourses.length < numCourses) {
                     alert('Please select all required courses');
                     isValid = false;
                 }
             }
 
             if (currentStep === 5) {
-                const needAccommodation = document.querySelector('input[name="accommodationNeed"]:checked').value;
+                const needAccommodation = document.querySelector('input[name="accommodationNeed"]:checked')?.value;
                 if (needAccommodation === 'yes') {
                     const hostel = document.getElementById('hostel').value;
                     const room = document.getElementById('room').value;
@@ -1864,10 +1824,8 @@
                     if (this.hasAttribute('required') && this.value.trim()) {
                         this.classList.remove('invalid');
                         this.classList.add('valid');
-                        this.parentElement.classList.add('field-completed');
                     } else if (this.hasAttribute('required')) {
                         this.classList.remove('valid');
-                        this.parentElement.classList.remove('field-completed');
                     }
                 });
 
@@ -1998,7 +1956,6 @@
                     checkbox.checked = !checkbox.checked;
                     this.classList.toggle('selected', checkbox.checked);
                 }
-
                 const radio = this.querySelector('input[type="radio"]');
                 if (radio) {
                     radio.checked = true;
@@ -2071,9 +2028,7 @@
 
         function submitForm() {
             closeProfileModal();
-            document.querySelectorAll('.form-section').forEach(section => {
-                section.style.display = 'none';
-            });
+            document.querySelectorAll('.form-section').forEach(section => section.style.display = 'none');
             document.getElementById('navigationButtons').style.display = 'none';
             document.getElementById('successScreen').style.display = 'block';
 

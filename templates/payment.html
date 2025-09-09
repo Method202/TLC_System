@@ -1,0 +1,1644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Payments Management | TLCS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Delius&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4A90E2;
+            --secondary: #2E6DA4;
+            --success: #28a745;
+            --info: #17a2b8;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --bg: #f5f7fb;
+            --sidebar-width: 270px;
+            --sidebar-collapsed-width: 90px;
+            --radius: 12px;
+            --transition-speed: 0.25s;
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Delius', 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            color: #fff;
+            height: 100vh;
+            position: fixed;
+            transition: width var(--transition-speed);
+            z-index: 1000;
+            box-shadow: var(--shadow);
+            overflow-y: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 0;
+            height: 0;
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px 18px 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .logo-text {
+            text-align: center;
+            line-height: 1.05;
+        }
+
+        .logo-title {
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+
+        .logo-collection {
+            font-size: 0.9rem;
+            opacity: 0.95;
+        }
+
+        .logo-subtitle {
+            font-size: 0.75rem;
+            opacity: 0.85;
+        }
+
+        .logo-condensed {
+            display: none;
+            font-size: 1.2rem;
+            font-weight: 800;
+        }
+
+        .sidebar.collapsed .logo-text {
+            display: none;
+        }
+
+        .sidebar.collapsed .logo-condensed {
+            display: block;
+        }
+
+        .menu {
+            padding: 12px 10px 20px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            margin: 6px 8px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform var(--transition-speed), background var(--transition-speed);
+        }
+
+        .menu-item i {
+            width: 22px;
+            text-align: center;
+            font-size: 1.05rem;
+            opacity: 0.95;
+        }
+
+        .menu-text {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .menu-item:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateX(2px);
+        }
+
+        .menu-item.active {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .sidebar.collapsed {
+            width: var(--sidebar-collapsed-width);
+        }
+
+        .sidebar.collapsed .menu-text {
+            display: none;
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+            transition: margin-left var(--transition-speed);
+        }
+
+        .sidebar.collapsed+.main-content {
+            margin-left: var(--sidebar-collapsed-width);
+        }
+
+        .header {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 18px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-actions {
+            margin: 10px 0;
+            display: flex;
+            gap: 10px;
+        }
+
+        .toggle-btn {
+            border: 0;
+            background: #fff;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: transform var(--transition-speed), background var(--transition-speed);
+        }
+
+        .toggle-btn:hover {
+            transform: translateY(-1px);
+            background: var(--light);
+        }
+
+        .breadcrumbs {
+            font-size: 0.92rem;
+            color: var(--gray);
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: var(--radius);
+            padding: 16px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+        }
+
+        .card:before {
+            content: "";
+            position: absolute;
+            width: 140%;
+            height: 140%;
+            top: -20%;
+            left: -20%;
+            background: radial-gradient(transparent 60%, rgba(74, 144, 226, 0.08));
+            transform: rotate(8deg);
+            pointer-events: none;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.09);
+        }
+
+        .card-title {
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .card-value {
+            font-size: 1.35rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            background: var(--light);
+            color: var(--dark);
+            transition: background var(--transition-speed), color var(--transition-speed);
+            box-shadow: var(--shadow);
+        }
+
+        .tab.active {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .tab:hover {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .add-payment-section {
+            background: linear-gradient(135deg, #ffffff, #f0f4f8);
+            border-radius: 10px;
+            padding: 18px;
+            box-shadow: var(--shadow);
+            margin-bottom: 16px;
+            position: relative;
+            display: none;
+        }
+
+        .add-payment-section.show {
+            display: block;
+        }
+
+        .filter-section {
+            background: linear-gradient(135deg, #ffffff, #f0f4f8);
+            border-radius: 10px;
+            padding: 18px;
+            box-shadow: var(--shadow);
+            margin-bottom: 16px;
+            position: relative;
+        }
+
+        .add-payment-section h3,
+        .filter-section h3 {
+            margin-bottom: 10px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .add-payment-grid,
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(180px, 1fr));
+            gap: 12px;
+        }
+
+        .form-group,
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            animation: slideIn 0.3s ease;
+        }
+
+        .form-group label,
+        .filter-group label {
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .form-group label i,
+        .filter-group label i {
+            color: var(--primary);
+        }
+
+        .form-control,
+        .filter-control {
+            padding: 10px 12px;
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            background: #fff;
+            outline: none;
+            transition: border var(--transition-speed), box-shadow var(--transition-speed);
+        }
+
+        .form-control:focus,
+        .filter-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.15);
+        }
+
+        .form-control.invalid {
+            border-color: var(--danger);
+        }
+
+        .error-message {
+            color: var(--danger);
+            font-size: 0.85rem;
+            margin-top: 4px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .form-actions,
+        .filter-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 12px;
+        }
+
+        .btn {
+            border: 0;
+            padding: 10px 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed), background var(--transition-speed);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: var(--shadow);
+            background: #fff;
+            position: relative;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary);
+        }
+
+        .btn-secondary {
+            background: var(--light);
+            color: var(--dark);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: #fff;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: #fff;
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: #212529;
+        }
+
+        .btn-info {
+            background: var(--info);
+            color: #fff;
+        }
+
+        .btn-sm {
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .btn-loading::after {
+            content: '';
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #fff;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            margin-left: 8px;
+        }
+
+        .table-wrap {
+            background: #fff;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead th {
+            background: #f2f6fb;
+            text-align: left;
+            padding: 12px;
+            color: #344054;
+            font-weight: 700;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        tbody td {
+            padding: 12px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .status {
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            display: inline-block;
+        }
+
+        .status-paid, .status-successful {
+            background: rgba(40, 167, 69, 0.12);
+            color: var(--success);
+        }
+
+        .status-pending {
+            background: rgba(255, 193, 7, 0.18);
+            color: #a56a00;
+        }
+
+        .status-overdue, .status-failed {
+            background: rgba(220, 53, 69, 0.12);
+            color: var(--danger);
+        }
+
+        .status-reversed {
+            background: rgba(108, 117, 125, 0.12);
+            color: var(--gray);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .pagination {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            padding: 14px;
+        }
+
+        .pagination-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 1px solid var(--light-gray);
+            background: #fff;
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            transition: background var(--transition-speed), color var(--transition-speed), border var(--transition-speed), transform var(--transition-speed);
+            box-shadow: var(--shadow);
+        }
+
+        .pagination-btn:hover {
+            transform: translateY(-1px);
+            background: var(--light);
+        }
+
+        .pagination-btn.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+        }
+
+        .modal-content {
+            background: #fff;
+            border-radius: 12px;
+            padding: 18px;
+            width: 92%;
+            max-width: 720px;
+            box-shadow: var(--shadow);
+            animation: flipIn 0.35s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-content:before {
+            content: "";
+            position: absolute;
+            width: 140%;
+            height: 140%;
+            top: -20%;
+            left: -20%;
+            background: radial-gradient(transparent 60%, rgba(74, 144, 226, 0.08));
+            transform: rotate(8deg);
+            pointer-events: none;
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .modal-title {
+            font-weight: 800;
+            font-size: 1.25rem;
+            color: var(--dark);
+        }
+
+        .close-modal {
+            background: transparent;
+            border: 0;
+            color: var(--danger);
+            font-size: 1.35rem;
+            cursor: pointer;
+            transition: color var(--transition-speed);
+        }
+
+        .close-modal:hover {
+            color: #c82333;
+        }
+
+        .payment-profile {
+            background: #fff;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .payment-profile:before {
+            content: "";
+            position: absolute;
+            width: 140%;
+            height: 140%;
+            top: -20%;
+            left: -20%;
+            background: radial-gradient(transparent 60%, rgba(74, 144, 226, 0.08));
+            transform: rotate(8deg);
+            pointer-events: none;
+        }
+
+        .payment-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #fff;
+            padding: 12px 16px;
+            border-radius: 8px 8px 0 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .payment-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--light);
+            display: grid;
+            place-items: center;
+            font-size: 2rem;
+            color: var(--primary);
+            border: 2px solid #fff;
+        }
+
+        .payment-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .payment-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            padding: 16px;
+        }
+
+        .payment-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            animation: slideIn 0.3s ease;
+        }
+
+        .payment-item label {
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 0.95rem;
+        }
+
+        .payment-item p {
+            color: var(--gray);
+            font-size: 0.9rem;
+            background: #f8f9fa;
+            padding: 8px;
+            border-radius: 6px;
+        }
+
+        .payment-item.status-paid p,
+        .payment-item.status-successful p {
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .payment-item.status-pending p {
+            color: #a56a00;
+            font-weight: 600;
+        }
+
+        .payment-item.status-overdue p,
+        .payment-item.status-failed p {
+            color: var(--danger);
+            font-weight: 600;
+        }
+
+        .payment-item.status-reversed p {
+            color: var(--gray);
+            font-weight: 600;
+        }
+
+        @keyframes flipIn {
+            from {
+                transform: rotateX(-8deg);
+                opacity: 0;
+            }
+            to {
+                transform: rotateX(0deg);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(10px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .cards,
+            .add-payment-grid,
+            .filter-grid,
+            .payment-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 760px) {
+            .cards {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                width: var(--sidebar-collapsed-width);
+            }
+            .sidebar .logo-text {
+                display: none;
+            }
+            .sidebar .logo-condensed {
+                display: block;
+            }
+            .sidebar .menu-text {
+                display: none;
+            }
+            .main-content {
+                margin-left: var(--sidebar-collapsed-width);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-text">
+                    <div class="logo-title">TANZANIA LABOUR</div>
+                    <div class="logo-collection">COLLEGE</div>
+                    <div class="logo-subtitle">E-mail: labourtz@gmail.com</div>
+                    <div class="logo-subtitle">P.O.Box 3454</div>
+                    <div class="logo-subtitle">MBEYA-TANZANIA</div>
+                </div>
+                <div class="logo-condensed">TLC</div>
+            </div>
+            <div class="menu">
+                <div class="menu-item" onclick="location.href='{{ url_for('admin_dashboard') }}';">
+                    <i class="fas fa-home"></i>
+                    <span class="menu-text">Dashboard</span>
+                </div>
+                <div class="menu-item" onclick="location.href='{{ url_for('admin_students') }}';">
+                    <i class="fas fa-user-graduate"></i>
+                    <span class="menu-text">Students</span>
+                </div>
+                <div class="menu-item" onclick="location.href='{{ url_for('admin_lecturers') }}';">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <span class="menu-text">Lecturers</span>
+                </div>
+                <div class="menu-item" onclick="location.href='{{ url_for('admin_courses') }}';">
+                    <i class="fas fa-book"></i>
+                    <span class="menu-text">Courses</span>
+                </div>
+                <div class="menu-item" onclick="location.href='{{ url_for('admin_programs') }}';">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span class="menu-text">Programs</span>
+                </div>
+                <div class="menu-item" onclick="location.href='{{ url_for('admin_results') }}';">
+                    <i class="fas fa-chart-bar"></i>
+                    <span class="menu-text">Results</span>
+                </div>
+                <div class="menu-item" onclick="location.href='{{ url_for('admin_assessments') }}';">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span class="menu-text">Assessments</span>
+                </div>
+                <div class="menu-item active" onclick="location.href='{{ url_for('admin_payments') }}';">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <span class="menu-text">Payments</span>
+                </div>
+                <div class="menu-item" onclick="location.href='{{ url_for('admin_accommodations') }}';">
+                    <i class="fas fa-bed"></i>
+                    <span class="menu-text">Accommodations</span>
+                </div>
+                <div class="menu-item" onclick="location.href='{{ url_for('admin_settings') }}';">
+                    <i class="fas fa-cog"></i>
+                    <span class="menu-text">Settings</span>
+                </div>
+                <div class="menu-item" onclick="location.href='{{ url_for('login') }}';">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span class="menu-text">Logout</span>
+                </div>
+            </div>
+        </div>
+        <!-- Main Content -->
+        <div class="main-content" id="main-content">
+            <div class="header">
+                <div class="header-left">
+                    <button class="toggle-btn" id="toggle-sidebar" title="Collapse/Expand">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="breadcrumbs">Finance / Payments</div>
+                </div>
+                <h1>Payments Management</h1>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-primary" id="add-payment-btn"><i class="fas fa-plus-circle"></i> Add New Payment</button>
+            </div>
+            <!-- Add Payment Section -->
+            <div class="add-payment-section" id="add-payment-section">
+                <h3>Add New Payment</h3>
+                <form id="payment-form">
+                    <div class="add-payment-grid">
+                        <div class="form-group">
+                            <label for="student"><i class="fas fa-user-graduate"></i> Student *</label>
+                            <select class="form-control" id="student" required>
+                                <option value="">Select Student</option>
+                            </select>
+                            <div class="error-message" id="student-error">Student is required</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="payment-type"><i class="fas fa-money-bill-wave"></i> Payment Type *</label>
+                            <select class="form-control" id="payment-type" required>
+                                <option value="">Select Type</option>
+                                <option value="Tuition">Tuition</option>
+                                <option value="Accommodation">Accommodation</option>
+                                <option value="Library">Library</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            <div class="error-message" id="payment-type-error">Payment Type is required</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="amount"><i class="fas fa-dollar-sign"></i> Amount (TZS) *</label>
+                            <input type="number" class="form-control" id="amount" required min="1" placeholder="Enter amount">
+                            <div class="error-message" id="amount-error">Amount must be greater than 0</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="issued-date"><i class="fas fa-calendar-alt"></i> Issued Date *</label>
+                            <input type="date" class="form-control" id="issued-date" required>
+                            <div class="error-message" id="issued-date-error">Issued date is required</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="due-date"><i class="fas fa-calendar-alt"></i> Due Date *</label>
+                            <input type="date" class="form-control" id="due-date" required>
+                            <div class="error-message" id="due-date-error">Due date must be after issued date</div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="cancel-btn">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="save-btn">Save</button>
+                    </div>
+                </form>
+            </div>
+            <!-- Overview Cards -->
+            <div class="cards">
+                <div class="card">
+                    <div class="card-title">Total Invoices</div>
+                    <div class="card-value" id="kpi-invoices">0</div>
+                </div>
+                <div class="card">
+                    <div class="card-title">Collected</div>
+                    <div class="card-value" id="kpi-collected">0 TZS</div>
+                </div>
+                <div class="card">
+                    <div class="card-title">Outstanding</div>
+                    <div class="card-value" id="kpi-outstanding">0 TZS</div>
+                </div>
+                <div class="card">
+                    <div class="card-title">Overdue</div>
+                    <div class="card-value" id="kpi-overdue">0</div>
+                </div>
+            </div>
+            <!-- Tabs -->
+            <div class="tabs">
+                <div class="tab active" data-tab="invoices">Invoices</div>
+                <div class="tab" data-tab="transactions">Transactions</div>
+                <div class="tab" data-tab="receipts">Receipts</div>
+            </div>
+            <!-- Invoices Tab -->
+            <div class="tab-content" id="invoices-tab">
+                <div class="filter-section">
+                    <h3>Filter Invoices</h3>
+                    <div class="filter-grid">
+                        <div class="filter-group">
+                            <label for="invoices-payment-type-filter"><i class="fas fa-money-bill-wave"></i> Payment Type</label>
+                            <select class="filter-control" id="invoices-payment-type-filter">
+                                <option value="">All Types</option>
+                                <option value="Tuition">Tuition</option>
+                                <option value="Accommodation">Accommodation</option>
+                                <option value="Library">Library</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="invoices-status-filter"><i class="fas fa-info-circle"></i> Status</label>
+                            <select class="filter-control" id="invoices-status-filter">
+                                <option value="">All Status</option>
+                                <option value="Paid">Paid</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Overdue">Overdue</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="invoices-date-range-filter"><i class="fas fa-calendar"></i> Date Range</label>
+                            <select class="filter-control" id="invoices-date-range-filter">
+                                <option value="">All Time</option>
+                                <option value="This Week">This Week</option>
+                                <option value="This Month">This Month</option>
+                                <option value="This Semester">This Semester</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="invoices-student-filter"><i class="fas fa-user-graduate"></i> Student</label>
+                            <select class="filter-control" id="invoices-student-filter">
+                                <option value="">All Students</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="invoices-search"><i class="fas fa-search"></i> Search</label>
+                            <input type="text" class="filter-control" id="invoices-search" placeholder="Search by invoice ID or student">
+                        </div>
+                    </div>
+                    <div class="filter-actions">
+                        <button class="btn btn-secondary" id="invoices-reset-filters">Reset Filters</button>
+                        <button class="btn btn-primary" id="invoices-apply-filters">Apply Filters</button>
+                    </div>
+                </div>
+                <div class="table-wrap">
+                    <table id="invoices-table">
+                        <thead>
+                            <tr>
+                                <th>Invoice ID</th>
+                                <th>Student</th>
+                                <th>Payment Type</th>
+                                <th>Amount</th>
+                                <th>Issued</th>
+                                <th>Due</th>
+                                <th>Paid</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <div class="pagination" id="invoices-pagination"></div>
+                </div>
+            </div>
+            <!-- Transactions Tab -->
+            <div class="tab-content" id="transactions-tab" style="display: none;">
+                <div class="filter-section">
+                    <h3>Filter Transactions</h3>
+                    <div class="filter-grid">
+                        <div class="filter-group">
+                            <label for="transactions-payment-type-filter"><i class="fas fa-money-bill-wave"></i> Payment Type</label>
+                            <select class="filter-control" id="transactions-payment-type-filter">
+                                <option value="">All Types</option>
+                                <option value="Tuition">Tuition</option>
+                                <option value="Accommodation">Accommodation</option>
+                                <option value="Library">Library</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="transactions-status-filter"><i class="fas fa-info-circle"></i> Status</label>
+                            <select class="filter-control" id="transactions-status-filter">
+                                <option value="">All Status</option>
+                                <option value="Successful">Successful</option>
+                                <option value="Failed">Failed</option>
+                                <option value="Reversed">Reversed</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="transactions-date-range-filter"><i class="fas fa-calendar"></i> Date Range</label>
+                            <select class="filter-control" id="transactions-date-range-filter">
+                                <option value="">All Time</option>
+                                <option value="This Week">This Week</option>
+                                <option value="This Month">This Month</option>
+                                <option value="This Semester">This Semester</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="transactions-student-filter"><i class="fas fa-user-graduate"></i> Student</label>
+                            <select class="filter-control" id="transactions-student-filter">
+                                <option value="">All Students</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="transactions-search"><i class="fas fa-search"></i> Search</label>
+                            <input type="text" class="filter-control" id="transactions-search" placeholder="Search by transaction ID or student">
+                        </div>
+                    </div>
+                    <div class="filter-actions">
+                        <button class="btn btn-secondary" id="transactions-reset-filters">Reset Filters</button>
+                        <button class="btn btn-primary" id="transactions-apply-filters">Apply Filters</button>
+                    </div>
+                </div>
+                <div class="table-wrap">
+                    <table id="transactions-table">
+                        <thead>
+                            <tr>
+                                <th>Txn ID</th>
+                                <th>Invoice ID</th>
+                                <th>Student</th>
+                                <th>Payment Type</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                                <th>Method</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <div class="pagination" id="transactions-pagination"></div>
+                </div>
+            </div>
+            <!-- Receipts Tab -->
+            <div class="tab-content" id="receipts-tab" style="display: none;">
+                <div class="filter-section">
+                    <h3>Filter Receipts</h3>
+                    <div class="filter-grid">
+                        <div class="filter-group">
+                            <label for="receipts-payment-type-filter"><i class="fas fa-money-bill-wave"></i> Payment Type</label>
+                            <select class="filter-control" id="receipts-payment-type-filter">
+                                <option value="">All Types</option>
+                                <option value="Tuition">Tuition</option>
+                                <option value="Accommodation">Accommodation</option>
+                                <option value="Library">Library</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="receipts-status-filter"><i class="fas fa-info-circle"></i> Invoice Status</label>
+                            <select class="filter-control" id="receipts-status-filter">
+                                <option value="">Any</option>
+                                <option value="Paid">Paid</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Overdue">Overdue</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="receipts-date-range-filter"><i class="fas fa-calendar"></i> Date Range</label>
+                            <select class="filter-control" id="receipts-date-range-filter">
+                                <option value="">All Time</option>
+                                <option value="This Week">This Week</option>
+                                <option value="This Month">This Month</option>
+                                <option value="This Semester">This Semester</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="receipts-student-filter"><i class="fas fa-user-graduate"></i> Student</label>
+                            <select class="filter-control" id="receipts-student-filter">
+                                <option value="">All Students</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="receipts-search"><i class="fas fa-search"></i> Search</label>
+                            <input type="text" class="filter-control" id="receipts-search" placeholder="Search by receipt ID or student">
+                        </div>
+                    </div>
+                    <div class="filter-actions">
+                        <button class="btn btn-secondary" id="receipts-reset-filters">Reset Filters</button>
+                        <button class="btn btn-primary" id="receipts-apply-filters">Apply Filters</button>
+                    </div>
+                </div>
+                <div class="table-wrap">
+                    <table id="receipts-table">
+                        <thead>
+                            <tr>
+                                <th>Receipt ID</th>
+                                <th>Invoice ID</th>
+                                <th>Student</th>
+                                <th>Payment Type</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <div class="pagination" id="receipts-pagination"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Payment Preview Modal -->
+    <div class="modal" id="payment-preview-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title" id="payment-modal-title"></div>
+                <button class="close-modal" id="payment-preview-close" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="payment-profile">
+                <div class="payment-header">
+                    <div class="payment-icon">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <div>
+                        <div class="payment-title" id="payment-profile-id"></div>
+                        <div style="font-size: 0.9rem; opacity: 0.9;" id="payment-profile-student"></div>
+                    </div>
+                </div>
+                <div class="payment-grid" id="payment-profile-grid"></div>
+            </div>
+            <div class="form-actions">
+                <button class="btn btn-secondary" id="preview-close-btn">Close</button>
+                <button class="btn btn-primary" id="print-btn">Print</button>
+                <button class="btn btn-warning" id="edit-btn" style="display: none;">Edit</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mock data
+            const students = [
+                { id: 'STU001', name: 'Juma Mohamed', email: 'juma.mohamed@example.com' },
+                { id: 'STU002', name: 'Neema Charles', email: 'neema.charles@example.com' },
+                { id: 'STU003', name: 'Rajab Abasi', email: 'rajab.abasi@example.com' },
+                { id: 'STU004', name: 'Fatuma Hassan', email: 'fatuma.hassan@example.com' }
+            ];
+
+            let invoices = [
+                { id: 'INV001', studentId: 'STU001', paymentType: 'Tuition', amount: 500000, issued: '2025-08-01', due: '2025-09-01', paid: 500000, status: 'Paid' },
+                { id: 'INV002', studentId: 'STU002', paymentType: 'Accommodation', amount: 200000, issued: '2025-08-15', due: '2025-09-15', paid: 0, status: 'Pending' },
+                { id: 'INV003', studentId: 'STU003', paymentType: 'Library', amount: 50000, issued: '2025-07-01', due: '2025-07-31', paid: 0, status: 'Overdue' },
+                { id: 'INV004', studentId: 'STU004', paymentType: 'Other', amount: 100000, issued: '2025-09-01', due: '2025-10-01', paid: 100000, status: 'Paid' }
+            ];
+
+            let transactions = [
+                { id: 'TXN001', invoiceId: 'INV001', studentId: 'STU001', paymentType: 'Tuition', amount: 500000, date: '2025-08-10', method: 'Bank Transfer', status: 'Successful' },
+                { id: 'TXN002', invoiceId: 'INV004', studentId: 'STU004', paymentType: 'Other', amount: 100000, date: '2025-09-05', method: 'Mobile Payment', status: 'Successful' }
+            ];
+
+            let receipts = [
+                { id: 'RCP001', invoiceId: 'INV001', studentId: 'STU001', paymentType: 'Tuition', amount: 500000, date: '2025-08-10', status: 'Paid' },
+                { id: 'RCP002', invoiceId: 'INV004', studentId: 'STU004', paymentType: 'Other', amount: 100000, date: '2025-09-05', status: 'Paid' }
+            ];
+
+            // Populate dropdowns
+            const studentSelect = document.getElementById('student');
+            const invoicesStudentFilter = document.getElementById('invoices-student-filter');
+            const transactionsStudentFilter = document.getElementById('transactions-student-filter');
+            const receiptsStudentFilter = document.getElementById('receipts-student-filter');
+            students.forEach(s => {
+                const option = document.createElement('option');
+                option.value = s.id;
+                option.textContent = s.name;
+                studentSelect.appendChild(option.cloneNode(true));
+                invoicesStudentFilter.appendChild(option.cloneNode(true));
+                transactionsStudentFilter.appendChild(option.cloneNode(true));
+                receiptsStudentFilter.appendChild(option.cloneNode(true));
+            });
+
+            // Helpers
+            function updateKPIs() {
+                const totalInvoices = invoices.length;
+                const collected = invoices.reduce((sum, i) => sum + i.paid, 0);
+                const outstanding = invoices.reduce((sum, i) => sum + (i.amount - i.paid), 0);
+                const overdue = invoices.filter(i => i.status === 'Overdue').length;
+                document.getElementById('kpi-invoices').textContent = totalInvoices;
+                document.getElementById('kpi-collected').textContent = `${collected.toLocaleString()} TZS`;
+                document.getElementById('kpi-outstanding').textContent = `${outstanding.toLocaleString()} TZS`;
+                document.getElementById('kpi-overdue').textContent = overdue;
+            }
+
+            function paginate(items, perPage, onSlice, pagerEl) {
+                let page = 1;
+                const total = Math.max(1, Math.ceil(items.length / perPage));
+                function renderPager() {
+                    pagerEl.innerHTML = '';
+                    for (let i = 1; i <= total; i++) {
+                        const b = document.createElement('button');
+                        b.className = 'pagination-btn' + (i === page ? ' active' : '');
+                        b.textContent = i;
+                        b.onclick = () => { page = i; slice(); renderPager(); };
+                        pagerEl.appendChild(b);
+                    }
+                }
+                function slice() {
+                    const start = (page - 1) * perPage;
+                    onSlice(items.slice(start, start + perPage));
+                }
+                slice();
+                renderPager();
+            }
+
+            function filterItems(items, prefix) {
+                const paymentType = document.getElementById(`${prefix}-payment-type-filter`).value;
+                const status = document.getElementById(`${prefix}-status-filter`).value;
+                const dateRange = document.getElementById(`${prefix}-date-range-filter`).value;
+                const student = document.getElementById(`${prefix}-student-filter`).value;
+                const search = document.getElementById(`${prefix}-search`).value.toLowerCase();
+                const today = new Date();
+                let dateFilter = () => true;
+                if (dateRange === 'This Week') {
+                    const weekStart = new Date(today.setDate(today.getDate() - today.getDay()));
+                    dateFilter = item => new Date(item.date || item.issued) >= weekStart;
+                } else if (dateRange === 'This Month') {
+                    const monthStart = new Date(today.getFullYear(), today.getMonth(), 1);
+                    dateFilter = item => new Date(item.date || item.issued) >= monthStart;
+                } else if (dateRange === 'This Semester') {
+                    const semesterStart = new Date(today.getFullYear(), today.getMonth() - (today.getMonth() % 6), 1);
+                    dateFilter = item => new Date(item.date || item.issued) >= semesterStart;
+                }
+                return items.filter(item => {
+                    const studentData = students.find(s => s.id === item.studentId);
+                    const studentName = studentData ? studentData.name.toLowerCase() : '';
+                    return (!paymentType || item.paymentType === paymentType) &&
+                           (!status || item.status === status) &&
+                           (!student || item.studentId === student) &&
+                           (!search || item.id.toLowerCase().includes(search) || studentName.includes(search)) &&
+                           dateFilter(item);
+                });
+            }
+
+            function renderInvoices() {
+                const data = filterItems(invoices, 'invoices');
+                const tbody = document.querySelector('#invoices-table tbody');
+                const pager = document.getElementById('invoices-pagination');
+                paginate(data, 5, slice => {
+                    tbody.innerHTML = slice.map(i => {
+                        const student = students.find(s => s.id === i.studentId);
+                        return `
+                            <tr data-invoice-id="${i.id}">
+                                <td>${i.id}</td>
+                                <td>${student ? student.name : 'N/A'}</td>
+                                <td>${i.paymentType}</td>
+                                <td>${i.amount.toLocaleString()} TZS</td>
+                                <td>${i.issued}</td>
+                                <td>${i.due}</td>
+                                <td>${i.paid.toLocaleString()} TZS</td>
+                                <td><span class="status status-${i.status.toLowerCase()}">${i.status}</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn btn-sm btn-info" data-view="${i.id}" data-type="invoice"><i class="fas fa-eye"></i> View</button>
+                                        <button class="btn btn-sm btn-warning" data-edit="${i.id}" data-type="invoice"><i class="fas fa-edit"></i> Edit</button>
+                                        <button class="btn btn-sm btn-danger" data-delete="${i.id}" data-type="invoice"><i class="fas fa-trash"></i> Delete</button>
+                                    </div>
+                                </td>
+                            </tr>`;
+                    }).join('');
+                    bindActions();
+                }, pager);
+            }
+
+            function renderTransactions() {
+                const data = filterItems(transactions, 'transactions');
+                const tbody = document.querySelector('#transactions-table tbody');
+                const pager = document.getElementById('transactions-pagination');
+                paginate(data, 5, slice => {
+                    tbody.innerHTML = slice.map(t => {
+                        const student = students.find(s => s.id === t.studentId);
+                        return `
+                            <tr data-transaction-id="${t.id}">
+                                <td>${t.id}</td>
+                                <td>${t.invoiceId}</td>
+                                <td>${student ? student.name : 'N/A'}</td>
+                                <td>${t.paymentType}</td>
+                                <td>${t.amount.toLocaleString()} TZS</td>
+                                <td>${t.date}</td>
+                                <td>${t.method}</td>
+                                <td><span class="status status-${t.status.toLowerCase()}">${t.status}</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn btn-sm btn-info" data-view="${t.id}" data-type="transaction"><i class="fas fa-eye"></i> View</button>
+                                    </div>
+                                </td>
+                            </tr>`;
+                    }).join('');
+                    bindActions();
+                }, pager);
+            }
+
+            function renderReceipts() {
+                const data = filterItems(receipts, 'receipts');
+                const tbody = document.querySelector('#receipts-table tbody');
+                const pager = document.getElementById('receipts-pagination');
+                paginate(data, 5, slice => {
+                    tbody.innerHTML = slice.map(r => {
+                        const student = students.find(s => s.id === r.studentId);
+                        return `
+                            <tr data-receipt-id="${r.id}">
+                                <td>${r.id}</td>
+                                <td>${r.invoiceId}</td>
+                                <td>${student ? student.name : 'N/A'}</td>
+                                <td>${r.paymentType}</td>
+                                <td>${r.amount.toLocaleString()} TZS</td>
+                                <td>${r.date}</td>
+                                <td><span class="status status-${r.status.toLowerCase()}">${r.status}</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn btn-sm btn-info" data-view="${r.id}" data-type="receipt"><i class="fas fa-eye"></i> View</button>
+                                    </div>
+                                </td>
+                            </tr>`;
+                    }).join('');
+                    bindActions();
+                }, pager);
+            }
+
+            function validateForm() {
+                let isValid = true;
+                const fields = [
+                    { id: 'student', errorId: 'student-error', condition: val => !val, message: 'Student is required' },
+                    { id: 'payment-type', errorId: 'payment-type-error', condition: val => !val, message: 'Payment Type is required' },
+                    { id: 'amount', errorId: 'amount-error', condition: val => !val || parseFloat(val) <= 0, message: 'Amount must be greater than 0' },
+                    { id: 'issued-date', errorId: 'issued-date-error', condition: val => !val, message: 'Issued date is required' },
+                    { id: 'due-date', errorId: 'due-date-error', condition: val => !val || new Date(val) < new Date(document.getElementById('issued-date').value), message: 'Due date must be after issued date' }
+                ];
+
+                fields.forEach(field => {
+                    const input = document.getElementById(field.id);
+                    const error = document.getElementById(field.errorId);
+                    const value = input.value;
+                    if (field.condition(value)) {
+                        input.classList.add('invalid');
+                        error.classList.add('show');
+                        error.textContent = field.message;
+                        isValid = false;
+                    } else {
+                        input.classList.remove('invalid');
+                        error.classList.remove('show');
+                    }
+                });
+
+                return isValid;
+            }
+
+            function bindActions() {
+                document.querySelectorAll('[data-view]').forEach(btn => {
+                    btn.onclick = () => {
+                        const id = btn.getAttribute('data-view');
+                        const type = btn.getAttribute('data-type');
+                        let item;
+                        let fields = [];
+                        let title = '';
+                        if (type === 'invoice') {
+                            item = invoices.find(i => i.id === id);
+                            const student = students.find(s => s.id === item.studentId);
+                            title = 'Invoice Preview';
+                            fields = [
+                                { label: 'Invoice ID', value: item.id },
+                                { label: 'Student', value: student ? student.name : 'N/A' },
+                                { label: 'Payment Type', value: item.paymentType },
+                                { label: 'Amount', value: `${item.amount.toLocaleString()} TZS` },
+                                { label: 'Issued', value: item.issued },
+                                { label: 'Due', value: item.due },
+                                { label: 'Paid', value: `${item.paid.toLocaleString()} TZS` },
+                                { label: 'Status', value: item.status, class: `status-${item.status.toLowerCase()}` }
+                            ];
+                        } else if (type === 'transaction') {
+                            item = transactions.find(t => t.id === id);
+                            const student = students.find(s => s.id === item.studentId);
+                            title = 'Transaction Preview';
+                            fields = [
+                                { label: 'Transaction ID', value: item.id },
+                                { label: 'Invoice ID', value: item.invoiceId },
+                                { label: 'Student', value: student ? student.name : 'N/A' },
+                                { label: 'Payment Type', value: item.paymentType },
+                                { label: 'Amount', value: `${item.amount.toLocaleString()} TZS` },
+                                { label: 'Date', value: item.date },
+                                { label: 'Method', value: item.method },
+                                { label: 'Status', value: item.status, class: `status-${item.status.toLowerCase()}` }
+                            ];
+                        } else if (type === 'receipt') {
+                            item = receipts.find(r => r.id === id);
+                            const student = students.find(s => s.id === item.studentId);
+                            title = 'Receipt Preview';
+                            fields = [
+                                { label: 'Receipt ID', value: item.id },
+                                { label: 'Invoice ID', value: item.invoiceId },
+                                { label: 'Student', value: student ? student.name : 'N/A' },
+                                { label: 'Payment Type', value: item.paymentType },
+                                { label: 'Amount', value: `${item.amount.toLocaleString()} TZS` },
+                                { label: 'Date', value: item.date },
+                                { label: 'Status', value: item.status, class: `status-${item.status.toLowerCase()}` }
+                            ];
+                        }
+                        document.getElementById('payment-modal-title').textContent = title;
+                        document.getElementById('payment-profile-id').textContent = item.id;
+                        document.getElementById('payment-profile-student').textContent = students.find(s => s.id === item.studentId)?.name || 'N/A';
+                        document.getElementById('payment-profile-grid').innerHTML = fields.map(f => `
+                            <div class="payment-item ${f.class || ''}">
+                                <label>${f.label}</label>
+                                <p>${f.value}</p>
+                            </div>
+                        `).join('');
+                        document.getElementById('edit-btn').style.display = type === 'invoice' ? 'inline-flex' : 'none';
+                        document.getElementById('edit-btn').dataset.editId = type === 'invoice' ? id : '';
+                        document.getElementById('edit-btn').dataset.type = type;
+                        document.getElementById('payment-preview-modal').style.display = 'flex';
+                    };
+                });
+
+                document.querySelectorAll('[data-edit][data-type="invoice"]').forEach(btn => {
+                    btn.onclick = () => {
+                        const id = btn.getAttribute('data-edit');
+                        const invoice = invoices.find(i => i.id === id);
+                        document.getElementById('student').value = invoice.studentId;
+                        document.getElementById('payment-type').value = invoice.paymentType;
+                        document.getElementById('amount').value = invoice.amount;
+                        document.getElementById('issued-date').value = invoice.issued;
+                        document.getElementById('due-date').value = invoice.due;
+                        document.getElementById('payment-form').dataset.editId = id;
+                        document.querySelectorAll('.error-message').forEach(el => el.classList.remove('show'));
+                        document.querySelectorAll('.form-control').forEach(el => el.classList.remove('invalid'));
+                        document.getElementById('add-payment-section').classList.add('show');
+                        document.getElementById('add-payment-section').scrollIntoView({ behavior: 'smooth' });
+                    };
+                });
+
+                document.querySelectorAll('[data-delete][data-type="invoice"]').forEach(btn => {
+                    btn.onclick = () => {
+                        const id = btn.getAttribute('data-delete');
+                        invoices = invoices.filter(i => i.id !== id);
+                        transactions = transactions.filter(t => t.invoiceId !== id);
+                        receipts = receipts.filter(r => r.invoiceId !== id);
+                        renderInvoices();
+                        renderTransactions();
+                        renderReceipts();
+                        updateKPIs();
+                        alert('Invoice and related transactions/receipts deleted successfully');
+                    };
+                });
+            }
+
+            // Event Listeners
+            document.getElementById('toggle-sidebar').addEventListener('click', () => {
+                document.getElementById('sidebar').classList.toggle('collapsed');
+                document.getElementById('main-content').classList.toggle('collapsed');
+            });
+
+            document.getElementById('add-payment-btn').onclick = () => {
+                document.getElementById('payment-form').reset();
+                document.getElementById('payment-form').dataset.editId = '';
+                document.querySelectorAll('.error-message').forEach(el => el.classList.remove('show'));
+                document.querySelectorAll('.form-control').forEach(el => el.classList.remove('invalid'));
+                document.getElementById('add-payment-section').classList.add('show');
+                document.getElementById('add-payment-section').scrollIntoView({ behavior: 'smooth' });
+            };
+
+            document.getElementById('cancel-btn').onclick = () => {
+                document.getElementById('add-payment-section').classList.remove('show');
+                document.getElementById('payment-form').reset();
+                document.getElementById('payment-form').dataset.editId = '';
+                document.querySelectorAll('.error-message').forEach(el => el.classList.remove('show'));
+                document.querySelectorAll('.form-control').forEach(el => el.classList.remove('invalid'));
+            };
+
+            document.getElementById('payment-preview-close').onclick = () => {
+                document.getElementById('payment-preview-modal').style.display = 'none';
+            };
+
+            document.getElementById('preview-close-btn').onclick = () => {
+                document.getElementById('payment-preview-modal').style.display = 'none';
+            };
+
+            document.getElementById('print-btn').onclick = () => {
+                const content = document.querySelector('.payment-profile').outerHTML;
+                const printWindow = window.open('', '_blank');
+                printWindow.document.write(`
+                    <html>
+                        <head>
+                            <title>Payment Preview</title>
+                            <style>
+                                body { font-family: 'Delius', 'Segoe UI', sans-serif; padding: 20px; }
+                                .payment-profile { max-width: 800px; margin: auto; }
+                                .payment-header { background: linear-gradient(135deg, #4A90E2, #2E6DA4); color: #fff; padding: 12px 16px; border-radius: 8px 8px 0 0; display: flex; align-items: center; gap: 12px; }
+                                .payment-icon { width: 60px; height: 60px; border-radius: 50%; background: #f8f9fa; display: grid; place-items: center; font-size: 2rem; color: #4A90E2; border: 2px solid #fff; }
+                                .payment-title { font-size: 1.2rem; font-weight: 700; }
+                                .payment-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 16px; }
+                                .payment-item { display: flex; flex-direction: column; gap: 4px; }
+                                .payment-item label { font-weight: 600; color: #212529; font-size: 0.95rem; }
+                                .payment-item p { color: #6c757d; font-size: 0.9rem; background: #f8f9fa; padding: 8px; border-radius: 6px; }
+                                .payment-item.status-paid p, .payment-item.status-successful p { color: #28a745; font-weight: 600; }
+                                .payment-item.status-pending p { color: #a56a00; font-weight: 600; }
+                                .payment-item.status-overdue p, .payment-item.status-failed p { color: #dc3545; font-weight: 600; }
+                                .payment-item.status-reversed p { color: #6c757d; font-weight: 600; }
+                            </style>
+                        </head>
+                        <body onload="window.print()">${content}</body>
+                    </html>
+                `);
+                printWindow.document.close();
+            };
+
+            document.getElementById('edit-btn').onclick = () => {
+                const id = document.getElementById('edit-btn').dataset.editId;
+                const invoice = invoices.find(i => i.id === id);
+                document.getElementById('student').value = invoice.studentId;
+                document.getElementById('payment-type').value = invoice.paymentType;
+                document.getElementById('amount').value = invoice.amount;
+                document.getElementById('issued-date').value = invoice.issued;
+                document.getElementById('due-date').value = invoice.due;
+                document.getElementById('payment-form').dataset.editId = id;
+                document.querySelectorAll('.error-message').forEach(el => el.classList.remove('show'));
+                document.querySelectorAll('.form-control').forEach(el => el.classList.remove('invalid'));
+                document.getElementById('add-payment-section').classList.add('show');
+                document.getElementById('payment-preview-modal').style.display = 'none';
+                document.getElementById('add-payment-section').scrollIntoView({ behavior: 'smooth' });
+            };
+
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+                    tab.classList.add('active');
+                    document.getElementById(`${tab.dataset.tab}-tab`).style.display = 'block';
+                });
+            });
+
+            document.getElementById('invoices-apply-filters').onclick = renderInvoices;
+            document.getElementById('invoices-reset-filters').onclick = () => {
+                document.getElementById('invoices-payment-type-filter').value = '';
+                document.getElementById('invoices-status-filter').value = '';
+                document.getElementById('invoices-date-range-filter').value = '';
+                document.getElementById('invoices-student-filter').value = '';
+                document.getElementById('invoices-search').value = '';
+                renderInvoices();
+            };
+            document.getElementById('invoices-search').addEventListener('input', renderInvoices);
+
+            document.getElementById('transactions-apply-filters').onclick = renderTransactions;
+            document.getElementById('transactions-reset-filters').onclick = () => {
+                document.getElementById('transactions-payment-type-filter').value = '';
+                document.getElementById('transactions-status-filter').value = '';
+                document.getElementById('transactions-date-range-filter').value = '';
+                document.getElementById('transactions-student-filter').value = '';
+                document.getElementById('transactions-search').value = '';
+                renderTransactions();
+            };
+            document.getElementById('transactions-search').addEventListener('input', renderTransactions);
+
+            document.getElementById('receipts-apply-filters').onclick = renderReceipts;
+            document.getElementById('receipts-reset-filters').onclick = () => {
+                document.getElementById('receipts-payment-type-filter').value = '';
+                document.getElementById('receipts-status-filter').value = '';
+                document.getElementById('receipts-date-range-filter').value = '';
+                document.getElementById('receipts-student-filter').value = '';
+                document.getElementById('receipts-search').value = '';
+                renderReceipts();
+            };
+            document.getElementById('receipts-search').addEventListener('input', renderReceipts);
+
+            document.getElementById('payment-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                if (!validateForm()) return;
+
+                const saveBtn = document.getElementById('save-btn');
+                saveBtn.disabled = true;
+                saveBtn.classList.add('btn-loading');
+
+                setTimeout(() => {
+                    const isEdit = document.getElementById('payment-form').dataset.editId;
+                    const invoiceData = {
+                        studentId: document.getElementById('student').value,
+                        paymentType: document.getElementById('payment-type').value,
+                        amount: parseInt(document.getElementById('amount').value),
+                        issued: document.getElementById('issued-date').value,
+                        due: document.getElementById('due-date').value,
+                        paid: 0,
+                        status: new Date(document.getElementById('due-date').value) < new Date() ? 'Overdue' : 'Pending'
+                    };
+
+                    if (isEdit) {
+                        const index = invoices.findIndex(i => i.id === isEdit);
+                        invoiceData.id = isEdit;
+                        invoices[index] = invoiceData;
+                    } else {
+                        invoiceData.id = `INV${String(invoices.length + 1).padStart(3, '0')}`;
+                        invoices.push(invoiceData);
+                        // Simulate paid invoice creating transaction and receipt
+                        if (Math.random() > 0.5) { // 50% chance of being paid
+                            invoiceData.paid = invoiceData.amount;
+                            invoiceData.status = 'Paid';
+                            const transaction = {
+                                id: `TXN${String(transactions.length + 1).padStart(3, '0')}`,
+                                invoiceId: invoiceData.id,
+                                studentId: invoiceData.studentId,
+                                paymentType: invoiceData.paymentType,
+                                amount: invoiceData.amount,
+                                date: invoiceData.issued,
+                                method: Math.random() > 0.5 ? 'Bank Transfer' : 'Mobile Payment',
+                                status: 'Successful'
+                            };
+                            transactions.push(transaction);
+                            const receipt = {
+                                id: `RCP${String(receipts.length + 1).padStart(3, '0')}`,
+                                invoiceId: invoiceData.id,
+                                studentId: invoiceData.studentId,
+                                paymentType: invoiceData.paymentType,
+                                amount: invoiceData.amount,
+                                date: invoiceData.issued,
+                                status: 'Paid'
+                            };
+                            receipts.push(receipt);
+                        }
+                    }
+
+                    document.getElementById('add-payment-section').classList.remove('show');
+                    document.getElementById('payment-form').reset();
+                    document.getElementById('payment-form').dataset.editId = '';
+                    renderInvoices();
+                    renderTransactions();
+                    renderReceipts();
+                    updateKPIs();
+                    saveBtn.disabled = false;
+                    saveBtn.classList.remove('btn-loading');
+                    alert('Invoice saved successfully');
+                }, 1000); // Simulate async save
+            });
+
+            // Init
+            updateKPIs();
+            renderInvoices();
+            renderTransactions();
+            renderReceipts();
+        });
+    </script>
+</body>
+</html>

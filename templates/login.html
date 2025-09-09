@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TLCS Login System</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Delius&family=Poppins:wght@300;400;500;600&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Delius&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -20,63 +18,7 @@
             height: 100vh;
             overflow: hidden;
             position: relative;
-            background: linear-gradient(135deg, #0095ff, #3ab4ff, #a2dcff);
-        }
-
-        .overlay {
-            background: linear-gradient(135deg, rgba(0, 149, 255, 0.1) 0%, rgba(58, 180, 255, 0.1) 100%);
-        }
-
-        .welcome-section {}
-
-        .background-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -2;
-        }
-
-        .background-slide {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-position: center;
-            opacity: 0;
-            transition: opacity 2s ease-in-out;
-            filter: brightness(0.7);
-        }
-
-        .background-slide.active {
-            opacity: 1;
-        }
-
-        .background-slide:nth-child(1) {
-            background-image: url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
-        }
-
-        .background-slide:nth-child(2) {
-            background-image: url('https://images.unsplash.com/photo-1562774053-701939374585?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
-        }
-
-        .background-slide:nth-child(3) {
-            background-image: url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
-        }
-
-        .background-slide:nth-child(4) {
-            background-image: url('https://images.unsplash.com/photo-1606761568499-6d2451b23c66?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
-        }
-
-        .background-slide:nth-child(5) {
-            background-image: url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
-        }
-
-        .background-slide:nth-child(6) {
-            background-image: url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
+            background: linear-gradient(135deg, #4A90E2, #2E6DA4);
         }
 
         .container {
@@ -165,7 +107,7 @@
             left: 0;
             width: 60px;
             height: 3px;
-            background: linear-gradient(90deg, #3ab4ff, #ffffff);
+            background: linear-gradient(90deg, #4A90E2, #ffffff);
             border-radius: 3px;
         }
 
@@ -189,7 +131,7 @@
         }
 
         .system-info li i {
-            color: #3ab4ff;
+            color: #4A90E2;
             font-size: 1.2rem;
             margin-right: 12px;
             margin-top: 4px;
@@ -203,7 +145,7 @@
 
         .system-info>p:last-child {
             font-style: italic;
-            border-left: 3px solid #3ab4ff;
+            border-left: 3px solid #4A90E2;
             padding-left: 15px;
         }
 
@@ -221,26 +163,25 @@
             width: 100%;
             max-width: 400px;
             padding: 3rem 2.5rem;
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.8);
             border-radius: 24px;
-            box-shadow: 0 0 25px rgba(58, 180, 255, 0.6),
-                0 0 50px rgba(58, 180, 255, 0.4),
-                0 0 75px rgba(58, 180, 255, 0.2);
-            border: 2px solid rgba(58, 180, 255, 0.8);
+            box-shadow: 0 0 25px rgba(74, 144, 226, 0.6),
+                0 0 50px rgba(74, 144, 226, 0.4),
+                0 0 75px rgba(74, 144, 226, 0.2);
+            border: 2px solid rgba(74, 144, 226, 0.8);
             animation: glow 3s infinite alternate;
         }
 
         @keyframes glow {
             from {
-                box-shadow: 0 0 25px rgba(58, 180, 255, 0.6),
-                    0 0 50px rgba(58, 180, 255, 0.4),
-                    0 0 75px rgba(58, 180, 255, 0.2);
+                box-shadow: 0 0 25px rgba(74, 144, 226, 0.6),
+                    0 0 50px rgba(74, 144, 226, 0.4),
+                    0 0 75px rgba(74, 144, 226, 0.2);
             }
-
             to {
-                box-shadow: 0 0 30px rgba(58, 180, 255, 0.8),
-                    0 0 60px rgba(58, 180, 255, 0.5),
-                    0 0 90px rgba(58, 180, 255, 0.3);
+                box-shadow: 0 0 30px rgba(74, 144, 226, 0.8),
+                    0 0 60px rgba(74, 144, 226, 0.5),
+                    0 0 90px rgba(74, 144, 226, 0.3);
             }
         }
 
@@ -251,14 +192,14 @@
 
         .form-header h2 {
             font-family: 'Delius', 'Poppins', sans-serif;
-            color: #0078d4;
+            color: #2E6DA4;
             font-size: 2.2rem;
             font-weight: 600;
             margin-bottom: 0.5rem;
         }
 
         .form-header p {
-            color: #ffffff;
+            color: #212529;
             font-size: 0.95rem;
         }
 
@@ -269,7 +210,7 @@
         .input-group label {
             display: block;
             margin-bottom: 0.5rem;
-            color: #015fa6;
+            color: #2E6DA4;
             font-weight: 500;
             font-size: 0.9rem;
         }
@@ -281,23 +222,23 @@
         .input-wrapper input {
             width: 100%;
             padding: 1.2rem 1rem 1.2rem 3.2rem;
-            background: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.9);
             border: 1px solid #ddd;
             border-radius: 40px;
             font-size: 1rem;
-            color: #ffffff;
+            color: #212529;
             transition: all 0.3s ease;
             font-family: 'Delius', 'Poppins', sans-serif;
         }
 
         .input-wrapper input::placeholder {
-            color: #ffffff;
+            color: #6c757d;
         }
 
         .input-wrapper input:focus {
             outline: none;
-            border-color: #3ab4ff;
-            box-shadow: 0 0 0 3px rgba(58, 180, 255, 0.3);
+            border-color: #4A90E2;
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.3);
         }
 
         .input-icon {
@@ -305,7 +246,7 @@
             left: 1rem;
             top: 50%;
             transform: translateY(-50%);
-            color: #0078d4;
+            color: #2E6DA4;
         }
 
         .toggle-password {
@@ -314,7 +255,7 @@
             top: 50%;
             transform: translateY(-50%);
             cursor: pointer;
-            color: #0078d4;
+            color: #2E6DA4;
         }
 
         .remember-me {
@@ -322,18 +263,18 @@
             align-items: center;
             margin-bottom: 2rem;
             font-size: 0.9rem;
-            color: #ffffff;
+            color: #212529;
         }
 
         .remember-me input {
             margin-right: 8px;
-            accent-color: #3ab4ff;
+            accent-color: #4A90E2;
         }
 
         .login-button {
             width: 100%;
             padding: 1.2rem;
-            background: linear-gradient(135deg, #0095ff, #3ab4ff);
+            background: linear-gradient(135deg, #4A90E2, #2E6DA4);
             color: white;
             border: none;
             border-radius: 40px;
@@ -347,7 +288,7 @@
 
         .login-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 15px #025493ff;
+            box-shadow: 0 4px 15px rgba(46, 109, 164, 0.5);
         }
 
         .login-button:active {
@@ -359,167 +300,15 @@
         }
 
         .forgot-password a {
-            color: #015fa6;
+            color: #2E6DA4;
             text-decoration: none;
             font-size: 0.9rem;
             transition: color 0.3s ease;
         }
 
         .forgot-password a:hover {
-            color: #ff5050;
+            color: #4A90E2;
             text-decoration: underline;
-        }
-
-        .custom-bg-btn {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            padding: 10px 15px;
-            border-radius: 40px;
-            cursor: pointer;
-            z-index: 10;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-            font-family: 'Delius', 'Poppins', sans-serif;
-        }
-
-        .custom-bg-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-
-        #bg-upload {
-            display: none;
-        }
-
-        /* Custom Alert Styles */
-        .custom-alert {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
-
-        .custom-alert.show {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .custom-alert-box {
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 16px;
-            padding: 2rem;
-            max-width: 400px;
-            width: 90%;
-            text-align: center;
-            border: 2px solid rgba(58, 180, 255, 0.8);
-            box-shadow: 0 0 25px rgba(58, 180, 255, 0.6),
-                0 0 50px rgba(58, 180, 255, 0.4),
-                0 0 75px rgba(58, 180, 255, 0.2);
-            animation: alertGlow 2s infinite alternate, alertPopIn 0.5s ease-out;
-            backdrop-filter: blur(10px);
-        }
-
-        @keyframes alertGlow {
-            from {
-                box-shadow: 0 0 25px rgba(58, 180, 255, 0.6),
-                    0 0 50px rgba(58, 180, 255, 0.4),
-                    0 0 75px rgba(58, 180, 255, 0.2);
-            }
-
-            to {
-                box-shadow: 0 0 30px rgba(58, 180, 255, 0.8),
-                    0 0 60px rgba(58, 180, 255, 0.5),
-                    0 0 90px rgba(58, 180, 255, 0.3);
-            }
-        }
-
-        @keyframes alertPopIn {
-            from {
-                transform: scale(0.8);
-                opacity: 0;
-            }
-
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        .custom-alert-box h3 {
-            font-family: 'Delius', 'Poppins', sans-serif;
-            color: #015fa6;
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-        }
-
-        .custom-alert-box p {
-            font-family: 'Delius', 'Poppins', sans-serif;
-            color: #ffffff;
-            font-size: 1rem;
-            line-height: 1.5;
-            margin-bottom: 0;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                flex-direction: column;
-            }
-
-            .welcome-section {
-                flex: 0.4;
-                padding: 2rem;
-                align-items: center;
-                text-align: center;
-            }
-
-            .system-info h3 {
-                font-size: 1.8rem;
-            }
-
-            .login-section {
-                flex: 0.6;
-            }
-
-            .login-form {
-                padding: 2rem 1.5rem;
-            }
-
-            .logo::before,
-            .logo::after {
-                display: none;
-            }
-
-            .custom-bg-btn {
-                bottom: 10px;
-                left: 10px;
-                padding: 8px 12px;
-                font-size: 0.9rem;
-            }
-
-            .custom-alert-box {
-                padding: 1.5rem;
-                max-width: 300px;
-            }
-
-            .custom-alert-box h3 {
-                font-size: 1.5rem;
-            }
-
-            .custom-alert-box p {
-                font-size: 0.9rem;
-            }
         }
 
         .particles {
@@ -596,18 +385,13 @@
         }
 
         @keyframes float {
-
-            0%,
-            100% {
+            0%, 100% {
                 transform: translateY(100vh) rotate(0deg);
                 opacity: 0;
             }
-
-            10%,
-            90% {
+            10%, 90% {
                 opacity: 1;
             }
-
             50% {
                 transform: translateY(-10vh) rotate(180deg);
             }
@@ -623,30 +407,44 @@
                 opacity: 0;
                 transform: translateY(20px);
             }
-
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .welcome-section {
+                flex: 0.4;
+                padding: 2rem;
+                align-items: center;
+                text-align: center;
+            }
+
+            .system-info h3 {
+                font-size: 1.8rem;
+            }
+
+            .login-section {
+                flex: 0.6;
+            }
+
+            .login-form {
+                padding: 2rem 1.5rem;
+            }
+
+            .logo::before,
+            .logo::after {
+                display: none;
+            }
+        }
     </style>
 </head>
-
 <body>
-    <div class="background-container">
-        <div class="background-slide active"></div>
-        <div class="background-slide"></div>
-        <div class="background-slide"></div>
-        <div class="background-slide"></div>
-        <div class="background-slide"></div>
-        <div class="background-slide"></div>
-    </div>
-
-    <label for="bg-upload" class="custom-bg-btn">
-        <i class="fas fa-image"></i> Use Custom Background
-    </label>
-    <input type="file" id="bg-upload" accept="image/*">
-
     <div class="particles">
         <div class="particle"></div>
         <div class="particle"></div>
@@ -666,18 +464,13 @@
 
             <div class="system-info">
                 <h3>Welcome to TLCS</h3>
-                <p>The Tanzania Labor College System (TLCS) is a comprehensive system platform for managing all college
-                    operations.</p>
+                <p>The Tanzania Labor College System (TLCS) is a comprehensive system platform for managing all college operations.</p>
 
                 <ul>
-                    <li><i class="fas fa-check-circle"></i> <span>Students can register for courses online, view
-                            progress and results, and participate in forums.</span></li>
-                    <li><i class="fas fa-check-circle"></i> <span>Teaching staff can manage student lists, publish
-                            results, and track student progress.</span></li>
-                    <li><i class="fas fa-check-circle"></i> <span>Administrators can manage users, courses, and system
-                            configuration.</span></li>
-                    <li><i class="fas fa-check-circle"></i> <span>Integrated payment management system for fees and
-                            other transactions.</span></li>
+                    <li><i class="fas fa-check-circle"></i> <span>Students can register for courses online, view progress and results, and participate in forums.</span></li>
+                    <li><i class="fas fa-check-circle"></i> <span>Teaching staff can manage student lists, publish results, and track student progress.</span></li>
+                    <li><i class="fas fa-check-circle"></i> <span>Administrators can manage users, courses, and system configuration.</span></li>
+                    <li><i class="fas fa-check-circle"></i> <span>Integrated payment management system for fees and other transactions.</span></li>
                 </ul>
 
                 <p>Login to access your personalized dashboard and manage your activities.</p>
@@ -695,17 +488,11 @@
                     <div class="input-group">
                         <label for="username">Username / ID</label>
                         <div class="input-wrapper">
-                            <input type="text" id="username" name="username" placeholder="Enter your username or ID"
-                                required>
+                            <input type="text" id="username" name="username" placeholder="Enter your username or ID" required>
                             <div class="input-icon">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21"
-                                        stroke="#0078d4" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round" />
-                                    <circle cx="12" cy="7" r="4" stroke="#0078d4" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round" />
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21" stroke="#2E6DA4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    <circle cx="12" cy="7" r="4" stroke="#2E6DA4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
                             </div>
                         </div>
@@ -714,17 +501,11 @@
                     <div class="input-group">
                         <label for="password">Password</label>
                         <div class="input-wrapper">
-                            <input type="password" id="password" name="password" placeholder="Enter your password"
-                                required>
+                            <input type="password" id="password" name="password" placeholder="Enter your password" required>
                             <div class="input-icon">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" stroke="#0078d4"
-                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                    <path
-                                        d="M7 11V7C7 5.67392 7.52678 4.40215 8.46447 3.46447C9.40215 2.52678 10.6739 2 12 2C13.3261 2 14.5979 2.52678 15.5355 3.46447C16.4732 4.40215 17 5.67392 17 7V11"
-                                        stroke="#0078d4" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round" />
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" stroke="#2E6DA4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M7 11V7C7 5.67392 7.52678 4.40215 8.46447 3.46447C9.40215 2.52678 10.6739 2 12 2C13.3261 2 14.5979 2.52678 15.5355 3.46447C16.4732 4.40215 17 5.67392 17 7V11" stroke="#2E6DA4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
                             </div>
                             <span class="toggle-password" id="togglePassword">
@@ -749,20 +530,6 @@
     </div>
 
     <script>
-        // Background slideshow
-        const slides = document.querySelectorAll('.background-slide');
-        let currentSlide = 0;
-
-        function nextSlide() {
-            slides[currentSlide].classList.remove('active');
-            currentSlide = (currentSlide + 1) % slides.length;
-            slides[currentSlide].classList.add('active');
-        }
-
-        // Start slideshow with initial active slide
-        slides[currentSlide].classList.add('active');
-        setInterval(nextSlide, 5000); // Change background every 5 seconds
-
         // Toggle password visibility
         document.getElementById('togglePassword').addEventListener('click', function () {
             const passwordInput = document.getElementById('password');
@@ -781,11 +548,9 @@
 
         // Custom alert function
         function showCustomAlert(title, message, redirect = false) {
-            // Remove any existing alerts
             const existingAlert = document.querySelector('.custom-alert');
             if (existingAlert) existingAlert.remove();
 
-            // Create alert elements
             const alertDiv = document.createElement('div');
             alertDiv.className = 'custom-alert';
             alertDiv.innerHTML = `
@@ -796,12 +561,10 @@
             `;
             document.body.appendChild(alertDiv);
 
-            // Show alert with animation
             setTimeout(() => {
                 alertDiv.classList.add('show');
             }, 10);
 
-            // Automatically close alert after a delay
             setTimeout(() => {
                 alertDiv.classList.remove('show');
                 setTimeout(() => {
@@ -809,8 +572,8 @@
                     if (redirect) {
                         window.location.href = "{{ url_for('admin_dashboard') }}";
                     }
-                }, 300); // Match transition duration
-            }, redirect ? 2000 : 3000); // 2s for login, 3s for forgot password
+                }, 300);
+            }, redirect ? 2000 : 3000);
         }
 
         // Form handling
@@ -855,35 +618,6 @@
                 this.parentElement.style.transform = 'scale(1)';
             });
         });
-
-        // Custom background upload
-        document.getElementById('bg-upload').addEventListener('change', function (e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function (event) {
-                    // Create a new background slide with the uploaded image
-                    const newSlide = document.createElement('div');
-                    newSlide.className = 'background-slide active';
-                    newSlide.style.backgroundImage = `url(${event.target.result})`;
-
-                    // Remove any existing active slides
-                    document.querySelectorAll('.background-slide').forEach(slide => {
-                        slide.classList.remove('active');
-                    });
-
-                    // Add the new slide
-                    document.querySelector('.background-container').appendChild(newSlide);
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-
-        // Add subtle animation to login form on load
-        document.addEventListener('DOMContentLoaded', function () {
-            document.querySelector('.login-form').style.opacity = '1';
-        });
     </script>
 </body>
-
 </html>

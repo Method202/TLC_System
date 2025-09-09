@@ -1,0 +1,2008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Settings Management | TLCS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Delius&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4A90E2;
+            --secondary: #2E6DA4;
+            --success: #28a745;
+            --info: #17a2b8;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --bg: #f5f7fb;
+            --sidebar-width: 270px;
+            --sidebar-collapsed-width: 90px;
+            --radius: 12px;
+            --transition-speed: 0.25s;
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Delius', 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            color: #fff;
+            height: 100vh;
+            position: fixed;
+            transition: width var(--transition-speed);
+            z-index: 1000;
+            box-shadow: var(--shadow);
+            overflow-y: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 0;
+            height: 0;
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px 18px 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .logo-text {
+            text-align: center;
+            line-height: 1.05;
+        }
+
+        .logo-title {
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+
+        .logo-collection {
+            font-size: 0.9rem;
+            opacity: 0.95;
+        }
+
+        .logo-subtitle {
+            font-size: 0.75rem;
+            opacity: 0.85;
+        }
+
+        .logo-condensed {
+            display: none;
+            font-size: 1.2rem;
+            font-weight: 800;
+        }
+
+        .sidebar.collapsed .logo-text {
+            display: none;
+        }
+
+        .sidebar.collapsed .logo-condensed {
+            display: block;
+        }
+
+        .menu {
+            padding: 12px 10px 20px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            margin: 6px 8px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform var(--transition-speed), background var(--transition-speed);
+        }
+
+        .menu-item i {
+            width: 22px;
+            text-align: center;
+            font-size: 1.05rem;
+            opacity: 0.95;
+        }
+
+        .menu-text {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .menu-item:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateX(2px);
+        }
+
+        .menu-item.active {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .sidebar.collapsed {
+            width: var(--sidebar-collapsed-width);
+        }
+
+        .sidebar.collapsed .menu-text {
+            display: none;
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+            transition: margin-left var(--transition-speed);
+        }
+
+        .sidebar.collapsed+.main-content {
+            margin-left: var(--sidebar-collapsed-width);
+        }
+
+        .header {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 18px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-actions {
+            margin: 10px 0;
+            display: flex;
+            gap: 10px;
+        }
+
+        .toggle-btn {
+            border: 0;
+            background: #fff;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: transform var(--transition-speed), background var(--transition-speed);
+        }
+
+        .toggle-btn:hover {
+            transform: translateY(-1px);
+            background: var(--light);
+        }
+
+        .breadcrumbs {
+            font-size: 0.92rem;
+            color: var(--gray);
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: var(--radius);
+            padding: 16px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+        }
+
+        .card:before {
+            content: "";
+            position: absolute;
+            width: 140%;
+            height: 140%;
+            top: -20%;
+            left: -20%;
+            background: radial-gradient(transparent 60%, rgba(74, 144, 226, 0.08));
+            transform: rotate(8deg);
+            pointer-events: none;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.09);
+        }
+
+        .card-title {
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .card-value {
+            font-size: 1.35rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            background: var(--light);
+            color: var(--dark);
+            transition: background var(--transition-speed), color var(--transition-speed);
+            box-shadow: var(--shadow);
+        }
+
+        .tab.active {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .tab:hover {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .add-section,
+        .permission-section {
+            background: linear-gradient(135deg, #ffffff, #f0f4f8);
+            border-radius: 10px;
+            padding: 18px;
+            box-shadow: var(--shadow);
+            margin-bottom: 16px;
+            position: relative;
+            display: none;
+        }
+
+        .add-section.show,
+        .permission-section.show {
+            display: block;
+        }
+
+        .filter-section {
+            background: linear-gradient(135deg, #ffffff, #f0f4f8);
+            border-radius: 10px;
+            padding: 18px;
+            box-shadow: var(--shadow);
+            margin-bottom: 16px;
+            position: relative;
+        }
+
+        .add-section h3,
+        .permission-section h3,
+        .filter-section h3 {
+            margin-bottom: 10px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .add-grid,
+        .permission-grid,
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(180px, 1fr));
+            gap: 12px;
+        }
+
+        .form-group,
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            animation: slideIn 0.3s ease;
+        }
+
+        .form-group label,
+        .filter-group label {
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .form-group label i,
+        .filter-group label i {
+            color: var(--primary);
+        }
+
+        .form-control,
+        .filter-control {
+            padding: 10px 12px;
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            background: #fff;
+            outline: none;
+            transition: border var(--transition-speed), box-shadow var(--transition-speed);
+        }
+
+        .form-control:focus,
+        .filter-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.15);
+        }
+
+        .form-control.invalid {
+            border-color: var(--danger);
+        }
+
+        .error-message {
+            color: var(--danger);
+            font-size: 0.85rem;
+            margin-top: 4px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .password-strength {
+            height: 6px;
+            border-radius: 3px;
+            margin-top: 4px;
+            background: var(--light-gray);
+            transition: background 0.3s, width 0.3s;
+        }
+
+        .password-strength.weak {
+            background: var(--danger);
+            width: 33%;
+        }
+
+        .password-strength.medium {
+            background: var(--warning);
+            width: 66%;
+        }
+
+        .password-strength.strong {
+            background: var(--success);
+            width: 100%;
+        }
+
+        .form-actions,
+        .filter-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 12px;
+        }
+
+        .btn {
+            border: 0;
+            padding: 10px 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed), background var(--transition-speed);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: var(--shadow);
+            background: #fff;
+            position: relative;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary);
+        }
+
+        .btn-secondary {
+            background: var(--light);
+            color: var(--dark);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: #fff;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: #fff;
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: #212529;
+        }
+
+        .btn-info {
+            background: var(--info);
+            color: #fff;
+        }
+
+        .btn-sm {
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .btn-loading::after {
+            content: '';
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #fff;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            margin-left: 8px;
+        }
+
+        .table-wrap {
+            background: #fff;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead th {
+            background: #f2f6fb;
+            text-align: left;
+            padding: 12px;
+            color: #344054;
+            font-weight: 700;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        tbody td {
+            padding: 12px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .status {
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            display: inline-block;
+        }
+
+        .status-active {
+            background: rgba(40, 167, 69, 0.12);
+            color: var(--success);
+        }
+
+        .status-inactive {
+            background: rgba(220, 53, 69, 0.12);
+            color: var(--danger);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .pagination {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            padding: 14px;
+        }
+
+        .pagination-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 1px solid var(--light-gray);
+            background: #fff;
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            transition: background var(--transition-speed), color var(--transition-speed), border var(--transition-speed), transform var(--transition-speed);
+            box-shadow: var(--shadow);
+        }
+
+        .pagination-btn:hover {
+            transform: translateY(-1px);
+            background: var(--light);
+        }
+
+        .pagination-btn.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+        }
+
+        .modal-content {
+            background: #fff;
+            border-radius: 12px;
+            padding: 18px;
+            width: 92%;
+            max-width: 720px;
+            box-shadow: var(--shadow);
+            animation: flipIn 0.35s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-content:before {
+            content: "";
+            position: absolute;
+            width: 140%;
+            height: 140%;
+            top: -20%;
+            left: -20%;
+            background: radial-gradient(transparent 60%, rgba(74, 144, 226, 0.08));
+            transform: rotate(8deg);
+            pointer-events: none;
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .modal-title {
+            font-weight: 800;
+            font-size: 1.25rem;
+            color: var(--dark);
+        }
+
+        .close-modal {
+            background: transparent;
+            border: 0;
+            color: var(--danger);
+            font-size: 1.35rem;
+            cursor: pointer;
+            transition: color var(--transition-speed);
+        }
+
+        .close-modal:hover {
+            color: #c82333;
+        }
+
+        .profile-container {
+            background: #fff;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-container:before {
+            content: "";
+            position: absolute;
+            width: 140%;
+            height: 140%;
+            top: -20%;
+            left: -20%;
+            background: radial-gradient(transparent 60%, rgba(74, 144, 226, 0.08));
+            transform: rotate(8deg);
+            pointer-events: none;
+        }
+
+        .profile-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #fff;
+            padding: 12px 16px;
+            border-radius: 8px 8px 0 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .profile-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--light);
+            display: grid;
+            place-items: center;
+            font-size: 2rem;
+            color: var(--primary);
+            border: 2px solid #fff;
+        }
+
+        .profile-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            padding: 16px;
+        }
+
+        .profile-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            animation: slideIn 0.3s ease;
+        }
+
+        .profile-item label {
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 0.95rem;
+        }
+
+        .profile-item p {
+            color: var(--gray);
+            font-size: 0.9rem;
+            background: #f8f9fa;
+            padding: 8px;
+            border-radius: 6px;
+        }
+
+        .profile-item.status-active p {
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .profile-item.status-inactive p {
+            color: var(--danger);
+            font-weight: 600;
+        }
+
+        @keyframes flipIn {
+            from {
+                transform: rotateX(-8deg);
+                opacity: 0;
+            }
+            to {
+                transform: rotateX(0deg);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(10px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .cards,
+            .add-grid,
+            .permission-grid,
+            .filter-grid,
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 760px) {
+            .cards {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                width: var(--sidebar-collapsed-width);
+            }
+            .sidebar .logo-text {
+                display: none;
+            }
+            .sidebar .logo-condensed {
+                display: block;
+            }
+            .sidebar .menu-text {
+                display: none;
+            }
+            .main-content {
+                margin-left: var(--sidebar-collapsed-width);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-text">
+                    <div class="logo-title">TANZANIA LABOUR</div>
+                    <div class="logo-collection">COLLEGE</div>
+                    <div class="logo-subtitle">E-mail: labourtz@gmail.com</div>
+                    <div class="logo-subtitle">P.O.Box 3454</div>
+                    <div class="logo-subtitle">MBEYA-TANZANIA</div>
+                </div>
+                <div class="logo-condensed">TLC</div>
+            </div>
+            <div class="menu">
+                <div class="menu-item" onclick="location.href='{{ url_for('admin_dashboard') }}';">
+                    <i class="fas fa-home"></i>
+                    <span class="menu-text">Dashboard</span>
+                </div>
+                <div class="menu-item" onclick="location.href='{{ url_for('admin_students') }}';">
+                    <i class="fas fa-user-graduate"></i>
+                    <span class="menu-text">Students</span>
+                </div>
+                <div class="menu-item" onclick="location.href='{{ url_for('admin_lecturers') }}';">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <span class="menu-text">Lecturers</span>
+                </div>
+                <div class="menu-item" onclick="location.href='{{ url_for('admin_courses') }}';">
+                    <i class="fas fa-book"></i>
+                    <span class="menu-text">Courses</span>
+                </div>
+                <div class="menu-item" onclick="location.href='{{ url_for('admin_programs') }}';">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span class="menu-text">Programs</span>
+                </div>
+                <div class="menu-item" onclick="location.href='{{ url_for('admin_results') }}';">
+                    <i class="fas fa-chart-bar"></i>
+                    <span class="menu-text">Results</span>
+                </div>
+                <div class="menu-item" onclick="location.href='{{ url_for('admin_assessments') }}';">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span class="menu-text">Assessments</span>
+                </div>
+                <div class="menu-item" onclick="location.href='{{ url_for('admin_payments') }}';">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <span class="menu-text">Payments</span>
+                </div>
+                <div class="menu-item" onclick="location.href='{{ url_for('admin_accommodations') }}';">
+                    <i class="fas fa-bed"></i>
+                    <span class="menu-text">Accommodations</span>
+                </div>
+                <div class="menu-item active" onclick="location.href='{{ url_for('admin_settings') }}';">
+                    <i class="fas fa-cog"></i>
+                    <span class="menu-text">Settings</span>
+                </div>
+                <div class="menu-item" onclick="location.href='{{ url_for('login') }}';">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span class="menu-text">Logout</span>
+                </div>
+            </div>
+        </div>
+        <!-- Main Content -->
+        <div class="main-content" id="main-content">
+            <div class="header">
+                <div class="header-left">
+                    <button class="toggle-btn" id="toggle-sidebar" title="Collapse/Expand">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="breadcrumbs">Admin / Settings</div>
+                </div>
+                <h1>Settings Management</h1>
+            </div>
+            <!-- Overview Cards -->
+            <div class="cards">
+                <div class="card">
+                    <div class="card-title">Total Users</div>
+                    <div class="card-value" id="kpi-users">0</div>
+                </div>
+                <div class="card">
+                    <div class="card-title">Admins</div>
+                    <div class="card-value" id="kpi-admins">0</div>
+                </div>
+                <div class="card">
+                    <div class="card-title">Lecturers</div>
+                    <div class="card-value" id="kpi-lecturers">0</div>
+                </div>
+                <div class="card">
+                    <div class="card-title">Students</div>
+                    <div class="card-value" id="kpi-students">0</div>
+                </div>
+            </div>
+            <!-- Tabs -->
+            <div class="tabs">
+                <div class="tab active" data-tab="users">Users</div>
+                <div class="tab" data-tab="permissions">Permissions</div>
+                <div class="tab" data-tab="login-history">Login History</div>
+            </div>
+            <!-- Users Tab -->
+            <div class="tab-content" id="users-tab">
+                <div class="filter-section">
+                    <h3>Filter Users</h3>
+                    <div class="filter-grid">
+                        <div class="filter-group">
+                            <label for="users-role-filter"><i class="fas fa-user-tag"></i> Role</label>
+                            <select class="filter-control" id="users-role-filter">
+                                <option value="">All Roles</option>
+                                <option value="Admin">Admin</option>
+                                <option value="Lecturer">Lecturer</option>
+                                <option value="Student">Student</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="users-status-filter"><i class="fas fa-info-circle"></i> Status</label>
+                            <select class="filter-control" id="users-status-filter">
+                                <option value="">All Statuses</option>
+                                <option value="Active">Active</option>
+                                <option value="Inactive">Inactive</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="users-search"><i class="fas fa-search"></i> Search</label>
+                            <input type="text" class="filter-control" id="users-search" placeholder="Search by user ID or name">
+                        </div>
+                    </div>
+                    <div class="filter-actions">
+                        <button class="btn btn-secondary" id="users-reset-filters">Reset Filters</button>
+                        <button class="btn btn-primary" id="users-apply-filters">Apply Filters</button>
+                        <button class="btn btn-primary" id="add-admin-btn"><i class="fas fa-user-plus"></i> Add Admin</button>
+                    </div>
+                </div>
+                <div class="table-wrap">
+                    <table id="users-table">
+                        <thead>
+                            <tr>
+                                <th>User ID</th>
+                                <th>Full Name</th>
+                                <th>Username</th>
+                                <th>Role</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Permissions</th>
+                                <th>Created At</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>USR999</td>
+                                <td>Preview User</td>
+                                <td>previewuser</td>
+                                <td>Admin</td>
+                                <td>preview@example.com</td>
+                                <td>+255000000000</td>
+                                <td>Manage Students, Approve Payment</td>
+                                <td>2025-09-09</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i> View</button>
+                                        <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Edit</button>
+                                        <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Delete</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="pagination" id="users-pagination"></div>
+                </div>
+            </div>
+            <!-- Permissions Tab -->
+            <div class="tab-content" id="permissions-tab" style="display: none;">
+                <div class="filter-section">
+                    <h3>Filter Permissions</h3>
+                    <div class="filter-grid">
+                        <div class="filter-group">
+                            <label for="permissions-user-filter"><i class="fas fa-user"></i> User</label>
+                            <select class="filter-control" id="permissions-user-filter">
+                                <option value="">All Users</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="permissions-role-filter"><i class="fas fa-user-tag"></i> Role</label>
+                            <select class="filter-control" id="permissions-role-filter">
+                                <option value="">All Roles</option>
+                                <option value="Admin">Admin</option>
+                                <option value="Lecturer">Lecturer</option>
+                                <option value="Student">Student</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="permissions-status-filter"><i class="fas fa-info-circle"></i> Status</label>
+                            <select class="filter-control" id="permissions-status-filter">
+                                <option value="">All Statuses</option>
+                                <option value="Active">Active</option>
+                                <option value="Inactive">Inactive</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="filter-actions">
+                        <button class="btn btn-secondary" id="permissions-reset-filters">Reset Filters</button>
+                        <button class="btn btn-primary" id="permissions-apply-filters">Apply Filters</button>
+                        <button class="btn btn-primary" id="assign-permissions-btn"><i class="fas fa-key"></i> Assign Permissions</button>
+                    </div>
+                </div>
+                <div class="table-wrap">
+                    <table id="permissions-table">
+                        <thead>
+                            <tr>
+                                <th>Permission ID</th>
+                                <th>User</th>
+                                <th>Role</th>
+                                <th>Permissions</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>PRM999</td>
+                                <td>Preview User</td>
+                                <td>Admin</td>
+                                <td>Manage Students, Approve Payment</td>
+                                <td><span class="status status-active">Active</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i> View</button>
+                                        <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Edit</button>
+                                        <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Delete</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="pagination" id="permissions-pagination"></div>
+                </div>
+            </div>
+            <!-- Login History Tab -->
+            <div class="tab-content" id="login-history-tab" style="display: none;">
+                <div class="filter-section">
+                    <h3>Filter Login History</h3>
+                    <div class="filter-grid">
+                        <div class="filter-group">
+                            <label for="login-history-user-filter"><i class="fas fa-user"></i> User</label>
+                            <select class="filter-control" id="login-history-user-filter">
+                                <option value="">All Users</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="login-history-search"><i class="fas fa-search"></i> Search</label>
+                            <input type="text" class="filter-control" id="login-history-search" placeholder="Search by user ID or username">
+                        </div>
+                    </div>
+                    <div class="filter-actions">
+                        <button class="btn btn-secondary" id="login-history-reset-filters">Reset Filters</button>
+                        <button class="btn btn-primary" id="login-history-apply-filters">Apply Filters</button>
+                    </div>
+                </div>
+                <div class="table-wrap">
+                    <table id="login-history-table">
+                        <thead>
+                            <tr>
+                                <th>User ID</th>
+                                <th>Username</th>
+                                <th>Login Time</th>
+                                <th>IP Address</th>
+                                <th>Device</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>USR999</td>
+                                <td>previewuser</td>
+                                <td>2025-09-09T12:00:00</td>
+                                <td>127.0.0.1</td>
+                                <td>Desktop - Chrome</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i> View</button>
+                                        <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Delete</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="pagination" id="login-history-pagination"></div>
+                </div>
+            </div>
+            <!-- Assign Permissions Section -->
+            <div class="permission-section" id="permission-section">
+                <h3>Assign Permissions</h3>
+                <form id="permission-form">
+                    <div class="permission-grid">
+                        <div class="form-group">
+                            <label for="permission-user"><i class="fas fa-user"></i> User *</label>
+                            <select class="form-control" id="permission-user" required>
+                                <option value="">Select User</option>
+                            </select>
+                            <div class="error-message" id="permission-user-error">User is required</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="permission-role"><i class="fas fa-user-tag"></i> Role *</label>
+                            <select class="form-control" id="permission-role" required>
+                                <option value="">Select Role</option>
+                                <option value="Admin">Admin</option>
+                                <option value="Lecturer">Lecturer</option>
+                                <option value="Student">Student</option>
+                            </select>
+                            <div class="error-message" id="permission-role-error">Role is required</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="permission-permissions"><i class="fas fa-key"></i> Permissions (Select multiple)</label>
+                            <select class="form-control" id="permission-permissions" multiple>
+                            </select>
+                            <div class="error-message" id="permission-permissions-error">At least one permission is recommended</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="permission-status"><i class="fas fa-info-circle"></i> Status *</label>
+                            <select class="form-control" id="permission-status" required>
+                                <option value="Active">Active</option>
+                                <option value="Inactive">Inactive</option>
+                            </select>
+                            <div class="error-message" id="permission-status-error">Status is required</div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="permission-cancel">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="permission-save">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- User Profile Modal -->
+    <div class="modal" id="user-profile-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">User Profile</div>
+                <button class="close-modal" id="user-profile-close" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="profile-container">
+                <div class="profile-header">
+                    <div class="profile-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div>
+                        <div class="profile-title" id="profile-user-id"></div>
+                        <div style="font-size: 0.9rem; opacity: 0.9;" id="profile-full-name"></div>
+                    </div>
+                </div>
+                <div class="profile-grid" id="profile-grid"></div>
+            </div>
+            <form id="change-password-form">
+                <h3>Change Password</h3>
+                <div class="add-grid">
+                    <div class="form-group">
+                        <label for="current-password"><i class="fas fa-lock"></i> Current Password *</label>
+                        <input type="password" class="form-control" id="current-password" required>
+                        <div class="error-message" id="current-password-error">Current password is required</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="new-password"><i class="fas fa-lock"></i> New Password *</label>
+                        <input type="password" class="form-control" id="new-password" required>
+                        <div class="password-strength" id="password-strength"></div>
+                        <div class="error-message" id="new-password-error">New password is required</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-password"><i class="fas fa-lock"></i> Confirm Password *</label>
+                        <input type="password" class="form-control" id="confirm-password" required>
+                        <div class="error-message" id="confirm-password-error">Passwords must match</div>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="password-cancel-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="password-save-btn">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Add Admin Modal -->
+    <div class="modal" id="add-admin-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Add New Administrator</div>
+                <button class="close-modal" id="add-admin-close" aria-label="Close modal">&times;</button>
+            </div>
+            <form id="add-admin-form">
+                <div class="add-grid">
+                    <div class="form-group">
+                        <label for="admin-username"><i class="fas fa-user"></i> Username *</label>
+                        <input type="text" class="form-control" id="admin-username" placeholder="Enter username" required>
+                        <div class="error-message" id="admin-username-error">Username is required</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="admin-full-name"><i class="fas fa-user"></i> Full Name *</label>
+                        <input type="text" class="form-control" id="admin-full-name" placeholder="Enter full name" required>
+                        <div class="error-message" id="admin-full-name-error">Full name is required</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="admin-email"><i class="fas fa-envelope"></i> Email *</label>
+                        <input type="email" class="form-control" id="admin-email" placeholder="Enter email" required>
+                        <div class="error-message" id="admin-email-error">Valid email is required</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="admin-phone"><i class="fas fa-phone"></i> Phone</label>
+                        <input type="tel" class="form-control" id="admin-phone" placeholder="Enter phone number">
+                        <div class="error-message" id="admin-phone-error">Valid phone number is required</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="admin-password"><i class="fas fa-lock"></i> Password *</label>
+                        <input type="password" class="form-control" id="admin-password" required>
+                        <div class="password-strength" id="admin-password-strength"></div>
+                        <div class="error-message" id="admin-password-error">Password is required</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="admin-confirm-password"><i class="fas fa-lock"></i> Confirm Password *</label>
+                        <input type="password" class="form-control" id="admin-confirm-password" required>
+                        <div class="error-message" id="admin-confirm-password-error">Passwords must match</div>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="add-admin-cancel">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="add-admin-save">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Permission Preview Modal -->
+    <div class="modal" id="permission-preview-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Permission Details</div>
+                <button class="close-modal" id="permission-preview-close" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="profile-container">
+                <div class="profile-header">
+                    <div class="profile-icon">
+                        <i class="fas fa-key"></i>
+                    </div>
+                    <div>
+                        <div class="profile-title" id="permission-profile-id"></div>
+                        <div style="font-size: 0.9rem; opacity: 0.9;" id="permission-profile-user"></div>
+                    </div>
+                </div>
+                <div class="profile-grid" id="permission-profile-grid"></div>
+            </div>
+            <div class="form-actions">
+                <button class="btn btn-secondary" id="permission-close-btn">Close</button>
+                <button class="btn btn-primary" id="permission-print-btn">Print</button>
+                <button class="btn btn-warning" id="permission-edit-btn">Edit</button>
+            </div>
+        </div>
+    </div>
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Mock data
+    let users = [
+        { id: 'USR001', fullName: 'John Doe', username: 'johndoe', role: 'Admin', email: 'john.doe@example.com', phone: '+255123456789', permissions: ['Manage Students', 'Approve Payment', 'Manage Hostels'], createdAt: '2025-01-10', status: 'Active', lastLogin: '2025-09-08T10:00:00' },
+        { id: 'USR002', fullName: 'Jane Smith', username: 'janesmith', role: 'Lecturer', email: 'jane.smith@example.com', phone: '+255987654321', permissions: ['View Results'], createdAt: '2025-02-15', status: 'Active', lastLogin: '2025-09-07T14:30:00' },
+        { id: 'USR003', fullName: 'Ali Hassan', username: 'alihassan', role: 'Student', email: 'ali.hassan@example.com', phone: '+255111222333', permissions: [], createdAt: '2025-03-20', status: 'Inactive', lastLogin: '2025-08-01T09:15:00' }
+    ];
+
+    let permissions = [
+        { id: 'PRM001', userId: 'USR001', role: 'Admin', permissions: ['Manage Students', 'Approve Payment', 'Manage Hostels'], status: 'Active' },
+        { id: 'PRM002', userId: 'USR002', role: 'Lecturer', permissions: ['View Results'], status: 'Active' },
+        { id: 'PRM003', userId: 'USR003', role: 'Student', permissions: [], status: 'Inactive' }
+    ];
+
+    let loginHistory = [
+        { id: 'LGH001', userId: 'USR001', username: 'johndoe', loginTime: '2025-09-08T10:00:00', ipAddress: '192.168.1.1', device: 'Desktop - Chrome' },
+        { id: 'LGH002', userId: 'USR002', username: 'janesmith', loginTime: '2025-09-07T14:30:00', ipAddress: '192.168.1.2', device: 'Mobile - Safari' },
+        { id: 'LGH003', userId: 'USR001', username: 'johndoe', loginTime: '2025-09-06T08:45:00', ipAddress: '192.168.1.3', device: 'Desktop - Firefox' }
+    ];
+
+    const availablePermissions = ['Manage Students', 'View Results', 'Approve Payment', 'Manage Hostels', 'Manage Lecturers'];
+
+    // Populate dropdowns
+    function populateDropdowns() {
+        console.log('Populating dropdowns with users:', users);
+        const userSelects = [
+            document.getElementById('permissions-user-filter'),
+            document.getElementById('login-history-user-filter'),
+            document.getElementById('permission-user')
+        ];
+        userSelects.forEach(select => {
+            if (select) {
+                select.innerHTML = '<option value="">All Users</option>';
+                users.forEach(u => {
+                    const option = document.createElement('option');
+                    option.value = u.id;
+                    option.textContent = `${u.fullName} (${u.id})`;
+                    select.appendChild(option);
+                });
+            }
+        });
+
+        const permissionSelect = document.getElementById('permission-permissions');
+        if (permissionSelect) {
+            permissionSelect.innerHTML = availablePermissions.map(p => `<option value="${p}">${p}</option>`).join('');
+        }
+    }
+
+    // Update KPIs
+    function updateKPIs() {
+        console.log('Updating KPIs with users:', users);
+        const totalUsers = users.length;
+        const admins = users.filter(u => u.role === 'Admin').length;
+        const lecturers = users.filter(u => u.role === 'Lecturer').length;
+        const students = users.filter(u => u.role === 'Student').length;
+        document.getElementById('kpi-users').textContent = totalUsers;
+        document.getElementById('kpi-admins').textContent = admins;
+        document.getElementById('kpi-lecturers').textContent = lecturers;
+        document.getElementById('kpi-students').textContent = students;
+    }
+
+    // Password strength checker
+    function updatePasswordStrength(password, strengthEl) {
+        console.log('Updating password strength for password length:', password.length);
+        const strength = password.length < 6 ? 'weak' : password.length < 10 ? 'medium' : 'strong';
+        strengthEl.className = 'password-strength';
+        if (password) {
+            strengthEl.classList.add(strength);
+        }
+    }
+
+    // Pagination
+    function paginate(items, perPage, onSlice, pagerEl) {
+        let page = 1;
+        const total = Math.max(1, Math.ceil(items.length / perPage));
+        console.log('Paginating items:', items, 'Total pages:', total);
+        function renderPager() {
+            pagerEl.innerHTML = '';
+            for (let i = 1; i <= total; i++) {
+                const b = document.createElement('button');
+                b.className = 'pagination-btn' + (i === page ? ' active' : '');
+                b.textContent = i;
+                b.onclick = () => { 
+                    page = i; 
+                    console.log('Switching to page:', page);
+                    slice(); 
+                    renderPager(); 
+                };
+                pagerEl.appendChild(b);
+            }
+        }
+        function slice() {
+            const start = (page - 1) * perPage;
+            const sliceData = items.slice(start, start + perPage);
+            console.log('Slicing items:', sliceData);
+            onSlice(sliceData);
+        }
+        slice();
+        renderPager();
+    }
+
+    // Filter items
+    function filterItems(items, prefix, type) {
+        console.log('Filtering items:', items, 'Prefix:', prefix, 'Type:', type);
+        const role = document.getElementById(`${prefix}-role-filter`)?.value || '';
+        const status = document.getElementById(`${prefix}-status-filter`)?.value || '';
+        const user = document.getElementById(`${prefix}-user-filter`)?.value || '';
+        const search = document.getElementById(`${prefix}-search`)?.value.toLowerCase() || '';
+        const filtered = items.filter(item => {
+            const name = type === 'users' ? item.fullName.toLowerCase() : 
+                         type === 'permissions' ? users.find(u => u.id === item.userId)?.fullName.toLowerCase() || '' : 
+                         item.username.toLowerCase();
+            const matchesRole = !role || item.role === role;
+            const matchesStatus = !status || item.status === status;
+            const matchesUser = !user || item.userId === user;
+            const matchesSearch = !search || item.id.toLowerCase().includes(search) || name.includes(search);
+            return matchesRole && matchesStatus && matchesUser && matchesSearch;
+        });
+        console.log('Filtered items:', filtered);
+        return filtered;
+    }
+
+    // Render tables
+    function renderUsers() {
+        console.log('Rendering users table');
+        const data = filterItems(users, 'users', 'users');
+        const tbody = document.querySelector('#users-table tbody');
+        const pager = document.getElementById('users-pagination');
+        paginate(data, 5, slice => {
+            console.log('Rendering user slice:', slice);
+            tbody.innerHTML = slice.length ? slice.map(u => `
+                <tr data-user-id="${u.id}">
+                    <td>${u.id}</td>
+                    <td>${u.fullName}</td>
+                    <td>${u.username}</td>
+                    <td>${u.role}</td>
+                    <td>${u.email}</td>
+                    <td>${u.phone || 'N/A'}</td>
+                    <td>${u.permissions.join(', ') || 'None'}</td>
+                    <td>${u.createdAt}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn btn-sm btn-info" data-view="${u.id}" data-type="user"><i class="fas fa-eye"></i> View</button>
+                            <button class="btn btn-sm btn-warning" data-edit="${u.id}" data-type="user"><i class="fas fa-edit"></i> Edit</button>
+                            <button class="btn btn-sm btn-danger" data-delete="${u.id}" data-type="user"><i class="fas fa-trash"></i> Delete</button>
+                        </div>
+                    </td>
+                </tr>`).join('') : '<tr><td colspan="9">No users found</td></tr>';
+            bindActions();
+        }, pager);
+    }
+
+    function renderPermissions() {
+        console.log('Rendering permissions table');
+        const data = filterItems(permissions, 'permissions', 'permissions');
+        const tbody = document.querySelector('#permissions-table tbody');
+        const pager = document.getElementById('permissions-pagination');
+        paginate(data, 5, slice => {
+            console.log('Rendering permission slice:', slice);
+            tbody.innerHTML = slice.length ? slice.map(p => {
+                const user = users.find(u => u.id === p.userId);
+                return `
+                    <tr data-permission-id="${p.id}">
+                        <td>${p.id}</td>
+                        <td>${user ? user.fullName : 'N/A'}</td>
+                        <td>${p.role}</td>
+                        <td>${p.permissions.join(', ') || 'None'}</td>
+                        <td><span class="status status-${p.status.toLowerCase()}">${p.status}</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn btn-sm btn-info" data-view="${p.id}" data-type="permission"><i class="fas fa-eye"></i> View</button>
+                                <button class="btn btn-sm btn-warning" data-edit="${p.id}" data-type="permission"><i class="fas fa-edit"></i> Edit</button>
+                                <button class="btn btn-sm btn-danger" data-delete="${p.id}" data-type="permission"><i class="fas fa-trash"></i> Delete</button>
+                            </div>
+                        </td>
+                    </tr>`;
+            }).join('') : '<tr><td colspan="6">No permissions found</td></tr>';
+            bindActions();
+        }, pager);
+    }
+
+    function renderLoginHistory() {
+        console.log('Rendering login history table');
+        const data = filterItems(loginHistory, 'login-history', 'login-history');
+        const tbody = document.querySelector('#login-history-table tbody');
+        const pager = document.getElementById('login-history-pagination');
+        paginate(data, 5, slice => {
+            console.log('Rendering login history slice:', slice);
+            tbody.innerHTML = slice.length ? slice.map(l => `
+                <tr data-login-id="${l.id}">
+                    <td>${l.userId}</td>
+                    <td>${l.username}</td>
+                    <td>${l.loginTime}</td>
+                    <td>${l.ipAddress}</td>
+                    <td>${l.device}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn btn-sm btn-info" data-view="${l.id}" data-type="login"><i class="fas fa-eye"></i> View</button>
+                            <button class="btn btn-sm btn-danger" data-delete="${l.id}" data-type="login"><i class="fas fa-trash"></i> Delete</button>
+                        </div>
+                    </td>
+                </tr>`).join('') : '<tr><td colspan="6">No login records found</td></tr>';
+            bindActions();
+        }, pager);
+    }
+
+    // Validate forms
+    function validateAddAdminForm() {
+        console.log('Validating add admin form');
+        let isValid = true;
+        const fields = [
+            { id: 'admin-username', errorId: 'admin-username-error', condition: val => !val.trim(), message: 'Username is required' },
+            { id: 'admin-full-name', errorId: 'admin-full-name-error', condition: val => !val.trim(), message: 'Full name is required' },
+            { id: 'admin-email', errorId: 'admin-email-error', condition: val => !val || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val), message: 'Valid email is required' },
+            { id: 'admin-phone', errorId: 'admin-phone-error', condition: val => val && !/^\+?\d{10,}$/.test(val), message: 'Valid phone number is required' },
+            { id: 'admin-password', errorId: 'admin-password-error', condition: val => !val || val.length < 6, message: 'Password must be at least 6 characters' },
+            { id: 'admin-confirm-password', errorId: 'admin-confirm-password-error', condition: val => val !== document.getElementById('admin-password').value, message: 'Passwords must match' }
+        ];
+
+        fields.forEach(field => {
+            const input = document.getElementById(field.id);
+            const error = document.getElementById(field.errorId);
+            const value = input.value;
+            if (field.condition(value)) {
+                input.classList.add('invalid');
+                error.classList.add('show');
+                error.textContent = field.message;
+                isValid = false;
+            } else {
+                input.classList.remove('invalid');
+                error.classList.remove('show');
+            }
+        });
+
+        console.log('Add admin form validation result:', isValid);
+        return isValid;
+    }
+
+    function validatePermissionForm() {
+        console.log('Validating permission form');
+        let isValid = true;
+        const fields = [
+            { id: 'permission-user', errorId: 'permission-user-error', condition: val => !val, message: 'User is required' },
+            { id: 'permission-role', errorId: 'permission-role-error', condition: val => !val, message: 'Role is required' }
+        ];
+
+        fields.forEach(field => {
+            const input = document.getElementById(field.id);
+            const error = document.getElementById(field.errorId);
+            const value = input.value;
+            if (field.condition(value)) {
+                input.classList.add('invalid');
+                error.classList.add('show');
+                error.textContent = field.message;
+                isValid = false;
+            } else {
+                input.classList.remove('invalid');
+                error.classList.remove('show');
+            }
+        });
+
+        console.log('Permission form validation result:', isValid);
+        return isValid;
+    }
+
+    function validatePasswordForm() {
+        console.log('Validating password form');
+        let isValid = true;
+        const fields = [
+            { id: 'current-password', errorId: 'current-password-error', condition: val => !val, message: 'Current password is required' },
+            { id: 'new-password', errorId: 'new-password-error', condition: val => !val || val.length < 6, message: 'New password must be at least 6 characters' },
+            { id: 'confirm-password', errorId: 'confirm-password-error', condition: val => val !== document.getElementById('new-password').value, message: 'Passwords must match' }
+        ];
+
+        fields.forEach(field => {
+            const input = document.getElementById(field.id);
+            const error = document.getElementById(field.errorId);
+            const value = input.value;
+            if (field.condition(value)) {
+                input.classList.add('invalid');
+                error.classList.add('show');
+                error.textContent = field.message;
+                isValid = false;
+            } else {
+                input.classList.remove('invalid');
+                error.classList.remove('show');
+            }
+        });
+
+        console.log('Password form validation result:', isValid);
+        return isValid;
+    }
+
+    // Bind actions
+    function bindActions() {
+        console.log('Binding actions for table buttons');
+        document.querySelectorAll('[data-view][data-type="user"]').forEach(btn => {
+            btn.onclick = () => {
+                console.log('Viewing user:', btn.getAttribute('data-view'));
+                const id = btn.getAttribute('data-view');
+                const user = users.find(u => u.id === id);
+                document.getElementById('profile-user-id').textContent = user.id;
+                document.getElementById('profile-full-name').textContent = user.fullName;
+                document.getElementById('profile-grid').innerHTML = `
+                    <div class="profile-item">
+                        <label>User ID</label>
+                        <p>${user.id}</p>
+                    </div>
+                    <div class="profile-item">
+                        <label>Username</label>
+                        <p>${user.username}</p>
+                    </div>
+                    <div class="profile-item">
+                        <label>Email</label>
+                        <p>${user.email}</p>
+                    </div>
+                    <div class="profile-item">
+                        <label>Phone</label>
+                        <p>${user.phone || 'N/A'}</p>
+                    </div>
+                    <div class="profile-item">
+                        <label>Permissions</label>
+                        <p>${user.permissions.join(', ') || 'None'}</p>
+                    </div>
+                    <div class="profile-item">
+                        <label>Created At</label>
+                        <p>${user.createdAt}</p>
+                    </div>
+                    <div class="profile-item status-${user.status.toLowerCase()}">
+                        <label>Status</label>
+                        <p>${user.status}</p>
+                    </div>
+                    <div class="profile-item">
+                        <label>Last Login</label>
+                        <p>${user.lastLogin || 'N/A'}</p>
+                    </div>`;
+                document.getElementById('change-password-form').style.display = 'block';
+                document.getElementById('user-profile-modal').style.display = 'flex';
+            };
+        });
+
+        document.querySelectorAll('[data-edit][data-type="user"]').forEach(btn => {
+            btn.onclick = () => {
+                console.log('Editing user:', btn.getAttribute('data-edit'));
+                const id = btn.getAttribute('data-edit');
+                const user = users.find(u => u.id === id);
+                document.getElementById('admin-username').value = user.username;
+                document.getElementById('admin-full-name').value = user.fullName;
+                document.getElementById('admin-email').value = user.email;
+                document.getElementById('admin-phone').value = user.phone || '';
+                document.getElementById('admin-password').value = '';
+                document.getElementById('admin-confirm-password').value = '';
+                document.getElementById('admin-password-strength').className = 'password-strength';
+                document.getElementById('add-admin-form').dataset.editId = id;
+                document.querySelectorAll('.error-message').forEach(el => el.classList.remove('show'));
+                document.querySelectorAll('.form-control').forEach(el => el.classList.remove('invalid'));
+                document.getElementById('add-admin-modal').style.display = 'flex';
+            };
+        });
+
+        document.querySelectorAll('[data-delete][data-type="user"]').forEach(btn => {
+            btn.onclick = () => {
+                console.log('Deleting user:', btn.getAttribute('data-delete'));
+                const id = btn.getAttribute('data-delete');
+                if (permissions.some(p => p.userId === id)) {
+                    alert('Cannot delete user with assigned permissions');
+                    return;
+                }
+                users = users.filter(u => u.id !== id);
+                renderUsers();
+                updateKPIs();
+                populateDropdowns();
+                alert('User deleted successfully');
+            };
+        });
+
+        document.querySelectorAll('[data-view][data-type="permission"]').forEach(btn => {
+            btn.onclick = () => {
+                console.log('Viewing permission:', btn.getAttribute('data-view'));
+                const id = btn.getAttribute('data-view');
+                const permission = permissions.find(p => p.id === id);
+                const user = users.find(u => u.id === permission.userId);
+                document.getElementById('permission-profile-id').textContent = permission.id;
+                document.getElementById('permission-profile-user').textContent = user ? user.fullName : 'N/A';
+                document.getElementById('permission-profile-grid').innerHTML = `
+                    <div class="profile-item">
+                        <label>Permission ID</label>
+                        <p>${permission.id}</p>
+                    </div>
+                    <div class="profile-item">
+                        <label>User</label>
+                        <p>${user ? user.fullName : 'N/A'}</p>
+                    </div>
+                    <div class="profile-item">
+                        <label>Role</label>
+                        <p>${permission.role}</p>
+                    </div>
+                    <div class="profile-item">
+                        <label>Permissions</label>
+                        <p>${permission.permissions.join(', ') || 'None'}</p>
+                    </div>
+                    <div class="profile-item status-${permission.status.toLowerCase()}">
+                        <label>Status</label>
+                        <p>${permission.status}</p>
+                    </div>`;
+                document.getElementById('permission-edit-btn').dataset.editId = id;
+                document.getElementById('permission-preview-modal').style.display = 'flex';
+            };
+        });
+
+        document.querySelectorAll('[data-edit][data-type="permission"]').forEach(btn => {
+            btn.onclick = () => {
+                console.log('Editing permission:', btn.getAttribute('data-edit'));
+                const id = btn.getAttribute('data-edit');
+                const permission = permissions.find(p => p.id === id);
+                document.getElementById('permission-user').value = permission.userId;
+                document.getElementById('permission-role').value = permission.role;
+                const permissionSelect = document.getElementById('permission-permissions');
+                permissionSelect.innerHTML = availablePermissions.map(p => `
+                    <option value="${p}" ${permission.permissions.includes(p) ? 'selected' : ''}>${p}</option>
+                `).join('');
+                document.getElementById('permission-status').value = permission.status;
+                document.getElementById('permission-form').dataset.editId = id;
+                document.querySelectorAll('.error-message').forEach(el => el.classList.remove('show'));
+                document.querySelectorAll('.form-control').forEach(el => el.classList.remove('invalid'));
+                document.getElementById('permission-section').classList.add('show');
+                document.getElementById('permission-section').scrollIntoView({ behavior: 'smooth' });
+            };
+        });
+
+        document.querySelectorAll('[data-delete][data-type="permission"]').forEach(btn => {
+            btn.onclick = () => {
+                console.log('Deleting permission:', btn.getAttribute('data-delete'));
+                const id = btn.getAttribute('data-delete');
+                permissions = permissions.filter(p => p.id !== id);
+                renderPermissions();
+                alert('Permission deleted successfully');
+            };
+        });
+
+        document.querySelectorAll('[data-view][data-type="login"]').forEach(btn => {
+            btn.onclick = () => {
+                console.log('Viewing login:', btn.getAttribute('data-view'));
+                const id = btn.getAttribute('data-view');
+                const login = loginHistory.find(l => l.id === id);
+                document.getElementById('profile-user-id').textContent = login.userId;
+                document.getElementById('profile-full-name').textContent = login.username;
+                document.getElementById('profile-grid').innerHTML = `
+                    <div class="profile-item">
+                        <label>User ID</label>
+                        <p>${login.userId}</p>
+                    </div>
+                    <div class="profile-item">
+                        <label>Username</label>
+                        <p>${login.username}</p>
+                    </div>
+                    <div class="profile-item">
+                        <label>Login Time</label>
+                        <p>${login.loginTime}</p>
+                    </div>
+                    <div class="profile-item">
+                        <label>IP Address</label>
+                        <p>${login.ipAddress}</p>
+                    </div>
+                    <div class="profile-item">
+                        <label>Device</label>
+                        <p>${login.device}</p>
+                    </div>`;
+                document.getElementById('change-password-form').style.display = 'none';
+                document.getElementById('user-profile-modal').style.display = 'flex';
+            };
+        });
+
+        document.querySelectorAll('[data-delete][data-type="login"]').forEach(btn => {
+            btn.onclick = () => {
+                console.log('Deleting login:', btn.getAttribute('data-delete'));
+                const id = btn.getAttribute('data-delete');
+                loginHistory = loginHistory.filter(l => l.id !== id);
+                renderLoginHistory();
+                alert('Login record deleted successfully');
+            };
+        });
+    }
+
+    // Event Listeners
+    document.getElementById('toggle-sidebar').addEventListener('click', () => {
+        console.log('Toggling sidebar');
+        document.getElementById('sidebar').classList.toggle('collapsed');
+        document.getElementById('main-content').classList.toggle('collapsed');
+    });
+
+    document.getElementById('add-admin-btn').onclick = () => {
+        console.log('Opening add admin modal');
+        document.getElementById('add-admin-form').reset();
+        document.getElementById('add-admin-form').dataset.editId = '';
+        document.getElementById('admin-password-strength').className = 'password-strength';
+        document.querySelectorAll('.error-message').forEach(el => el.classList.remove('show'));
+        document.querySelectorAll('.form-control').forEach(el => el.classList.remove('invalid'));
+        document.getElementById('add-admin-modal').style.display = 'flex';
+    };
+
+    document.getElementById('add-admin-cancel').onclick = () => {
+        console.log('Canceling add admin');
+        document.getElementById('add-admin-modal').style.display = 'none';
+        document.getElementById('add-admin-form').reset();
+        document.getElementById('add-admin-form').dataset.editId = '';
+        document.querySelectorAll('.error-message').forEach(el => el.classList.remove('show'));
+        document.querySelectorAll('.form-control').forEach(el => el.classList.remove('invalid'));
+    };
+
+    document.getElementById('add-admin-close').onclick = () => {
+        console.log('Closing add admin modal');
+        document.getElementById('add-admin-modal').style.display = 'none';
+    };
+
+    document.getElementById('add-admin-form').onsubmit = async e => {
+        e.preventDefault();
+        if (!validateAddAdminForm()) return;
+        const saveBtn = document.getElementById('add-admin-save');
+        saveBtn.disabled = true;
+        saveBtn.classList.add('btn-loading');
+        const editId = document.getElementById('add-admin-form').dataset.editId;
+        console.log('Saving admin:', { editId });
+        await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate async save
+        const user = {
+            id: editId || `USR${String(users.length + 1).padStart(3, '0')}`,
+            fullName: document.getElementById('admin-full-name').value,
+            username: document.getElementById('admin-username').value,
+            role: 'Admin',
+            email: document.getElementById('admin-email').value,
+            phone: document.getElementById('admin-phone').value || null,
+            permissions: ['Manage Students', 'Approve Payment', 'Manage Hostels'],
+            createdAt: new Date().toISOString().split('T')[0],
+            status: 'Active',
+            lastLogin: null
+        };
+        if (editId) {
+            users = users.map(u => u.id === editId ? user : u);
+            const permission = permissions.find(p => p.userId === editId);
+            if (permission) {
+                permission.role = user.role;
+                permission.permissions = user.permissions;
+                permission.status = user.status;
+            }
+        } else {
+            users.push(user);
+            permissions.push({
+                id: `PRM${String(permissions.length + 1).padStart(3, '0')}`,
+                userId: user.id,
+                role: user.role,
+                permissions: user.permissions,
+                status: user.status
+            });
+        }
+        saveBtn.disabled = false;
+        saveBtn.classList.remove('btn-loading');
+        document.getElementById('add-admin-modal').style.display = 'none';
+        document.getElementById('add-admin-form').reset();
+        document.getElementById('add-admin-form').dataset.editId = '';
+        renderUsers();
+        renderPermissions();
+        updateKPIs();
+        populateDropdowns();
+        alert(`Successfully ${editId ? 'updated' : 'added'} admin`);
+    };
+
+    document.getElementById('assign-permissions-btn').onclick = () => {
+        console.log('Opening assign permissions section');
+        document.getElementById('permission-form').reset();
+        document.getElementById('permission-form').dataset.editId = '';
+        document.getElementById('permission-permissions').innerHTML = availablePermissions.map(p => `<option value="${p}">${p}</option>`).join('');
+        document.querySelectorAll('.error-message').forEach(el => el.classList.remove('show'));
+        document.querySelectorAll('.form-control').forEach(el => el.classList.remove('invalid'));
+        document.getElementById('permission-section').classList.add('show');
+        document.getElementById('permission-section').scrollIntoView({ behavior: 'smooth' });
+    };
+
+    document.getElementById('permission-cancel').onclick = () => {
+        console.log('Canceling permission form');
+        document.getElementById('permission-section').classList.remove('show');
+        document.getElementById('permission-form').reset();
+        document.getElementById('permission-form').dataset.editId = '';
+        document.querySelectorAll('.error-message').forEach(el => el.classList.remove('show'));
+        document.querySelectorAll('.form-control').forEach(el => el.classList.remove('invalid'));
+    };
+
+    document.getElementById('permission-form').onsubmit = async e => {
+        e.preventDefault();
+        if (!validatePermissionForm()) return;
+        const saveBtn = document.getElementById('permission-save');
+        saveBtn.disabled = true;
+        saveBtn.classList.add('btn-loading');
+        const editId = document.getElementById('permission-form').dataset.editId;
+        console.log('Saving permission:', { editId });
+        await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate async save
+        const selectedPermissions = Array.from(document.getElementById('permission-permissions').selectedOptions).map(opt => opt.value);
+        const permission = {
+            id: editId || `PRM${String(permissions.length + 1).padStart(3, '0')}`,
+            userId: document.getElementById('permission-user').value,
+            role: document.getElementById('permission-role').value,
+            permissions: selectedPermissions,
+            status: document.getElementById('permission-status').value
+        };
+        if (editId) {
+            permissions = permissions.map(p => p.id === editId ? permission : p);
+            const user = users.find(u => u.id === permission.userId);
+            if (user) {
+                user.permissions = permission.permissions;
+                user.role = permission.role;
+                user.status = permission.status;
+            }
+        } else {
+            permissions.push(permission);
+            const user = users.find(u => u.id === permission.userId);
+            if (user) {
+                user.permissions = permission.permissions;
+                user.role = permission.role;
+                user.status = permission.status;
+            }
+        }
+        saveBtn.disabled = false;
+        saveBtn.classList.remove('btn-loading');
+        document.getElementById('permission-section').classList.remove('show');
+        document.getElementById('permission-form').reset();
+        document.getElementById('permission-form').dataset.editId = '';
+        renderUsers();
+        renderPermissions();
+        updateKPIs();
+        alert(`Successfully ${editId ? 'updated' : 'assigned'} permissions`);
+    };
+
+    document.getElementById('user-profile-close').onclick = () => {
+        console.log('Closing user profile modal');
+        document.getElementById('user-profile-modal').style.display = 'none';
+        document.getElementById('change-password-form').style.display = 'block';
+    };
+
+    document.getElementById('password-cancel-btn').onclick = () => {
+        console.log('Canceling password change');
+        document.getElementById('user-profile-modal').style.display = 'none';
+        document.getElementById('change-password-form').reset();
+        document.getElementById('password-strength').className = 'password-strength';
+        document.querySelectorAll('.error-message').forEach(el => el.classList.remove('show'));
+        document.querySelectorAll('.form-control').forEach(el => el.classList.remove('invalid'));
+    };
+
+    document.getElementById('change-password-form').onsubmit = async e => {
+        e.preventDefault();
+        if (!validatePasswordForm()) return;
+        const saveBtn = document.getElementById('password-save-btn');
+        saveBtn.disabled = true;
+        saveBtn.classList.add('btn-loading');
+        console.log('Changing password');
+        await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate async save
+        saveBtn.disabled = false;
+        saveBtn.classList.remove('btn-loading');
+        document.getElementById('user-profile-modal').style.display = 'none';
+        document.getElementById('change-password-form').reset();
+        document.getElementById('password-strength').className = 'password-strength';
+        document.querySelectorAll('.error-message').forEach(el => el.classList.remove('show'));
+        document.querySelectorAll('.form-control').forEach(el => el.classList.remove('invalid'));
+        alert('Password changed successfully');
+    };
+
+    document.getElementById('permission-preview-close').onclick = () => {
+        console.log('Closing permission preview modal');
+        document.getElementById('permission-preview-modal').style.display = 'none';
+    };
+
+    document.getElementById('permission-close-btn').onclick = () => {
+        console.log('Closing permission preview modal via button');
+        document.getElementById('permission-preview-modal').style.display = 'none';
+    };
+
+    document.getElementById('permission-print-btn').onclick = () => {
+        console.log('Printing permission details');
+        const content = document.querySelector('#permission-preview-modal .profile-container').outerHTML;
+        const printWindow = window.open('', '_blank');
+        printWindow.document.write(`
+            <html>
+                <head>
+                    <title>Permission Details</title>
+                    <style>
+                        body { font-family: 'Delius', 'Segoe UI', sans-serif; padding: 20px; }
+                        .profile-container { max-width: 800px; margin: auto; }
+                        .profile-header { background: linear-gradient(135deg, #4A90E2, #2E6DA4); color: #fff; padding: 12px 16px; border-radius: 8px 8px 0 0; display: flex; align-items: center; gap: 12px; }
+                        .profile-icon { width: 60px; height: 60px; border-radius: 50%; background: #f8f9fa; display: grid; place-items: center; font-size: 2rem; color: #4A90E2; border: 2px solid #fff; }
+                        .profile-title { font-size: 1.2rem; font-weight: 700; }
+                        .profile-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 16px; }
+                        .profile-item { display: flex; flex-direction: column; gap: 4px; }
+                        .profile-item label { font-weight: 600; color: #212529; font-size: 0.95rem; }
+                        .profile-item p { color: #6c757d; font-size: 0.9rem; background: #f8f9fa; padding: 8px; border-radius: 6px; }
+                        .profile-item.status-active p { color: #28a745; font-weight: 600; }
+                        .profile-item.status-inactive p { color: #dc3545; font-weight: 600; }
+                    </style>
+                </head>
+                <body>
+                    ${content}
+                </body>
+            </html>
+        `);
+        printWindow.document.close();
+        printWindow.print();
+    };
+
+    document.getElementById('permission-edit-btn').onclick = () => {
+        console.log('Editing permission from preview:', document.getElementById('permission-edit-btn').dataset.editId);
+        const id = document.getElementById('permission-edit-btn').dataset.editId;
+        const permission = permissions.find(p => p.id === id);
+        document.getElementById('permission-user').value = permission.userId;
+        document.getElementById('permission-role').value = permission.role;
+        const permissionSelect = document.getElementById('permission-permissions');
+        permissionSelect.innerHTML = availablePermissions.map(p => `
+            <option value="${p}" ${permission.permissions.includes(p) ? 'selected' : ''}>${p}</option>
+        `).join('');
+        document.getElementById('permission-status').value = permission.status;
+        document.getElementById('permission-form').dataset.editId = id;
+        document.getElementById('permission-preview-modal').style.display = 'none';
+        document.querySelectorAll('.error-message').forEach(el => el.classList.remove('show'));
+        document.querySelectorAll('.form-control').forEach(el => el.classList.remove('invalid'));
+        document.getElementById('permission-section').classList.add('show');
+        document.getElementById('permission-section').scrollIntoView({ behavior: 'smooth' });
+    };
+
+    document.getElementById('admin-password').oninput = () => {
+        updatePasswordStrength(document.getElementById('admin-password').value, document.getElementById('admin-password-strength'));
+    };
+
+    document.getElementById('new-password').oninput = () => {
+        updatePasswordStrength(document.getElementById('new-password').value, document.getElementById('password-strength'));
+    };
+
+    document.getElementById('users-apply-filters').onclick = () => {
+        console.log('Applying user filters');
+        renderUsers();
+    };
+
+    document.getElementById('users-reset-filters').onclick = () => {
+        console.log('Resetting user filters');
+        document.getElementById('users-role-filter').value = '';
+        document.getElementById('users-status-filter').value = '';
+        document.getElementById('users-search').value = '';
+        renderUsers();
+    };
+
+    document.getElementById('permissions-apply-filters').onclick = () => {
+        console.log('Applying permission filters');
+        renderPermissions();
+    };
+
+    document.getElementById('permissions-reset-filters').onclick = () => {
+        console.log('Resetting permission filters');
+        document.getElementById('permissions-user-filter').value = '';
+        document.getElementById('permissions-role-filter').value = '';
+        document.getElementById('permissions-status-filter').value = '';
+        renderPermissions();
+    };
+
+    document.getElementById('login-history-apply-filters').onclick = () => {
+        console.log('Applying login history filters');
+        renderLoginHistory();
+    };
+
+    document.getElementById('login-history-reset-filters').onclick = () => {
+        console.log('Resetting login history filters');
+        document.getElementById('login-history-user-filter').value = '';
+        document.getElementById('login-history-search').value = '';
+        renderLoginHistory();
+    };
+
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.onclick = () => {
+            console.log('Switching to tab:', tab.dataset.tab);
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+            tab.classList.add('active');
+            document.getElementById(`${tab.dataset.tab}-tab`).style.display = 'block';
+            if (tab.dataset.tab === 'users') renderUsers();
+            else if (tab.dataset.tab === 'permissions') renderPermissions();
+            else if (tab.dataset.tab === 'login-history') renderLoginHistory();
+        };
+    });
+
+    // Initialize
+    console.log('Initializing settings dashboard');
+    populateDropdowns();
+    updateKPIs();
+    renderUsers();
+    renderPermissions();
+    renderLoginHistory(); // Pre-render all tabs to ensure data is loaded
+});
+</script>
+</body>
+</html>

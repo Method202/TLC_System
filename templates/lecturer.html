@@ -1,0 +1,1497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Lecturer Management | TLCS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Delius&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4A90E2;
+            --secondary: #2E6DA4;
+            --success: #28a745;
+            --info: #17a2b8;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --bg: #f5f7fb;
+            --sidebar-width: 270px;
+            --sidebar-collapsed-width: 90px;
+            --radius: 12px;
+            --transition-speed: 0.25s;
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Delius', 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            color: #fff;
+            height: 100vh;
+            position: fixed;
+            transition: width var(--transition-speed);
+            z-index: 1000;
+            box-shadow: var(--shadow);
+            overflow-y: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 0;
+            height: 0;
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px 18px 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .logo-text {
+            text-align: center;
+            line-height: 1.05;
+        }
+
+        .logo-title {
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+
+        .logo-collection {
+            font-size: 0.9rem;
+            opacity: 0.95;
+        }
+
+        .logo-subtitle {
+            font-size: 0.75rem;
+            opacity: 0.85;
+        }
+
+        .logo-condensed {
+            display: none;
+            font-size: 1.2rem;
+            font-weight: 800;
+        }
+
+        .sidebar.collapsed .logo-text {
+            display: none;
+        }
+
+        .sidebar.collapsed .logo-condensed {
+            display: block;
+        }
+
+        .menu {
+            padding: 12px 10px 20px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            margin: 6px 8px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform var(--transition-speed), background var(--transition-speed);
+        }
+
+        .menu-item i {
+            width: 22px;
+            text-align: center;
+            font-size: 1.05rem;
+            opacity: 0.95;
+        }
+
+        .menu-text {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .menu-item:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateX(2px);
+        }
+
+        .menu-item.active {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .sidebar.collapsed {
+            width: var(--sidebar-collapsed-width);
+        }
+
+        .sidebar.collapsed .menu-text {
+            display: none;
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+            transition: margin-left var(--transition-speed);
+        }
+
+        .sidebar.collapsed+.main-content {
+            margin-left: var(--sidebar-collapsed-width);
+        }
+
+        .header {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 18px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toggle-btn {
+            border: 0;
+            background: #fff;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: transform var(--transition-speed), background var(--transition-speed);
+        }
+
+        .toggle-btn:hover {
+            transform: translateY(-1px);
+            background: var(--light);
+        }
+
+        .breadcrumbs {
+            font-size: 0.92rem;
+            color: var(--gray);
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: var(--radius);
+            padding: 16px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+        }
+
+        .card:before {
+            content: "";
+            position: absolute;
+            width: 140%;
+            height: 140%;
+            top: -20%;
+            left: -20%;
+            background: radial-gradient(transparent 60%, rgba(74, 144, 226, 0.08));
+            transform: rotate(8deg);
+            pointer-events: none;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.09);
+        }
+
+        .card-title {
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .card-value {
+            font-size: 1.35rem;
+        }
+
+        .filter-section {
+            background: linear-gradient(135deg, #ffffff, #f0f4f8);
+            border-radius: 10px;
+            padding: 18px;
+            box-shadow: var(--shadow);
+            margin-bottom: 16px;
+            position: relative;
+        }
+
+        .filter-section h3 {
+            margin-bottom: 10px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(180px, 1fr));
+            gap: 12px;
+        }
+
+        .filter-grid i {
+            color: var(--primary);
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            animation: slideIn 0.3s ease;
+        }
+
+        .filter-control,
+        .form-control {
+            padding: 10px 12px;
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            background: #fff;
+            outline: none;
+            transition: border var(--transition-speed), box-shadow var(--transition-speed);
+        }
+
+        .filter-control:focus,
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.15);
+        }
+
+        .filter-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 10px;
+        }
+
+        .btn {
+            border: 0;
+            padding: 10px 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed), background var(--transition-speed);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: var(--shadow);
+            background: #fff;
+            position: relative;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary);
+        }
+
+        .btn-secondary {
+            background: var(--light);
+            color: var(--dark);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: #fff;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: #fff;
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: #212529;
+        }
+
+        .btn-info {
+            background: var(--info);
+            color: #fff;
+        }
+
+        .btn-sm {
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .btn-loading::after {
+            content: '';
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #fff;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            margin-left: 8px;
+        }
+
+        .table-wrap {
+            background: #fff;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead th {
+            background: #f2f6fb;
+            text-align: left;
+            padding: 12px;
+            color: #344054;
+            font-weight: 700;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        tbody td {
+            padding: 12px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .status {
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            display: inline-block;
+        }
+
+        .status.fulltime,
+        .status.contract {
+            background: rgba(40, 167, 69, 0.12);
+            color: var(--success);
+        }
+
+        .status.parttime,
+        .status.visiting {
+            background: rgba(255, 193, 7, 0.18);
+            color: #a56a00;
+        }
+
+        .status.excellent {
+            background: rgba(40, 167, 69, 0.12);
+            color: var(--success);
+        }
+
+        .status.good {
+            background: rgba(23, 162, 184, 0.14);
+            color: var(--info);
+        }
+
+        .status.average {
+            background: rgba(255, 193, 7, 0.18);
+            color: #a56a00;
+        }
+
+        .status.poor {
+            background: rgba(220, 53, 69, 0.14);
+            color: var(--danger);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .pagination {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            padding: 14px;
+        }
+
+        .pagination-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 1px solid var(--light-gray);
+            background: #fff;
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            transition: background var(--transition-speed), color var(--transition-speed), border var(--transition-speed), transform var(--transition-speed);
+            box-shadow: var(--shadow);
+        }
+
+        .pagination-btn:hover {
+            transform: translateY(-1px);
+            background: var(--light);
+        }
+
+        .pagination-btn.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+        }
+
+        .modal-content {
+            background: #fff;
+            border-radius: 12px;
+            padding: 18px;
+            width: 92%;
+            max-width: 720px;
+            box-shadow: var(--shadow);
+            animation: flipIn 0.35s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-content:before {
+            content: "";
+            position: absolute;
+            width: 140%;
+            height: 140%;
+            top: -20%;
+            left: -20%;
+            background: radial-gradient(transparent 60%, rgba(74, 144, 226, 0.08));
+            transform: rotate(8deg);
+            pointer-events: none;
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .modal-title {
+            font-weight: 800;
+            font-size: 1.25rem;
+            color: var(--dark);
+        }
+
+        .close-modal {
+            background: transparent;
+            border: 0;
+            color: var(--danger);
+            font-size: 1.35rem;
+            cursor: pointer;
+            transition: color var(--transition-speed);
+        }
+
+        .close-modal:hover {
+            color: #c82333;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            animation: slideIn 0.3s ease;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .form-group label i {
+            color: var(--primary);
+        }
+
+        .form-control {
+            padding: 10px 12px;
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            background: #fff;
+            outline: none;
+            transition: border var(--transition-speed), box-shadow var(--transition-speed);
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.15);
+        }
+
+        .form-control.invalid {
+            border-color: var(--danger);
+        }
+
+        .error-message {
+            color: var(--danger);
+            font-size: 0.85rem;
+            margin-top: 4px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .char-counter {
+            font-size: 0.85rem;
+            color: var(--gray);
+            margin-top: 4px;
+        }
+
+        .char-counter.warning {
+            color: var(--warning);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 12px;
+        }
+
+        .success-modal {
+            text-align: center;
+            padding: 24px;
+        }
+
+        .success-modal h2 {
+            color: var(--success);
+            margin-bottom: 12px;
+        }
+
+        .success-modal .details {
+            background: rgba(40, 167, 69, 0.08);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            text-align: left;
+        }
+
+        .success-modal .details div {
+            margin: 6px 0;
+        }
+
+        .lecturer-id {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .copy-btn {
+            background: var(--light);
+            border: 1px solid var(--light-gray);
+            padding: 4px 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background var(--transition-speed);
+        }
+
+        .copy-btn:hover {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .lecturer-profile {
+            background: #fff;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lecturer-profile:before {
+            content: "";
+            position: absolute;
+            width: 140%;
+            height: 140%;
+            top: -20%;
+            left: -20%;
+            background: radial-gradient(transparent 60%, rgba(74, 144, 226, 0.08));
+            transform: rotate(8deg);
+            pointer-events: none;
+        }
+
+        .lecturer-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #fff;
+            padding: 12px 16px;
+            border-radius: 8px 8px 0 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .lecturer-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--light);
+            display: grid;
+            place-items: center;
+            font-size: 2rem;
+            color: var(--primary);
+            border: 2px solid #fff;
+        }
+
+        .lecturer-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .lecturer-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            padding: 16px;
+        }
+
+        .lecturer-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            animation: slideIn 0.3s ease;
+        }
+
+        .lecturer-item label {
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 0.95rem;
+        }
+
+        .lecturer-item p {
+            color: var(--gray);
+            font-size: 0.9rem;
+            background: #f8f9fa;
+            padding: 8px;
+            border-radius: 6px;
+        }
+
+        .lecturer-item.status-fulltime p,
+        .lecturer-item.status-contract p {
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .lecturer-item.status-parttime p,
+        .lecturer-item.status-visiting p {
+            color: #a56a00;
+            font-weight: 600;
+        }
+
+        .lecturer-item.status-excellent p {
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .lecturer-item.status-good p {
+            color: var(--info);
+            font-weight: 600;
+        }
+
+        .lecturer-item.status-average p {
+            color: #a56a00;
+            font-weight: 600;
+        }
+
+        .lecturer-item.status-poor p {
+            color: var(--danger);
+            font-weight: 600;
+        }
+
+        @keyframes flipIn {
+            from {
+                transform: rotateX(-8deg);
+                opacity: 0;
+            }
+            to {
+                transform: rotateX(0deg);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(10px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .filter-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .form-grid,
+            .lecturer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 760px) {
+            .cards {
+                grid-template-columns: 1fr;
+            }
+            .filter-grid {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                width: var(--sidebar-collapsed-width);
+            }
+            .sidebar .logo-text {
+                display: none;
+            }
+            .sidebar .logo-condensed {
+                display: block;
+            }
+            .sidebar .menu-text {
+                display: none;
+            }
+            .main-content {
+                margin-left: var(--sidebar-collapsed-width);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-text">
+                    <div class="logo-title">TANZANIA LABOUR</div>
+                    <div class="logo-collection">COLLEGE</div>
+                    <div class="logo-subtitle">E-mail: labourtz@gmail.com</div>
+                    <div class="logo-subtitle">P.O.Box 3454</div>
+                    <div class="logo-subtitle">MBEYA-TANZANIA</div>
+                </div>
+                <div class="logo-condensed">TLC</div>
+            </div>
+            <div class="menu">
+                <div class="menu-item" onclick="location.href='{{ url_for('admin_dashboard') }}';">
+                    <i class="fas fa-home"></i>
+                    <span class="menu-text">Dashboard</span>
+                </div>
+                <div class="menu-item" onclick="location.href='{{ url_for('admin_students') }}';">
+                    <i class="fas fa-user-graduate"></i>
+                    <span class="menu-text">Students</span>
+                </div>
+                <div class="menu-item active" onclick="location.href='{{ url_for('admin_lecturers') }}';">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <span class="menu-text">Lecturers</span>
+                </div>
+                <div class="menu-item" onclick="location.href='{{ url_for('admin_courses') }}';">
+                    <i class="fas fa-book"></i>
+                    <span class="menu-text">Courses</span>
+                </div>
+                <div class="menu-item" onclick="location.href='{{ url_for('admin_programs') }}';">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span class="menu-text">Programs</span>
+                </div>
+                <div class="menu-item" onclick="location.href='{{ url_for('admin_results') }}';">
+                    <i class="fas fa-chart-bar"></i>
+                    <span class="menu-text">Results</span>
+                </div>
+                <div class="menu-item" onclick="location.href='{{ url_for('admin_assessments') }}';">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span class="menu-text">Assessments</span>
+                </div>
+                <div class="menu-item" onclick="location.href='{{ url_for('admin_payments') }}';">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <span class="menu-text">Payments</span>
+                </div>
+                <div class="menu-item" onclick="location.href='{{ url_for('admin_accommodations') }}';">
+                    <i class="fas fa-bed"></i>
+                    <span class="menu-text">Accommodations</span>
+                </div>
+                <div class="menu-item" onclick="location.href='{{ url_for('admin_settings') }}';">
+                    <i class="fas fa-cog"></i>
+                    <span class="menu-text">Settings</span>
+                </div>
+                <div class="menu-item" onclick="location.href='{{ url_for('login') }}';">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span class="menu-text">Logout</span>
+                </div>
+            </div>
+        </div>
+        <!-- Main Content -->
+        <div class="main-content" id="main-content">
+            <div class="header">
+                <div class="header-left">
+                    <button class="toggle-btn" id="toggle-sidebar" title="Collapse/Expand">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="breadcrumbs">Administration / Lecturers</div>
+                </div>
+                <h1>Lecturer Management</h1>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-primary" id="add-lecturer-btn" style="margin-bottom: 10px;"><i class="fas fa-plus-circle"></i> Register New Lecturer</button>
+            </div>
+            <!-- Overview Cards -->
+            <div class="cards">
+                <div class="card">
+                    <div class="card-title">Total Lecturers</div>
+                    <div class="card-value" id="kpi-total">—</div>
+                </div>
+                <div class="card">
+                    <div class="card-title">Full-time Lecturers</div>
+                    <div class="card-value" id="kpi-fulltime">—</div>
+                </div>
+                <div class="card">
+                    <div class="card-title">Part-time Lecturers</div>
+                    <div class="card-value" id="kpi-parttime">—</div>
+                </div>
+                <div class="card">
+                    <div class="card-title">Contract Lecturers</div>
+                    <div class="card-value" id="kpi-contract">—</div>
+                </div>
+            </div>
+            <!-- Filter Section -->
+            <div class="filter-section">
+                <h3>Filter Lecturers</h3>
+                <div class="filter-grid">
+                    <div class="filter-group">
+                        <label for="department-filter"><i class="fas fa-clipboard-list"></i> Department</label>
+                        <select class="filter-control" id="department-filter">
+                            <option value="">All Departments</option>
+                            <option value="vocational">Vocational Studies</option>
+                            <option value="technical">Technical Department</option>
+                            <option value="business">Business Studies</option>
+                            <option value="labor">Labor Studies</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="status-filter"><i class="fas fa-info-circle"></i> Employment Status</label>
+                        <select class="filter-control" id="status-filter">
+                            <option value="">All Statuses</option>
+                            <option value="fulltime">Full-time</option>
+                            <option value="parttime">Part-time</option>
+                            <option value="contract">Contract</option>
+                            <option value="visiting">Visiting</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="qualification-filter"><i class="fas fa-graduation-cap"></i> Qualification</label>
+                        <select class="filter-control" id="qualification-filter">
+                            <option value="">All Qualifications</option>
+                            <option value="phd">PhD</option>
+                            <option value="masters">Master's Degree</option>
+                            <option value="bachelor">Bachelor's Degree</option>
+                            <option value="diploma">Diploma</option>
+                            <option value="certificate">Certificate</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="course-filter"><i class="fas fa-book"></i> Courses Assigned</label>
+                        <select class="filter-control" id="course-filter">
+                            <option value="">All Courses</option>
+                            <option value="1">1-2 Courses</option>
+                            <option value="3">3-4 Courses</option>
+                            <option value="5">5+ Courses</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="performance-filter"><i class="fas fa-star"></i> Performance</label>
+                        <select class="filter-control" id="performance-filter">
+                            <option value="">All Performances</option>
+                            <option value="excellent">Excellent</option>
+                            <option value="good">Good</option>
+                            <option value="average">Average</option>
+                            <option value="poor">Poor</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="search"><i class="fas fa-search"></i> Search by Name/ID</label>
+                        <input type="text" class="filter-control" id="search" placeholder="Enter lecturer name or ID">
+                    </div>
+                </div>
+                <div class="filter-actions">
+                    <button class="btn btn-secondary" id="reset-filters">Reset Filters</button>
+                    <button class="btn btn-primary" id="apply-filters">Apply Filters</button>
+                </div>
+            </div>
+            <!-- Lecturers Table -->
+            <div class="table-wrap">
+                <table id="lecturers-table">
+                    <thead>
+                        <tr>
+                            <th>Lecturer ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Department</th>
+                            <th>Qualification</th>
+                            <th>Courses</th>
+                            <th>Status</th>
+                            <th>Performance</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div class="pagination" id="lecturers-pagination"></div>
+            </div>
+        </div>
+    </div>
+    <!-- Success Modal -->
+    <div class="modal" id="success-modal">
+        <div class="modal-content success-modal">
+            <span class="close-modal" id="close-success">&times;</span>
+            <h2>Lecturer Registered Successfully!</h2>
+            <div class="details" id="success-details"></div>
+            <button class="btn btn-success" id="ok-btn">OK</button>
+        </div>
+    </div>
+    <!-- Lecturer Modal (Add/Edit) -->
+    <div class="modal" id="lecturer-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title" id="modal-title">Register New Lecturer</div>
+                <button class="close-modal" id="modal-close">&times;</button>
+            </div>
+            <form id="lecturer-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="first-name"><i class="fas fa-user"></i> First Name *</label>
+                        <input type="text" class="form-control" id="first-name" required placeholder="Enter first name">
+                        <div class="error-message" id="first-name-error">First name is required</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="last-name"><i class="fas fa-user"></i> Last Name *</label>
+                        <input type="text" class="form-control" id="last-name" required placeholder="Enter last name">
+                        <div class="error-message" id="last-name-error">Last name is required</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email"><i class="fas fa-envelope"></i> Email *</label>
+                        <input type="email" class="form-control" id="email" required placeholder="Enter email">
+                        <div class="error-message" id="email-error">Valid email is required</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone"><i class="fas fa-phone"></i> Phone Number *</label>
+                        <input type="tel" class="form-control" id="phone" required placeholder="e.g., +255 123 456 789">
+                        <div class="error-message" id="phone-error">Valid phone number is required</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="department"><i class="fas fa-clipboard-list"></i> Department *</label>
+                        <select class="form-control" id="department" required>
+                            <option value="">Select Department</option>
+                            <option value="vocational">Vocational Studies</option>
+                            <option value="technical">Technical Department</option>
+                            <option value="business">Business Studies</option>
+                            <option value="labor">Labor Studies</option>
+                        </select>
+                        <div class="error-message" id="department-error">Department is required</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="qualification"><i class="fas fa-graduation-cap"></i> Qualification *</label>
+                        <select class="form-control" id="qualification" required>
+                            <option value="">Select Qualification</option>
+                            <option value="phd">PhD</option>
+                            <option value="masters">Master's Degree</option>
+                            <option value="bachelor">Bachelor's Degree</option>
+                            <option value="diploma">Diploma</option>
+                            <option value="certificate">Certificate</option>
+                        </select>
+                        <div class="error-message" id="qualification-error">Qualification is required</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="courses"><i class="fas fa-book"></i> Courses Assigned *</label>
+                        <input type="number" class="form-control" id="courses" required min="0" placeholder="Enter number of courses">
+                        <div class="error-message" id="courses-error">Number of courses is required</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="status"><i class="fas fa-info-circle"></i> Employment Status *</label>
+                        <select class="form-control" id="status" required>
+                            <option value="fulltime">Full-time</option>
+                            <option value="parttime">Part-time</option>
+                            <option value="contract">Contract</option>
+                            <option value="visiting">Visiting</option>
+                        </select>
+                        <div class="error-message" id="status-error">Status is required</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="performance"><i class="fas fa-star"></i> Performance *</label>
+                        <select class="form-control" id="performance" required>
+                            <option value="excellent">Excellent</option>
+                            <option value="good">Good</option>
+                            <option value="average">Average</option>
+                            <option value="poor">Poor</option>
+                        </select>
+                        <div class="error-message" id="performance-error">Performance is required</div>
+                    </div>
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label for="address"><i class="fas fa-map-marker-alt"></i> Address</label>
+                        <textarea class="form-control" id="address" placeholder="Enter lecturer address" maxlength="500"></textarea>
+                        <div class="char-counter" id="address-counter">0/500 characters</div>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancel-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="submit-btn">Register New Lecturer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Lecturer Profile Modal -->
+    <div class="modal" id="lecturer-profile-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Lecturer Details</div>
+                <button class="close-modal" id="lecturer-profile-close">&times;</button>
+            </div>
+            <div class="lecturer-profile">
+                <div class="lecturer-header">
+                    <div class="lecturer-avatar">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </div>
+                    <div>
+                        <div class="lecturer-title" id="lecturer-profile-name"></div>
+                        <div style="font-size: 0.9rem; opacity: 0.9;" id="lecturer-profile-id"></div>
+                    </div>
+                </div>
+                <div class="lecturer-grid">
+                    <div class="lecturer-item">
+                        <label>Lecturer ID</label>
+                        <p id="lecturer-profile-id-display"></p>
+                    </div>
+                    <div class="lecturer-item">
+                        <label>Email</label>
+                        <p id="lecturer-profile-email"></p>
+                    </div>
+                    <div class="lecturer-item">
+                        <label>Phone</label>
+                        <p id="lecturer-profile-phone"></p>
+                    </div>
+                    <div class="lecturer-item">
+                        <label>Department</label>
+                        <p id="lecturer-profile-department"></p>
+                    </div>
+                    <div class="lecturer-item">
+                        <label>Qualification</label>
+                        <p id="lecturer-profile-qualification"></p>
+                    </div>
+                    <div class="lecturer-item">
+                        <label>Courses Assigned</label>
+                        <p id="lecturer-profile-courses"></p>
+                    </div>
+                    <div class="lecturer-item status-fulltime status-parttime status-contract status-visiting">
+                        <label>Employment Status</label>
+                        <p id="lecturer-profile-status"></p>
+                    </div>
+                    <div class="lecturer-item status-excellent status-good status-average status-poor">
+                        <label>Performance</label>
+                        <p id="lecturer-profile-performance"></p>
+                    </div>
+                    <div class="lecturer-item" style="grid-column: 1 / -1;">
+                        <label>Address</label>
+                        <p id="lecturer-profile-address"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Delete Confirmation Modal -->
+    <div class="modal" id="delete-confirm-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Confirm Deletion</div>
+                <button class="close-modal" id="delete-confirm-close">&times;</button>
+            </div>
+            <div style="padding: 16px;">
+                <p>Are you sure you want to delete the lecturer "<span id="delete-lecturer-name"></span>" (<span id="delete-lecturer-id"></span>)? This action cannot be undone.</p>
+            </div>
+            <div class="form-actions">
+                <button class="btn btn-secondary" id="delete-cancel">Cancel</button>
+                <button class="btn btn-danger" id="delete-confirm">Delete</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM fully loaded');
+
+            // Mock data
+            let lecturers = [
+                { id: 'TLC/LEC/2020/012', firstName: 'James', lastName: 'Mwambapa', email: 'james.mwambapa@example.com', phone: '+255 712 345 678', department: 'technical', qualification: 'phd', courses: 4, address: '123 Main St, Mbeya', status: 'fulltime', performance: 'excellent' },
+                { id: 'TLC/LEC/2021/045', firstName: 'Anna', lastName: 'Mkumbo', email: 'anna.mkumbo@example.com', phone: '+255 723 456 789', department: 'business', qualification: 'masters', courses: 3, address: '456 Oak Rd, Dar es Salaam', status: 'fulltime', performance: 'good' },
+                { id: 'TLC/LEC/2019/087', firstName: 'Rajab', lastName: 'Abasi', email: 'rajab.abasi@example.com', phone: '+255 734 567 890', department: 'vocational', qualification: 'phd', courses: 5, address: '789 Pine Ave, Arusha', status: 'parttime', performance: 'average' },
+                { id: 'TLC/LEC/2022/093', firstName: 'Fatuma', lastName: 'Hassan', email: 'fatuma.hassan@example.com', phone: '+255 745 678 901', department: 'labor', qualification: 'masters', courses: 2, address: '101 Elm St, Dodoma', status: 'contract', performance: 'good' },
+                { id: 'TLC/LEC/2018/032', firstName: 'Michael', lastName: 'Johnson', email: 'michael.johnson@example.com', phone: '+255 756 789 012', department: 'technical', qualification: 'phd', courses: 3, address: '202 Maple Dr, Mbeya', status: 'fulltime', performance: 'excellent' }
+            ];
+
+            // Helpers
+            function paginate(items, perPage, onSlice, pagerEl) {
+                let page = 1;
+                const total = Math.max(1, Math.ceil(items.length / perPage));
+                function renderPager() {
+                    pagerEl.innerHTML = '';
+                    for (let i = 1; i <= total; i++) {
+                        const b = document.createElement('button');
+                        b.className = 'pagination-btn' + (i === page ? ' active' : '');
+                        b.textContent = i;
+                        b.onclick = () => { page = i; slice(); renderPager(); };
+                        pagerEl.appendChild(b);
+                    }
+                }
+                function slice() {
+                    const start = (page - 1) * perPage;
+                    onSlice(items.slice(start, start + perPage));
+                }
+                slice();
+                renderPager();
+            }
+
+            function updateKPIs() {
+                const total = lecturers.length;
+                const fulltime = lecturers.filter(l => l.status === 'fulltime').length;
+                const parttime = lecturers.filter(l => l.status === 'parttime').length;
+                const contract = lecturers.filter(l => l.status === 'contract').length;
+                document.getElementById('kpi-total').textContent = total;
+                document.getElementById('kpi-fulltime').textContent = fulltime;
+                document.getElementById('kpi-parttime').textContent = parttime;
+                document.getElementById('kpi-contract').textContent = contract;
+            }
+
+            function filterLecturers() {
+                const department = document.getElementById('department-filter').value;
+                const status = document.getElementById('status-filter').value;
+                const qualification = document.getElementById('qualification-filter').value;
+                const courses = document.getElementById('course-filter').value;
+                const performance = document.getElementById('performance-filter').value;
+                const search = document.getElementById('search').value.toLowerCase();
+                return lecturers.filter(l =>
+                    (!department || l.department === department) &&
+                    (!status || l.status === status) &&
+                    (!qualification || l.qualification === qualification) &&
+                    (!courses || (l.courses >= parseInt(courses.split('-')[0]) && (courses === '5' || l.courses <= parseInt(courses.split('-')[1] || 99)))) &&
+                    (!performance || l.performance === performance) &&
+                    (!search || `${l.firstName} ${l.lastName}`.toLowerCase().includes(search) || l.id.toLowerCase().includes(search))
+                );
+            }
+
+            function renderLecturers() {
+                const data = filterLecturers();
+                const tbody = document.querySelector('#lecturers-table tbody');
+                const pager = document.getElementById('lecturers-pagination');
+                paginate(data, 5, slice => {
+                    tbody.innerHTML = slice.map(l => `
+                        <tr data-lecturer-id="${l.id}">
+                            <td>${l.id}</td>
+                            <td>${l.firstName} ${l.lastName}</td>
+                            <td>${l.email}</td>
+                            <td>${l.department.charAt(0).toUpperCase() + l.department.slice(1)}</td>
+                            <td>${l.qualification.charAt(0).toUpperCase() + l.qualification.slice(1)}</td>
+                            <td>${l.courses} Courses</td>
+                            <td><span class="status ${l.status}">${l.status.charAt(0).toUpperCase() + l.status.slice(1)}</span></td>
+                            <td><span class="status ${l.performance}">${l.performance.charAt(0).toUpperCase() + l.performance.slice(1)}</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn btn-sm btn-info" data-view="${l.id}"><i class="fas fa-eye"></i> View</button>
+                                    <button class="btn btn-sm btn-warning" data-edit="${l.id}"><i class="fas fa-edit"></i> Edit</button>
+                                    <button class="btn btn-sm btn-danger" data-delete="${l.id}"><i class="fas fa-trash"></i> Delete</button>
+                                </div>
+                            </td>
+                        </tr>`).join('');
+                    bindLecturerActions();
+                }, pager);
+            }
+
+            function validateForm() {
+                let isValid = true;
+                const fields = [
+                    { id: 'first-name', errorId: 'first-name-error', condition: val => val.trim().length === 0, message: 'First name is required' },
+                    { id: 'last-name', errorId: 'last-name-error', condition: val => val.trim().length === 0, message: 'Last name is required' },
+                    { id: 'email', errorId: 'email-error', condition: val => !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val), message: 'Valid email is required' },
+                    { id: 'phone', errorId: 'phone-error', condition: val => !/^\+?\d{10,12}$/.test(val.replace(/\s/g, '')), message: 'Valid phone number is required' },
+                    { id: 'department', errorId: 'department-error', condition: val => !val, message: 'Department is required' },
+                    { id: 'qualification', errorId: 'qualification-error', condition: val => !val, message: 'Qualification is required' },
+                    { id: 'courses', errorId: 'courses-error', condition: val => !val || parseInt(val) < 0, message: 'Valid number of courses is required' },
+                    { id: 'status', errorId: 'status-error', condition: val => !val, message: 'Status is required' },
+                    { id: 'performance', errorId: 'performance-error', condition: val => !val, message: 'Performance is required' }
+                ];
+
+                fields.forEach(field => {
+                    const input = document.getElementById(field.id);
+                    const error = document.getElementById(field.errorId);
+                    const value = input.value;
+                    if (field.condition(value)) {
+                        input.classList.add('invalid');
+                        error.classList.add('show');
+                        error.textContent = field.message;
+                        isValid = false;
+                    } else {
+                        input.classList.remove('invalid');
+                        error.classList.remove('show');
+                    }
+                });
+
+                return isValid;
+            }
+
+            function updateCharCounter() {
+                const textarea = document.getElementById('address');
+                const counter = document.getElementById('address-counter');
+                const count = textarea.value.length;
+                counter.textContent = `${count}/500 characters`;
+                counter.classList.toggle('warning', count > 450);
+            }
+
+            function bindLecturerActions() {
+                document.querySelectorAll('[data-view]').forEach(btn => {
+                    btn.onclick = () => {
+                        const id = btn.getAttribute('data-view');
+                        const lecturer = lecturers.find(l => l.id === id);
+                        document.getElementById('lecturer-profile-name').textContent = `${lecturer.firstName} ${lecturer.lastName}`;
+                        document.getElementById('lecturer-profile-id').textContent = lecturer.id;
+                        document.getElementById('lecturer-profile-id-display').textContent = lecturer.id;
+                        document.getElementById('lecturer-profile-email').textContent = lecturer.email;
+                        document.getElementById('lecturer-profile-phone').textContent = lecturer.phone;
+                        document.getElementById('lecturer-profile-department').textContent = lecturer.department.charAt(0).toUpperCase() + lecturer.department.slice(1);
+                        document.getElementById('lecturer-profile-qualification').textContent = lecturer.qualification.charAt(0).toUpperCase() + lecturer.qualification.slice(1);
+                        document.getElementById('lecturer-profile-courses').textContent = `${lecturer.courses} Courses`;
+                        document.getElementById('lecturer-profile-status').textContent = lecturer.status.charAt(0).toUpperCase() + lecturer.status.slice(1);
+                        document.getElementById('lecturer-profile-status').parentElement.classList.remove('status-fulltime', 'status-parttime', 'status-contract', 'status-visiting');
+                        document.getElementById('lecturer-profile-status').parentElement.classList.add(`status-${lecturer.status}`);
+                        document.getElementById('lecturer-profile-performance').textContent = lecturer.performance.charAt(0).toUpperCase() + lecturer.performance.slice(1);
+                        document.getElementById('lecturer-profile-performance').parentElement.classList.remove('status-excellent', 'status-good', 'status-average', 'status-poor');
+                        document.getElementById('lecturer-profile-performance').parentElement.classList.add(`status-${lecturer.performance}`);
+                        document.getElementById('lecturer-profile-address').textContent = lecturer.address || 'No address provided';
+                        document.getElementById('lecturer-profile-modal').style.display = 'flex';
+                    };
+                });
+
+                document.querySelectorAll('[data-edit]').forEach(btn => {
+                    btn.onclick = () => {
+                        const id = btn.getAttribute('data-edit');
+                        const lecturer = lecturers.find(l => l.id === id);
+                        document.getElementById('modal-title').textContent = 'Edit Lecturer';
+                        document.getElementById('submit-btn').textContent = 'Save Changes';
+                        document.getElementById('first-name').value = lecturer.firstName;
+                        document.getElementById('last-name').value = lecturer.lastName;
+                        document.getElementById('email').value = lecturer.email;
+                        document.getElementById('phone').value = lecturer.phone;
+                        document.getElementById('department').value = lecturer.department;
+                        document.getElementById('qualification').value = lecturer.qualification;
+                        document.getElementById('courses').value = lecturer.courses;
+                        document.getElementById('status').value = lecturer.status;
+                        document.getElementById('performance').value = lecturer.performance;
+                        document.getElementById('address').value = lecturer.address || '';
+                        updateCharCounter();
+                        document.getElementById('lecturer-form').dataset.editId = id;
+                        document.getElementById('lecturer-modal').style.display = 'flex';
+                    };
+                });
+
+                document.querySelectorAll('[data-delete]').forEach(btn => {
+                    btn.onclick = () => {
+                        const id = btn.getAttribute('data-delete');
+                        const lecturer = lecturers.find(l => l.id === id);
+                        document.getElementById('delete-lecturer-name').textContent = `${lecturer.firstName} ${lecturer.lastName}`;
+                        document.getElementById('delete-lecturer-id').textContent = lecturer.id;
+                        document.getElementById('delete-confirm').onclick = () => {
+                            lecturers = lecturers.filter(l => l.id !== id);
+                            document.getElementById('delete-confirm-modal').style.display = 'none';
+                            renderLecturers();
+                            updateKPIs();
+                            alert('Lecturer deleted successfully');
+                        };
+                        document.getElementById('delete-confirm-modal').style.display = 'flex';
+                    };
+                });
+            }
+
+            // Event Listeners
+            document.getElementById('toggle-sidebar').addEventListener('click', () => {
+                document.getElementById('sidebar').classList.toggle('collapsed');
+                document.getElementById('main-content').classList.toggle('collapsed');
+            });
+
+            document.getElementById('add-lecturer-btn').onclick = () => {
+                document.getElementById('modal-title').textContent = 'Register New Lecturer';
+                document.getElementById('submit-btn').textContent = 'Register New Lecturer';
+                document.getElementById('lecturer-form').reset();
+                document.getElementById('lecturer-form').dataset.editId = '';
+                document.querySelectorAll('.error-message').forEach(el => el.classList.remove('show'));
+                document.querySelectorAll('.form-control').forEach(el => el.classList.remove('invalid'));
+                updateCharCounter();
+                document.getElementById('lecturer-modal').style.display = 'flex';
+            };
+
+            document.getElementById('modal-close').onclick = () => {
+                document.getElementById('lecturer-modal').style.display = 'none';
+            };
+
+            document.getElementById('cancel-btn').onclick = () => {
+                document.getElementById('lecturer-modal').style.display = 'none';
+            };
+
+            document.getElementById('lecturer-profile-close').onclick = () => {
+                document.getElementById('lecturer-profile-modal').style.display = 'none';
+            };
+
+            document.getElementById('delete-confirm-close').onclick = () => {
+                document.getElementById('delete-confirm-modal').style.display = 'none';
+            };
+
+            document.getElementById('delete-cancel').onclick = () => {
+                document.getElementById('delete-confirm-modal').style.display = 'none';
+            };
+
+            document.getElementById('close-success').onclick = () => {
+                document.getElementById('success-modal').style.display = 'none';
+            };
+
+            document.getElementById('ok-btn').onclick = () => {
+                document.getElementById('success-modal').style.display = 'none';
+            };
+
+            document.getElementById('apply-filters').onclick = renderLecturers;
+            document.getElementById('reset-filters').onclick = () => {
+                document.getElementById('department-filter').value = '';
+                document.getElementById('status-filter').value = '';
+                document.getElementById('qualification-filter').value = '';
+                document.getElementById('course-filter').value = '';
+                document.getElementById('performance-filter').value = '';
+                document.getElementById('search').value = '';
+                renderLecturers();
+            };
+
+            document.getElementById('search').addEventListener('input', renderLecturers);
+
+            document.getElementById('address').addEventListener('input', updateCharCounter);
+
+            document.getElementById('lecturer-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                if (!validateForm()) return;
+
+                const submitBtn = document.getElementById('submit-btn');
+                submitBtn.disabled = true;
+                submitBtn.classList.add('btn-loading');
+
+                setTimeout(() => {
+                    const isEdit = document.getElementById('lecturer-form').dataset.editId;
+                    const lecturerData = {
+                        firstName: document.getElementById('first-name').value,
+                        lastName: document.getElementById('last-name').value,
+                        email: document.getElementById('email').value,
+                        phone: document.getElementById('phone').value,
+                        department: document.getElementById('department').value,
+                        qualification: document.getElementById('qualification').value,
+                        courses: parseInt(document.getElementById('courses').value),
+                        status: document.getElementById('status').value,
+                        performance: document.getElementById('performance').value,
+                        address: document.getElementById('address').value
+                    };
+
+                    if (isEdit) {
+                        const index = lecturers.findIndex(l => l.id === isEdit);
+                        lecturerData.id = isEdit;
+                        lecturers[index] = lecturerData;
+                    } else {
+                        const year = new Date().getFullYear();
+                        const seq = String(lecturers.length + 1).padStart(3, '0');
+                        lecturerData.id = `TLC/LEC/${year}/${seq}`;
+                        lecturers.push(lecturerData);
+                    }
+
+                    const details = `
+                        <div class="lecturer-id"><span>${lecturerData.id}</span><button class="copy-btn" onclick="navigator.clipboard.writeText('${lecturerData.id}').then(() => alert('Lecturer ID copied!'))"><i class="fas fa-copy"></i></button></div>
+                        <div><strong>Name:</strong> ${lecturerData.firstName} ${lecturerData.lastName}</div>
+                        <div><strong>Email:</strong> ${lecturerData.email}</div>
+                        <div><strong>Phone:</strong> ${lecturerData.phone}</div>
+                        <div><strong>Department:</strong> ${lecturerData.department.charAt(0).toUpperCase() + lecturerData.department.slice(1)}</div>
+                        <div><strong>Qualification:</strong> ${lecturerData.qualification.charAt(0).toUpperCase() + lecturerData.qualification.slice(1)}</div>
+                        <div><strong>Courses Assigned:</strong> ${lecturerData.courses} Courses</div>
+                        <div><strong>Status:</strong> <span class="status ${lecturerData.status}">${lecturerData.status.charAt(0).toUpperCase() + lecturerData.status.slice(1)}</span></div>
+                        <div><strong>Performance:</strong> <span class="status ${lecturerData.performance}">${lecturerData.performance.charAt(0).toUpperCase() + lecturerData.performance.slice(1)}</span></div>
+                        <div><strong>Address:</strong> ${lecturerData.address || 'No address provided'}</div>
+                    `;
+
+                    document.getElementById('lecturer-modal').style.display = 'none';
+                    document.getElementById('success-modal').style.display = 'flex';
+                    document.getElementById('success-details').innerHTML = details;
+                    renderLecturers();
+                    updateKPIs();
+                    submitBtn.disabled = false;
+                    submitBtn.classList.remove('btn-loading');
+                }, 1000); // Simulate async save
+            });
+
+            // Init
+            updateKPIs();
+            renderLecturers();
+            updateCharCounter();
+        });
+    </script>
+</body>
+</html>

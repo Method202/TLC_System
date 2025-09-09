@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Student Management | TLCS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Delius&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4A90E2;
+            --secondary: #2E6DA4;
+            --success: #28a745;
+            --info: #17a2b8;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --bg: #f5f7fb;
+            --sidebar-width: 270px;
+            --sidebar-collapsed-width: 90px;
+            --radius: 12px;
+            --transition-speed: 0.25s;
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Delius', 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            color: #fff;
+            height: 100vh;
+            position: fixed;
+            transition: width var(--transition-speed);
+            z-index: 1000;
+            box-shadow: var(--shadow);
+            overflow-y: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 0;
+            height: 0;
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px 18px 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .logo-text {
+            text-align: center;
+            line-height: 1.05;
+        }
+
+        .logo-title {
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+
+        .logo-collection {
+            font-size: 0.9rem;
+            opacity: 0.95;
+        }
+
+        .logo-subtitle {
+            font-size: 0.75rem;
+            opacity: 0.85;
+        }
+
+        .logo-condensed {
+            display: none;
+            font-size: 1.2rem;
+            font-weight: 800;
+        }
+
+        .sidebar.collapsed .logo-text {
+            display: none;
+        }
+
+        .sidebar.collapsed .logo-condensed {
+            display: block;
+        }
+
+        .menu {
+            padding: 12px 10px 20px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            margin: 6px 8px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform var(--transition-speed), background var(--transition-speed);
+        }
+
+        .menu-item i {
+            width: 22px;
+            text-align: center;
+            font-size: 1.05rem;
+            opacity: 0.95;
+        }
+
+        .menu-text {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .menu-item:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateX(2px);
+        }
+
+        .menu-item.active {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .sidebar.collapsed {
+            width: var(--sidebar-collapsed-width);
+        }
+
+        .sidebar.collapsed .menu-text {
+            display: none;
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+            transition: margin-left var(--transition-speed);
+        }
+
+        .sidebar.collapsed+.main-content {
+            margin-left: var(--sidebar-collapsed-width);
+        }
+
+        .header {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 18px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toggle-btn {
+            border: 0;
+            background: #fff;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: transform var(--transition-speed), background var(--transition-speed);
+        }
+
+        .toggle-btn:hover {
+            transform: translateY(-1px);
+            background: var(--light);
+        }
+
+        .breadcrumbs {
+            font-size: 0.92rem;
+            color: var(--gray);
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: var(--radius);
+            padding: 16px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+        }
+
+        .card:before {
+            content: "";
+            position: absolute;
+            width: 140%;
+            height: 140%;
+            top: -20%;
+            left: -20%;
+            background: radial-gradient(transparent 60%, rgba(74, 144, 226, 0.08));
+            transform: rotate(8deg);
+            pointer-events: none;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.09);
+        }
+
+        .card-title {
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .card-value {
+            font-size: 1.35rem;
+        }
+
+        .filter-section {
+            background: linear-gradient(135deg, #ffffff, #f0f4f8);
+            border-radius: 10px;
+            padding: 18px;
+            box-shadow: var(--shadow);
+            margin-bottom: 16px;
+            position: relative;
+        }
+
+        .filter-section h3 {
+            margin-bottom: 10px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(180px, 1fr));
+            gap: 12px;
+        }
+
+        .filter-grid i {
+            color: var(--primary);
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            animation: slideIn 0.3s ease;
+        }
+
+        .filter-control,
+        .form-control {
+            padding: 10px 12px;
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            background: #fff;
+            outline: none;
+            transition: border var(--transition-speed), box-shadow var(--transition-speed);
+        }
+
+        .filter-control:focus,
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.15);
+        }
+
+        .filter-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 10px;
+        }
+
+        .btn {
+            border: 0;
+            padding: 10px 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed), background var(--transition-speed);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: var(--shadow);
+            background: #fff;
+            position: relative;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary);
+        }
+
+        .btn-secondary {
+            background: var(--light);
+            color: var(--dark);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: #fff;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: #fff;
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: #212529;
+        }
+
+        .btn-info {
+            background: var(--info);
+            color: #fff;
+        }
+
+        .btn-sm {
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .btn-loading::after {
+            content: '';
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #fff;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            margin-left: 8px;
+        }
+
+        .table-wrap {
+            background: #fff;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead th {
+            background: #f2f6fb;
+            text-align: left;
+            padding: 12px;
+            color: #344054;
+            font-weight: 700;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        tbody td {
+            padding: 12px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .status {
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            display: inline-block;
+        }
+
+        .status.active {
+            background: rgba(40, 167, 69, 0.12);
+            color: var(--success);
+        }
+
+        .status.Suspended {
+            background: rgba(255, 193, 7, 0.18);
+            color: #a56a00;
+        }
+
+        .status.Postponed {
+            background: rgba(220, 53, 69, 0.14);
+            color: var(--danger);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .pagination {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            padding: 14px;
+        }
+
+        .pagination-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 1px solid var(--light-gray);
+            background: #fff;
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            transition: background var(--transition-speed), color var(--transition-speed), border var(--transition-speed), transform var(--transition-speed);
+            box-shadow: var(--shadow);
+        }
+
+        .pagination-btn:hover {
+            transform: translateY(-1px);
+            background: var(--light);
+        }
+
+        .pagination-btn.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+        }
+
+        .modal-content {
+            background: #fff;
+            border-radius: 12px;
+            padding: 18px;
+            width: 92%;
+            max-width: 720px;
+            box-shadow: var(--shadow);
+            animation: flipIn 0.35s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-content:before {
+            content: "";
+            position: absolute;
+            width: 140%;
+            height: 140%;
+            top: -20%;
+            left: -20%;
+            background: radial-gradient(transparent 60%, rgba(74, 144, 226, 0.08));
+            transform: rotate(8deg);
+            pointer-events: none;
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .modal-title {
+            font-weight: 800;
+            font-size: 1.25rem;
+            color: var(--dark);
+        }
+
+        .close-modal {
+            background: transparent;
+            border: 0;
+            color: var(--danger);
+            font-size: 1.35rem;
+            cursor: pointer;
+            transition: color var(--transition-speed);
+        }
+
+        .close-modal:hover {
+            color: #c82333;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            animation: slideIn 0.3s ease;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .form-group label i {
+            color: var(--primary);
+        }
+
+        .form-control {
+            padding: 10px 12px;
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            background: #fff;
+            outline: none;
+            transition: border var(--transition-speed), box-shadow var(--transition-speed);
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.15);
+        }
+
+        .form-control.invalid {
+            border-color: var(--danger);
+        }
+
+        .error-message {
+            color: var(--danger);
+            font-size: 0.85rem;
+            margin-top: 4px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .char-counter {
+            font-size: 0.85rem;
+            color: var(--gray);
+            margin-top: 4px;
+        }
+
+        .char-counter.warning {
+            color: var(--warning);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 12px;
+        }
+
+        .success-modal {
+            text-align: center;
+            padding: 24px;
+        }
+
+        .success-modal h2 {
+            color: var(--success);
+            margin-bottom: 12px;
+        }
+
+        .success-modal .details {
+            background: rgba(40, 167, 69, 0.08);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            text-align: left;
+        }
+
+        .success-modal .details div {
+            margin: 6px 0;
+        }
+
+        .student-id {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .copy-btn {
+            background: var(--light);
+            border: 1px solid var(--light-gray);
+            padding: 4px 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background var(--transition-speed);
+        }
+
+        .copy-btn:hover {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .student-profile {
+            background: #fff;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .student-profile:before {
+            content: "";
+            position: absolute;
+            width: 140%;
+            height: 140%;
+            top: -20%;
+            left: -20%;
+            background: radial-gradient(transparent 60%, rgba(74, 144, 226, 0.08));
+            transform: rotate(8deg);
+            pointer-events: none;
+        }
+
+        .student-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #fff;
+            padding: 12px 16px;
+            border-radius: 8px 8px 0 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .student-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--light);
+            display: grid;
+            place-items: center;
+            font-size: 2rem;
+            color: var(--primary);
+            border: 2px solid #fff;
+        }
+
+        .student-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .student-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            padding: 16px;
+        }
+
+        .student-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            animation: slideIn 0.3s ease;
+        }
+
+        .student-item label {
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 0.95rem;
+        }
+
+        .student-item p {
+            color: var(--gray);
+            font-size: 0.9rem;
+            background: #f8f9fa;
+            padding: 8px;
+            border-radius: 6px;
+        }
+
+        .student-item.status-active p {
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .student-item.status-Suspended p {
+            color: #a56a00;
+            font-weight: 600;
+        }
+
+        .student-item.status-Postponed p {
+            color: var(--danger);
+            font-weight: 600;
+        }
+
+        @keyframes flipIn {
+            from {
+                transform: rotateX(-8deg);
+                opacity: 0;
+            }
+            to {
+                transform: rotateX(0deg);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(10px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .filter-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .form-grid,
+            .student-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 760px) {
+            .cards {
+                grid-template-columns: 1fr;
+            }
+            .filter-grid {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                width: var(--sidebar-collapsed-width);
+            }
+            .sidebar .logo-text {
+                display: none;
+            }
+            .sidebar .logo-condensed {
+                display: block;
+            }
+            .sidebar .menu-text {
+                display: none;
+            }
+            .main-content {
+                margin-left: var(--sidebar-collapsed-width);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-text">
+                    <div class="logo-title">TANZANIA LABOUR</div>
+                    <div class="logo-collection">COLLEGE</div>
+                    <div class="logo-subtitle">E-mail: labourtz@gmail.com</div>
+                    <div class="logo-subtitle">P.O.Box 3454</div>
+                    <div class="logo-subtitle">MBEYA-TANZANIA</div>
+                </div>
+                <div class="logo-condensed">TLC</div>
+            </div>
+            <div class="menu">
+                <div class="menu-item" onclick="location.href='{{ url_for('admin_dashboard') }}';">
+                    <i class="fas fa-home"></i>
+                    <span class="menu-text">Dashboard</span>
+                </div>
+                <div class="menu-item active" onclick="location.href='{{ url_for('admin_students') }}';">
+                    <i class="fas fa-user-graduate"></i>
+                    <span class="menu-text">Students</span>
+                </div>
+                <div class="menu-item" onclick="location.href='{{ url_for('admin_lecturers') }}';">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <span class="menu-text">Lecturers</span>
+                </div>
+                <div class="menu-item" onclick="location.href='{{ url_for('admin_courses') }}';">
+                    <i class="fas fa-book"></i>
+                    <span class="menu-text">Courses</span>
+                </div>
+                <div class="menu-item" onclick="location.href='{{ url_for('admin_programs') }}';">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span class="menu-text">Programs</span>
+                </div>
+                <div class="menu-item" onclick="location.href='{{ url_for('admin_results') }}';">
+                    <i class="fas fa-chart-bar"></i>
+                    <span class="menu-text">Results</span>
+                </div>
+                <div class="menu-item" onclick="location.href='{{ url_for('admin_assessments') }}';">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span class="menu-text">Assessments</span>
+                </div>
+                <div class="menu-item" onclick="location.href='{{ url_for('admin_payments') }}';">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <span class="menu-text">Payments</span>
+                </div>
+                <div class="menu-item" onclick="location.href='{{ url_for('admin_accommodations') }}';">
+                    <i class="fas fa-bed"></i>
+                    <span class="menu-text">Accommodations</span>
+                </div>
+                <div class="menu-item" onclick="location.href='{{ url_for('admin_settings') }}';">
+                    <i class="fas fa-cog"></i>
+                    <span class="menu-text">Settings</span>
+                </div>
+                <div class="menu-item" onclick="location.href='{{ url_for('login') }}';">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span class="menu-text">Logout</span>
+                </div>
+            </div>
+        </div>
+        <!-- Main Content -->
+        <div class="main-content" id="main-content">
+            <div class="header">
+                <div class="header-left">
+                    <button class="toggle-btn" id="toggle-sidebar" title="Collapse/Expand">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="breadcrumbs">Administration / Students</div>
+                </div>
+                <h1>Student Management</h1>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-primary" id="add-student-btn" style="margin-bottom: 10px;"><i class="fas fa-plus-circle"></i> Register New Student</button>
+            </div>
+            <!-- Overview Cards -->
+            <div class="cards">
+                <div class="card">
+                    <div class="card-title">Total Students</div>
+                    <div class="card-value" id="kpi-total">—</div>
+                </div>
+                <div class="card">
+                    <div class="card-title">Active Students</div>
+                    <div class="card-value" id="kpi-active">—</div>
+                </div>
+                <div class="card">
+                    <div class="card-title">Suspended Students</div>
+                    <div class="card-value" id="kpi-Suspended">—</div>
+                </div>
+                <div class="card">
+                    <div class="card-title">Postponed Students</div>
+                    <div class="card-value" id="kpi-Postponed">—</div>
+                </div>
+            </div>
+            <!-- Filter Section -->
+            <div class="filter-section">
+                <h3>Filter Students</h3>
+                <div class="filter-grid">
+                    <div class="filter-group">
+                        <label for="program-filter"><i class="fas fa-clipboard-list"></i> Program</label>
+                        <select class="filter-control" id="program-filter">
+                            <option value="">All Programs</option>
+                            <option value="vocational">Vocational Studies</option>
+                            <option value="technical">Technical Program</option>
+                            <option value="business">Business Studies</option>
+                            <option value="labor">Labor Studies</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="status-filter"><i class="fas fa-info-circle"></i> Status</label>
+                        <select class="filter-control" id="status-filter">
+                            <option value="">All Statuses</option>
+                            <option value="active">Active</option>
+                            <option value="Postponed">Postponed</option>
+                            <option value="Suspended">Suspended</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="search"><i class="fas fa-search"></i> Search by Name/ID</label>
+                        <input type="text" class="filter-control" id="search" placeholder="Enter student name or ID">
+                    </div>
+                </div>
+                <div class="filter-actions">
+                    <button class="btn btn-secondary" id="reset-filters">Reset Filters</button>
+                    <button class="btn btn-primary" id="apply-filters">Apply Filters</button>
+                </div>
+            </div>
+            <!-- Students Table -->
+            <div class="table-wrap">
+                <table id="students-table">
+                    <thead>
+                        <tr>
+                            <th>Student ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Program</th>
+                            <th>Phone</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div class="pagination" id="students-pagination"></div>
+            </div>
+        </div>
+    </div>
+    <!-- Success Modal -->
+    <div class="modal" id="success-modal">
+        <div class="modal-content success-modal">
+            <span class="close-modal" id="close-success">&times;</span>
+            <h2>Student Registered Successfully!</h2>
+            <div class="details" id="success-details"></div>
+            <button class="btn btn-success" id="ok-btn">OK</button>
+        </div>
+    </div>
+    <!-- Student Modal (Add/Edit) -->
+    <div class="modal" id="student-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title" id="modal-title">Register New Student</div>
+                <button class="close-modal" id="modal-close">&times;</button>
+            </div>
+            <form id="student-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="first-name"><i class="fas fa-user"></i> First Name *</label>
+                        <input type="text" class="form-control" id="first-name" required placeholder="Enter first name">
+                        <div class="error-message" id="first-name-error">First name is required</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="last-name"><i class="fas fa-user"></i> Last Name *</label>
+                        <input type="text" class="form-control" id="last-name" required placeholder="Enter last name">
+                        <div class="error-message" id="last-name-error">Last name is required</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email"><i class="fas fa-envelope"></i> Email *</label>
+                        <input type="email" class="form-control" id="email" required placeholder="Enter email">
+                        <div class="error-message" id="email-error">Valid email is required</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone"><i class="fas fa-phone"></i> Phone Number *</label>
+                        <input type="tel" class="form-control" id="phone" required placeholder="e.g., +255 123 456 789">
+                        <div class="error-message" id="phone-error">Valid phone number is required</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="program"><i class="fas fa-clipboard-list"></i> Program *</label>
+                        <select class="form-control" id="program" required>
+                            <option value="">Select Program</option>
+                            <option value="vocational">Vocational Studies</option>
+                            <option value="technical">Technical Program</option>
+                            <option value="business">Business Studies</option>
+                            <option value="labor">Labor Studies</option>
+                        </select>
+                        <div class="error-message" id="program-error">Program is required</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="status"><i class="fas fa-info-circle"></i> Status *</label>
+                        <select class="form-control" id="status" required>
+                            <option value="active">Active</option>
+                            <option value="Postponed">Postponed</option>
+                            <option value="Suspended">Suspended</option>
+                        </select>
+                        <div class="error-message" id="status-error">Status is required</div>
+                    </div>
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label for="address"><i class="fas fa-map-marker-alt"></i> Address</label>
+                        <textarea class="form-control" id="address" placeholder="Enter student address" maxlength="500"></textarea>
+                        <div class="char-counter" id="address-counter">0/500 characters</div>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancel-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="submit-btn">Register New Student</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Student Profile Modal -->
+    <div class="modal" id="student-profile-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Student Details</div>
+                <button class="close-modal" id="student-profile-close">&times;</button>
+            </div>
+            <div class="student-profile">
+                <div class="student-header">
+                    <div class="student-avatar">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <div>
+                        <div class="student-title" id="student-profile-name"></div>
+                        <div style="font-size: 0.9rem; opacity: 0.9;" id="student-profile-id"></div>
+                    </div>
+                </div>
+                <div class="student-grid">
+                    <div class="student-item">
+                        <label>Student ID</label>
+                        <p id="student-profile-id-display"></p>
+                    </div>
+                    <div class="student-item">
+                        <label>Email</label>
+                        <p id="student-profile-email"></p>
+                    </div>
+                    <div class="student-item">
+                        <label>Phone</label>
+                        <p id="student-profile-phone"></p>
+                    </div>
+                    <div class="student-item">
+                        <label>Program</label>
+                        <p id="student-profile-program"></p>
+                    </div>
+                    <div class="student-item status-active status-Suspended status-Postponed">
+                        <label>Status</label>
+                        <p id="student-profile-status"></p>
+                    </div>
+                    <div class="student-item" style="grid-column: 1 / -1;">
+                        <label>Address</label>
+                        <p id="student-profile-address"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Delete Confirmation Modal -->
+    <div class="modal" id="delete-confirm-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Confirm Deletion</div>
+                <button class="close-modal" id="delete-confirm-close">&times;</button>
+            </div>
+            <div style="padding: 16px;">
+                <p>Are you sure you want to delete the student "<span id="delete-student-name"></span>" (<span id="delete-student-id"></span>)? This action cannot be undone.</p>
+            </div>
+            <div class="form-actions">
+                <button class="btn btn-secondary" id="delete-cancel">Cancel</button>
+                <button class="btn btn-danger" id="delete-confirm">Delete</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM fully loaded');
+
+            // Mock data
+            let students = [
+                { id: 'TLC/STU/2025/001', firstName: 'John', lastName: 'Mushi', email: 'john.mushi@example.com', phone: '+255 712 345 678', program: 'vocational', address: '123 Main St, Mbeya', status: 'active' },
+                { id: 'TLC/STU/2025/002', firstName: 'Anna', lastName: 'Kileo', email: 'anna.kileo@example.com', phone: '+255 723 456 789', program: 'business', address: '456 Oak Rd, Dar es Salaam', status: 'active' },
+                { id: 'TLC/STU/2025/003', firstName: 'Robert', lastName: 'Nyerere', email: 'robert.nyerere@example.com', phone: '+255 734 567 890', program: 'technical', address: '789 Pine Ave, Arusha', status: 'Suspended' },
+                { id: 'TLC/STU/2025/004', firstName: 'Sarah', lastName: 'Upendo', email: 'sarah.upendo@example.com', phone: '+255 745 678 901', program: 'labor', address: '101 Elm St, Dodoma', status: 'Postponed' }
+            ];
+
+            // Helpers
+            function paginate(items, perPage, onSlice, pagerEl) {
+                let page = 1;
+                const total = Math.max(1, Math.ceil(items.length / perPage));
+                function renderPager() {
+                    pagerEl.innerHTML = '';
+                    for (let i = 1; i <= total; i++) {
+                        const b = document.createElement('button');
+                        b.className = 'pagination-btn' + (i === page ? ' active' : '');
+                        b.textContent = i;
+                        b.onclick = () => { page = i; slice(); renderPager(); };
+                        pagerEl.appendChild(b);
+                    }
+                }
+                function slice() {
+                    const start = (page - 1) * perPage;
+                    onSlice(items.slice(start, start + perPage));
+                }
+                slice();
+                renderPager();
+            }
+
+            function updateKPIs() {
+                const total = students.length;
+                const active = students.filter(s => s.status === 'active').length;
+                const Suspended = students.filter(s => s.status === 'Suspended').length;
+                const Postponed = students.filter(s => s.status === 'Postponed').length;
+                document.getElementById('kpi-total').textContent = total;
+                document.getElementById('kpi-active').textContent = active;
+                document.getElementById('kpi-Suspended').textContent = Suspended;
+                document.getElementById('kpi-Postponed').textContent = Postponed;
+            }
+
+            function filterStudents() {
+                const program = document.getElementById('program-filter').value;
+                const status = document.getElementById('status-filter').value;
+                const search = document.getElementById('search').value.toLowerCase();
+                return students.filter(student =>
+                    (!program || student.program === program) &&
+                    (!status || student.status === status) &&
+                    (!search || `${student.firstName} ${student.lastName}`.toLowerCase().includes(search) || student.id.toLowerCase().includes(search))
+                );
+            }
+
+            function renderStudents() {
+                const data = filterStudents();
+                const tbody = document.querySelector('#students-table tbody');
+                const pager = document.getElementById('students-pagination');
+                paginate(data, 6, slice => {
+                    tbody.innerHTML = slice.map(student => `
+                        <tr data-student-id="${student.id}">
+                            <td>${student.id}</td>
+                            <td>${student.firstName} ${student.lastName}</td>
+                            <td>${student.email}</td>
+                            <td>${student.program.charAt(0).toUpperCase() + student.program.slice(1)}</td>
+                            <td>${student.phone}</td>
+                            <td><span class="status ${student.status}">${student.status.charAt(0).toUpperCase() + student.status.slice(1)}</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn btn-sm btn-info" data-view="${student.id}"><i class="fas fa-eye"></i> View</button>
+                                    <button class="btn btn-sm btn-warning" data-edit="${student.id}"><i class="fas fa-edit"></i> Edit</button>
+                                    <button class="btn btn-sm btn-danger" data-delete="${student.id}"><i class="fas fa-trash"></i> Delete</button>
+                                </div>
+                            </td>
+                        </tr>`).join('');
+                    bindStudentActions();
+                }, pager);
+            }
+
+            function validateForm() {
+                let isValid = true;
+                const fields = [
+                    { id: 'first-name', errorId: 'first-name-error', condition: val => val.trim().length === 0, message: 'First name is required' },
+                    { id: 'last-name', errorId: 'last-name-error', condition: val => val.trim().length === 0, message: 'Last name is required' },
+                    { id: 'email', errorId: 'email-error', condition: val => !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val), message: 'Valid email is required' },
+                    { id: 'phone', errorId: 'phone-error', condition: val => !/^\+?\d{10,12}$/.test(val.replace(/\s/g, '')), message: 'Valid phone number is required' },
+                    { id: 'program', errorId: 'program-error', condition: val => !val, message: 'Program is required' },
+                    { id: 'status', errorId: 'status-error', condition: val => !val, message: 'Status is required' }
+                ];
+
+                fields.forEach(field => {
+                    const input = document.getElementById(field.id);
+                    const error = document.getElementById(field.errorId);
+                    const value = input.value;
+                    if (field.condition(value)) {
+                        input.classList.add('invalid');
+                        error.classList.add('show');
+                        error.textContent = field.message;
+                        isValid = false;
+                    } else {
+                        input.classList.remove('invalid');
+                        error.classList.remove('show');
+                    }
+                });
+
+                return isValid;
+            }
+
+            function updateCharCounter() {
+                const textarea = document.getElementById('address');
+                const counter = document.getElementById('address-counter');
+                const count = textarea.value.length;
+                counter.textContent = `${count}/500 characters`;
+                counter.classList.toggle('warning', count > 450);
+            }
+
+            function bindStudentActions() {
+                document.querySelectorAll('[data-view]').forEach(btn => {
+                    btn.onclick = () => {
+                        const id = btn.getAttribute('data-view');
+                        const student = students.find(s => s.id === id);
+                        document.getElementById('student-profile-name').textContent = `${student.firstName} ${student.lastName}`;
+                        document.getElementById('student-profile-id').textContent = student.id;
+                        document.getElementById('student-profile-id-display').textContent = student.id;
+                        document.getElementById('student-profile-email').textContent = student.email;
+                        document.getElementById('student-profile-phone').textContent = student.phone;
+                        document.getElementById('student-profile-program').textContent = student.program.charAt(0).toUpperCase() + student.program.slice(1);
+                        document.getElementById('student-profile-status').textContent = student.status.charAt(0).toUpperCase() + student.status.slice(1);
+                        document.getElementById('student-profile-status').parentElement.classList.remove('status-active', 'status-Suspended', 'status-Postponed');
+                        document.getElementById('student-profile-status').parentElement.classList.add(`status-${student.status}`);
+                        document.getElementById('student-profile-address').textContent = student.address || 'No address provided';
+                        document.getElementById('student-profile-modal').style.display = 'flex';
+                    };
+                });
+
+                document.querySelectorAll('[data-edit]').forEach(btn => {
+                    btn.onclick = () => {
+                        const id = btn.getAttribute('data-edit');
+                        const student = students.find(s => s.id === id);
+                        document.getElementById('modal-title').textContent = 'Edit Student';
+                        document.getElementById('submit-btn').textContent = 'Save Changes';
+                        document.getElementById('first-name').value = student.firstName;
+                        document.getElementById('last-name').value = student.lastName;
+                        document.getElementById('email').value = student.email;
+                        document.getElementById('phone').value = student.phone;
+                        document.getElementById('program').value = student.program;
+                        document.getElementById('address').value = student.address || '';
+                        document.getElementById('status').value = student.status;
+                        updateCharCounter();
+                        document.getElementById('student-form').dataset.editId = id;
+                        document.getElementById('student-modal').style.display = 'flex';
+                    };
+                });
+
+                document.querySelectorAll('[data-delete]').forEach(btn => {
+                    btn.onclick = () => {
+                        const id = btn.getAttribute('data-delete');
+                        const student = students.find(s => s.id === id);
+                        document.getElementById('delete-student-name').textContent = `${student.firstName} ${student.lastName}`;
+                        document.getElementById('delete-student-id').textContent = student.id;
+                        document.getElementById('delete-confirm').onclick = () => {
+                            students = students.filter(s => s.id !== id);
+                            document.getElementById('delete-confirm-modal').style.display = 'none';
+                            renderStudents();
+                            updateKPIs();
+                            alert('Student deleted successfully');
+                        };
+                        document.getElementById('delete-confirm-modal').style.display = 'flex';
+                    };
+                });
+            }
+
+            // Event Listeners
+            document.getElementById('toggle-sidebar').addEventListener('click', () => {
+                document.getElementById('sidebar').classList.toggle('collapsed');
+                document.getElementById('main-content').classList.toggle('collapsed');
+            });
+
+            document.getElementById('add-student-btn').onclick = () => {
+                document.getElementById('modal-title').textContent = 'Register New Student';
+                document.getElementById('submit-btn').textContent = 'Register New Student';
+                document.getElementById('student-form').reset();
+                document.getElementById('student-form').dataset.editId = '';
+                document.querySelectorAll('.error-message').forEach(el => el.classList.remove('show'));
+                document.querySelectorAll('.form-control').forEach(el => el.classList.remove('invalid'));
+                updateCharCounter();
+                document.getElementById('student-modal').style.display = 'flex';
+            };
+
+            document.getElementById('modal-close').onclick = () => {
+                document.getElementById('student-modal').style.display = 'none';
+            };
+
+            document.getElementById('cancel-btn').onclick = () => {
+                document.getElementById('student-modal').style.display = 'none';
+            };
+
+            document.getElementById('student-profile-close').onclick = () => {
+                document.getElementById('student-profile-modal').style.display = 'none';
+            };
+
+            document.getElementById('delete-confirm-close').onclick = () => {
+                document.getElementById('delete-confirm-modal').style.display = 'none';
+            };
+
+            document.getElementById('delete-cancel').onclick = () => {
+                document.getElementById('delete-confirm-modal').style.display = 'none';
+            };
+
+            document.getElementById('close-success').onclick = () => {
+                document.getElementById('success-modal').style.display = 'none';
+            };
+
+            document.getElementById('ok-btn').onclick = () => {
+                document.getElementById('success-modal').style.display = 'none';
+            };
+
+            document.getElementById('apply-filters').onclick = renderStudents;
+            document.getElementById('reset-filters').onclick = () => {
+                document.getElementById('program-filter').value = '';
+                document.getElementById('status-filter').value = '';
+                document.getElementById('search').value = '';
+                renderStudents();
+            };
+
+            document.getElementById('search').addEventListener('input', renderStudents);
+
+            document.getElementById('address').addEventListener('input', updateCharCounter);
+
+            document.getElementById('student-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                if (!validateForm()) return;
+
+                const submitBtn = document.getElementById('submit-btn');
+                submitBtn.disabled = true;
+                submitBtn.classList.add('btn-loading');
+
+                setTimeout(() => {
+                    const isEdit = document.getElementById('student-form').dataset.editId;
+                    const studentData = {
+                        firstName: document.getElementById('first-name').value,
+                        lastName: document.getElementById('last-name').value,
+                        email: document.getElementById('email').value,
+                        phone: document.getElementById('phone').value,
+                        program: document.getElementById('program').value,
+                        address: document.getElementById('address').value,
+                        status: document.getElementById('status').value
+                    };
+
+                    if (isEdit) {
+                        const index = students.findIndex(s => s.id === isEdit);
+                        studentData.id = isEdit;
+                        students[index] = studentData;
+                    } else {
+                        const year = new Date().getFullYear();
+                        const seq = String(students.length + 1).padStart(3, '0');
+                        studentData.id = `TLC/STU/${year}/${seq}`;
+                        students.push(studentData);
+                    }
+
+                    const details = `
+                        <div class="student-id"><span>${studentData.id}</span><button class="copy-btn" onclick="navigator.clipboard.writeText('${studentData.id}').then(() => alert('Student ID copied!'))"><i class="fas fa-copy"></i></button></div>
+                        <div><strong>Name:</strong> ${studentData.firstName} ${studentData.lastName}</div>
+                        <div><strong>Email:</strong> ${studentData.email}</div>
+                        <div><strong>Phone:</strong> ${studentData.phone}</div>
+                        <div><strong>Program:</strong> ${studentData.program.charAt(0).toUpperCase() + studentData.program.slice(1)}</div>
+                        <div><strong>Status:</strong> <span class="status ${studentData.status}">${studentData.status.charAt(0).toUpperCase() + studentData.status.slice(1)}</span></div>
+                        <div><strong>Address:</strong> ${studentData.address || 'No address provided'}</div>
+                    `;
+
+                    document.getElementById('student-modal').style.display = 'none';
+                    document.getElementById('success-modal').style.display = 'flex';
+                    document.getElementById('success-details').innerHTML = details;
+                    renderStudents();
+                    updateKPIs();
+                    submitBtn.disabled = false;
+                    submitBtn.classList.remove('btn-loading');
+                }, 1000); // Simulate async save
+            });
+
+            // Init
+            updateKPIs();
+            renderStudents();
+            updateCharCounter();
+        });
+    </script>
+</body>
+</html>
