@@ -19,6 +19,7 @@
     padding: 0; 
     box-shadow: none;
     background: none;
+    position: relative;
 }
 
 .header-left {
@@ -239,11 +240,11 @@
                         <div class="quick-actions">
                             <h3 class="chart-title">Quick Actions</h3>
                             <div class="action-buttons">
-                                <button class="action-btn" onclick="location.href='{{ url_for('register_student') }}';">
+                                <button class="action-btn" onclick="location.href='{{ url_for('admin_students') }}';">
                                     <i class="fas fa-plus-circle"></i>
                                     <span>Add Student</span>
                                 </button>
-                                <button class="action-btn" onclick="location.href='{{ url_for('register_lecturer') }}';">
+                                <button class="action-btn" onclick="location.href='{{ url_for('admin_lecturers') }}';">
                                     <i class="fas fa-user-plus"></i>
                                     <span>Add Lecturer</span>
                                 </button>
