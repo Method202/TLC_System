@@ -7,50 +7,7 @@
     <title>TLC System Admin Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <style>
-        .header {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: space-between;
-    margin-bottom: 18px;
-    gap: 10px;
-    padding: 0; 
-    box-shadow: none;
-    background: none;
-    position: relative;
-}
-
-.header-left {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.toggle-btn {
-    border: 0;
-    background: #fff;
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    display: grid;
-    place-items: center;
-    box-shadow: var(--shadow);
-    cursor: pointer;
-    transition: transform var(--transition-speed), background var(--transition-speed);
-}
-
-.toggle-btn:hover {
-    transform: translateY(-1px);
-    background: var(--light);
-}
-
-.breadcrumbs {
-    font-size: 0.92rem;
-    color: var(--gray);
-}
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
 </head>
 
 <body>
